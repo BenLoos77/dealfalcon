@@ -23,30 +23,68 @@
   body { font-family: var(--display); color: var(--ink-strong); background: #f5f5f7; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
   /* Microsite Container */
-  .ms-shell { padding: 28px 0 60px; min-height: 100vh; }
+  .ms-shell { padding: 0 0 60px; min-height: 100vh; background: #f5f5f7; }
   .ms-container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 
-  /* Top-Bar */
-  .ms-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: white; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft); margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-  .ms-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .ms-brand-logo { width: 38px; height: 38px; border-radius: 9px; background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 14px; font-weight: 700; letter-spacing: -0.02em; flex-shrink: 0; }
-  .ms-brand-text { min-width: 0; }
-  .ms-brand-text strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; }
-  .ms-brand-text small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
-  .ms-version-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--paper-cool); border: 1px solid var(--line-soft); padding: 6px 12px; border-radius: 100px; font-family: var(--mono); font-size: 11px; color: var(--ink-mid); letter-spacing: 0.04em; flex-shrink: 0; font-weight: 600; }
-  .ms-version-pill strong { color: var(--ink); font-weight: 700; }
+  /* Cover-Hero (Vollbild in Brand-Farbe) */
+  .ms-cover { margin: 0 auto 24px; max-width: 880px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line-soft); box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  @media (max-width: 880px) { .ms-cover { border-radius: 0; border-left: none; border-right: none; margin: 0 0 24px; max-width: none; } }
 
-  /* Hero */
-  .ms-hero { background: white; padding: 44px 36px 36px; border-radius: 14px; border: 1px solid var(--line-soft); margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-  .ms-hero-greeting { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
-  .ms-hero h1 { font-family: var(--display); font-size: 32px; line-height: 1.15; letter-spacing: -0.025em; color: var(--ink); font-weight: 700; margin: 0 0 18px; }
-  .ms-hero h1 .gold { color: var(--gold-deep); }
-  .ms-hero-letter { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.65; max-width: 620px; margin-bottom: 24px; white-space: pre-line; }
-  .ms-hero-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
-  .ms-sig-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 14px; flex-shrink: 0; letter-spacing: -0.01em; }
-  .ms-sig-info { min-width: 0; }
-  .ms-sig-info strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 700; }
-  .ms-sig-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; }
+  /* Topbar im Cover */
+  .ms-cover-topbar { background: white; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+  .ms-cover-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .ms-cover-brand-logo { width: 32px; height: 32px; border-radius: 8px; background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: -0.02em; flex-shrink: 0; }
+  .ms-cover-brand-name { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; font-weight: 500; }
+  .ms-cover-meta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .ms-cover-meta-block { display: flex; flex-direction: column; gap: 2px; }
+  .ms-cover-meta-label { font-family: var(--mono); font-size: 9px; color: var(--ink-mute); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .ms-cover-meta-value { font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; }
+  .ms-cover-meta-value.is-status { color: var(--gold-deep); }
+  .ms-cover-version { display: inline-flex; align-items: center; gap: 6px; background: var(--ink); color: white; padding: 6px 14px; border-radius: 100px; font-family: var(--display); font-size: 11px; font-weight: 600; letter-spacing: -0.005em; }
+  .ms-cover-version-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  /* Cover-Body (schwarzer Bereich mit Headline) */
+  .ms-cover-body { background: var(--ink); color: white; padding: 56px 40px 40px; }
+  .ms-cover-body h1 { font-family: var(--display); font-size: 44px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 24px; color: white; max-width: 720px; }
+  .ms-cover-body h1 .gold { color: var(--gold); }
+  .ms-cover-body p.ms-cover-sub { font-family: var(--display); font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.75); max-width: 580px; margin: 0 0 36px; }
+  .ms-cover-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 0 0 30px; }
+  .ms-cover-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  @media (max-width: 720px) {
+    .ms-cover-body { padding: 40px 28px 32px; }
+    .ms-cover-body h1 { font-size: 32px; }
+    .ms-cover-info-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  .ms-cover-info-block { min-width: 0; }
+  .ms-cover-info-label { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+  .ms-cover-info-value { font-family: var(--display); font-size: 16px; font-weight: 600; color: white; word-break: break-word; }
+  .ms-cover-info-value.is-mono { font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,0.85); letter-spacing: 0.02em; }
+
+  /* Versionsverlauf-Hinweis */
+  .ms-cover-history-bar { background: var(--gold); padding: 12px 40px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .ms-cover-history-bar strong { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--ink); }
+  .ms-cover-history-bar span { font-family: var(--display); font-size: 13px; color: rgba(10,10,10,0.75); }
+  @media (max-width: 720px) { .ms-cover-history-bar { padding: 12px 28px; } }
+
+  /* Stat-Bar mit großen Zahlen unten */
+  .ms-cover-stats { background: var(--ink-strong); color: white; padding: 28px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 32px; }
+  @media (max-width: 720px) { .ms-cover-stats { padding: 24px 28px; gap: 20px; } }
+  .ms-cover-stat { min-width: 0; }
+  .ms-cover-stat-label { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+  .ms-cover-stat-value { font-family: var(--display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: white; line-height: 1; }
+  .ms-cover-stat-value.is-amount { color: var(--gold); }
+  .ms-cover-stat-unit { font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 4px; font-weight: 500; }
+
+  /* Anschreiben-Card (eigenständig nach dem Cover) */
+  .ms-letter-card { background: white; border-radius: 14px; padding: 36px 36px 28px; border: 1px solid var(--line-soft); margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  .ms-letter-greeting { font-family: var(--mono); font-size: 10px; color: var(--gold-deep); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
+  .ms-letter-headline { font-family: var(--display); font-size: 22px; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); font-weight: 600; margin: 0 0 18px; }
+  .ms-letter-headline .gold { color: var(--gold-deep); }
+  .ms-letter-text { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.65; max-width: 620px; margin-bottom: 24px; white-space: pre-line; font-weight: 400; }
+  .ms-letter-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
+  .ms-letter-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 15px; flex-shrink: 0; letter-spacing: -0.01em; }
+  .ms-letter-info strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 600; }
+  .ms-letter-info small { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; }
 
   /* Cards */
   .ms-card { background: white; border-radius: 14px; border: 1px solid var(--line-soft); margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
@@ -560,56 +598,99 @@
     var versionsCount = (deal.pdfVersions || []).length;
     var currentVersion = versionsCount + 1;
 
-    var html = '<div class="ms-shell"><div class="ms-container">';
+    var html = '<div class="ms-shell">';
 
-    // Top-Bar
-    html += '<div class="ms-topbar">' +
-      '<div class="ms-brand">' +
-        '<div class="ms-brand-logo">' + escapeHtml(brandShort) + '</div>' +
-        '<div class="ms-brand-text">' +
-          '<strong>' + escapeHtml(brandFull) + '</strong>' +
-          '<small>Persönlich für ' + escapeHtml(recipient.name) + '</small>' +
-        '</div>' +
-      '</div>' +
-      '<div class="ms-version-pill">' +
-        '<strong>v' + currentVersion + '</strong>' + (versionsCount > 0 ? ' von ' + currentVersion : ' aktuell') +
-      '</div>' +
-    '</div>';
-
-    // Hero
-    html += '<div class="ms-hero">' +
-      '<div class="ms-hero-greeting">Vorgang ' + escapeHtml(deal.dealNumber || '–') + '</div>' +
-      '<h1>Hallo ' + escapeHtml(firstName) + ', hier ist <span class="gold">Ihr Angebot</span> von ' + escapeHtml(firstLeadName) + '.</h1>' +
-      (deal.description ? '<div class="ms-hero-letter">' + escapeHtml(deal.description) + '</div>' : '') +
-      '<div class="ms-hero-signature">' +
-        '<div class="ms-sig-avatar">' + escapeHtml(leadInitials) + '</div>' +
-        '<div class="ms-sig-info">' +
-          '<strong>' + escapeHtml(leadName) + '</strong>' +
-          '<small>' + escapeHtml(leadUser.email || '') + (brandFull ? ' · ' + escapeHtml(brandFull) : '') + '</small>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
-
-    // Eckdaten
-    var facts = [];
-    if (deal.value) facts.push({ label: 'Gesamtsumme netto', value: formatCurrency(deal.value) + ' €', amount: true });
-    if (deal.delivery) facts.push({ label: 'Lieferzeit / Leistungszeitraum', value: deal.delivery });
-    if (deal.payment) facts.push({ label: 'Zahlungskonditionen', value: deal.payment });
+    // Cover-Hero (Vollbild Brand)
+    var validUntilStr2 = '';
     if (deal.validUntil) {
-      var dt = new Date(deal.validUntil);
-      var dateStr = isNaN(dt.getTime()) ? deal.validUntil : dt.toLocaleDateString('de-DE');
-      facts.push({ label: 'Gültig bis', value: dateStr });
+      var dtV2 = new Date(deal.validUntil);
+      validUntilStr2 = isNaN(dtV2.getTime()) ? deal.validUntil : dtV2.toLocaleDateString('de-DE');
     }
-    if (facts.length > 0) {
-      html += '<div class="ms-card">' +
-        '<div class="ms-card-header"><h3>Eckdaten auf einen Blick</h3><small>Vorgang ' + escapeHtml(deal.dealNumber || '–') + ' · v' + currentVersion + '</small></div>' +
-        '<div class="ms-facts-grid">' +
-          facts.map(function(f) {
-            return '<div class="ms-fact' + (f.amount ? ' amount' : '') + '">' +
-              '<div class="ms-fact-label">' + escapeHtml(f.label) + '</div>' +
-              '<div class="ms-fact-value">' + escapeHtml(f.value) + '</div>' +
-            '</div>';
-          }).join('') +
+    var createdStr2 = deal.createdAt ? new Date(deal.createdAt).toLocaleDateString('de-DE') : new Date().toLocaleDateString('de-DE');
+    var customerCompany2 = recipient.company || '';
+
+    html += '<div class="ms-cover">' +
+      '<div class="ms-cover-topbar">' +
+        '<div class="ms-cover-brand">' +
+          '<div class="ms-cover-brand-logo">' + escapeHtml(brandShort) + '</div>' +
+          '<div class="ms-cover-brand-name">' + escapeHtml(brandFull) + '</div>' +
+        '</div>' +
+        '<div class="ms-cover-meta">' +
+          '<div class="ms-cover-meta-block">' +
+            '<div class="ms-cover-meta-label">Angebot</div>' +
+            '<div class="ms-cover-meta-value">' + escapeHtml(deal.dealNumber || '–') + '</div>' +
+          '</div>' +
+          '<div class="ms-cover-meta-block">' +
+            '<div class="ms-cover-meta-label">Status</div>' +
+            '<div class="ms-cover-meta-value is-status">Live</div>' +
+          '</div>' +
+          '<div class="ms-cover-version">' +
+            '<span class="ms-cover-version-dot"></span>' +
+            'v' + currentVersion + (versionsCount > 0 ? ' · aktuell' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="ms-cover-body">' +
+        '<h1>' + escapeHtml(deal.title || 'Ihr Angebot') + (customerCompany2 ? '<br><span class="gold">für ' + escapeHtml(customerCompany2) + '</span>' : '') + '</h1>' +
+        '<p class="ms-cover-sub">Persönlich für ' + escapeHtml(recipient.name) + ' — alle Konditionen, Unterlagen und Botschaften übersichtlich aufbereitet.</p>' +
+        '<div class="ms-cover-divider"></div>' +
+        '<div class="ms-cover-info-grid">' +
+          '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Erstellt am</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(createdStr2) + '</div>' +
+          '</div>' +
+          (validUntilStr2 ? '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Gültig bis</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(validUntilStr2) + '</div>' +
+          '</div>' : '') +
+          '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Ihr Ansprechpartner</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(leadName) + '</div>' +
+          '</div>' +
+          (leadUser.email ? '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">E-Mail</div>' +
+            '<div class="ms-cover-info-value is-mono">' + escapeHtml(leadUser.email) + '</div>' +
+          '</div>' : '') +
+        '</div>' +
+      '</div>' +
+
+      (versionsCount > 0 ? '<div class="ms-cover-history-bar">' +
+        '<strong>Angebotsverlauf.</strong>' +
+        '<span>Sie blicken auf die aktuelle Fassung — frühere Versionen bleiben einsehbar und vergleichbar.</span>' +
+      '</div>' : '') +
+
+      ((deal.value || deal.delivery || deal.payment) ?
+        '<div class="ms-cover-stats">' +
+          (deal.value ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Investitionsvolumen netto</div>' +
+            '<div class="ms-cover-stat-value is-amount">' + formatCurrency(deal.value) + '<span class="ms-cover-stat-unit">€</span></div>' +
+          '</div>' : '') +
+          (deal.delivery ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Lieferzeit</div>' +
+            '<div class="ms-cover-stat-value">' + escapeHtml(deal.delivery) + '</div>' +
+          '</div>' : '') +
+          (deal.payment ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Konditionen</div>' +
+            '<div class="ms-cover-stat-value">' + escapeHtml(deal.payment) + '</div>' +
+          '</div>' : '') +
+        '</div>' : '') +
+    '</div>';
+
+    // Anschreiben-Card (eigenständig nach dem Cover)
+    html += '<div class="ms-container">';
+
+    if (deal.description) {
+      html += '<div class="ms-letter-card">' +
+        '<div class="ms-letter-greeting">Persönliche Botschaft von ' + escapeHtml(firstLeadName) + '</div>' +
+        '<h2 class="ms-letter-headline">Hallo ' + escapeHtml(firstName) + ', hier ist <span class="gold">Ihr Angebot</span>.</h2>' +
+        '<div class="ms-letter-text">' + escapeHtml(deal.description) + '</div>' +
+        '<div class="ms-letter-signature">' +
+          '<div class="ms-letter-avatar">' + escapeHtml(leadInitials) + '</div>' +
+          '<div class="ms-letter-info">' +
+            '<strong>' + escapeHtml(leadName) + '</strong>' +
+            '<small>' + escapeHtml(leadUser.email || '') + (brandFull ? ' · ' + escapeHtml(brandFull) : '') + '</small>' +
+          '</div>' +
         '</div>' +
       '</div>';
     }
@@ -768,9 +849,10 @@
     }
 
     // Footer
+    html += '</div>'; // close .ms-container
     html += '<div class="ms-footer">Persönlich erstellt von ' + escapeHtml(brandFull) + ' · <span>powered by Dealfalcon</span></div>';
 
-    html += '</div></div>';
+    html += '</div>'; // close .ms-shell
 
     document.getElementById('microsite-root').innerHTML = html;
 

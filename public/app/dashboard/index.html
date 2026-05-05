@@ -24,8 +24,25 @@
   html { scroll-behavior: smooth; }
   body { font-family: var(--display); color: var(--ink-strong); background: var(--paper-cool); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
+  /* ============ DEALFALCON MASTER HEADER ============ */
+  .df-master-header { background: var(--ink); color: white; border-bottom: 1px solid #1f1f1f; position: sticky; top: 0; z-index: 200; }
+  .df-master-header-inner { padding: 0 24px; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 100%; }
+  .df-master-logo { display: inline-flex; align-items: center; gap: 8px; color: white; text-decoration: none; transition: opacity 0.15s; }
+  .df-master-logo:hover { opacity: 0.85; }
+  .df-master-logo svg { flex-shrink: 0; }
+  .df-master-logo span { display: inline-flex; align-items: baseline; gap: 8px; line-height: 1; }
+  .df-master-logo strong { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: -0.02em; color: white; }
+  .df-master-logo small { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; font-weight: 500; }
+  @media (max-width: 720px) { .df-master-logo small { display: none; } }
+  .df-master-header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .df-master-link { font-family: var(--display); font-size: 12px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.15s; font-weight: 500; }
+  .df-master-link:hover { color: var(--gold); }
+  .df-master-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.15); }
+  .df-master-build { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; font-weight: 500; }
+  @media (max-width: 600px) { .df-master-divider, .df-master-build { display: none; } }
+
   /* ============ TOPBAR ============ */
-  .db-topbar { background: white; border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 100; }
+  .db-topbar { background: white; border-bottom: 1px solid var(--line-soft); position: sticky; top: 36px; z-index: 100; }
   .db-topbar-inner { padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
   .db-brand { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
   .db-brand-logo { width: 38px; height: 38px; background: var(--paper-cool); border: 1.5px solid var(--line); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mute); overflow: hidden; }
@@ -634,36 +651,71 @@
   .ms-preview-bar-info { font-family: var(--display); font-size: 13px; color: white; }
   .ms-preview-bar .btn-primary { padding: 8px 16px; }
 
-  /* Microsite-Container */
-  .ms-shell { background: #f5f5f7; min-height: calc(100vh - 60px); padding: 28px 0 60px; }
+  /* Microsite Container */
+  .ms-shell { background: #f5f5f7; min-height: calc(100vh - 60px); padding: 0 0 60px; }
   .ms-container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 
-  /* Vorschau-Banner (nur in Vorschau, nicht beim echten Empfänger) */
-  .ms-preview-banner { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; margin-bottom: 20px; font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.45; }
+  /* Vorschau-Banner (nur im Vorschau-Modus) */
+  .ms-preview-banner-wrap { padding: 16px 24px 0; max-width: 880px; margin: 0 auto; }
+  .ms-preview-banner { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.45; }
   .ms-preview-banner svg { flex-shrink: 0; color: var(--gold-deep); }
   .ms-preview-banner strong { color: var(--gold-deep); font-weight: 700; }
 
-  /* Top-Bar */
-  .ms-topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: white; padding: 16px 24px; border-radius: 12px; border: 1px solid var(--line-soft); margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-  .ms-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .ms-brand-logo { width: 38px; height: 38px; border-radius: 9px; background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 14px; font-weight: 700; letter-spacing: -0.02em; flex-shrink: 0; }
-  .ms-brand-text { min-width: 0; }
-  .ms-brand-text strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; }
-  .ms-brand-text small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
-  .ms-version-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--paper-cool); border: 1px solid var(--line-soft); padding: 6px 12px; border-radius: 100px; font-family: var(--mono); font-size: 11px; color: var(--ink-mid); letter-spacing: 0.04em; flex-shrink: 0; font-weight: 600; }
-  .ms-version-pill strong { color: var(--ink); font-weight: 700; }
+  /* Cover-Hero (Vollbild in Brand-Farbe) */
+  .ms-cover { margin: 0 auto 24px; max-width: 880px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line-soft); box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  @media (max-width: 880px) { .ms-cover { border-radius: 0; border-left: none; border-right: none; margin: 0 0 24px; max-width: none; } }
 
-  /* Hero */
-  .ms-hero { background: white; padding: 44px 36px 36px; border-radius: 14px; border: 1px solid var(--line-soft); margin-bottom: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-  .ms-hero-greeting { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
-  .ms-hero h1 { font-family: var(--display); font-size: 32px; line-height: 1.15; letter-spacing: -0.025em; color: var(--ink); font-weight: 700; margin: 0 0 18px; }
-  .ms-hero h1 .gold { color: var(--gold-deep); }
-  .ms-hero-letter { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.65; max-width: 620px; margin-bottom: 24px; }
-  .ms-hero-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
-  .ms-sig-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 800; font-size: 14px; flex-shrink: 0; letter-spacing: -0.01em; }
-  .ms-sig-info { min-width: 0; }
-  .ms-sig-info strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 700; }
-  .ms-sig-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; }
+  .ms-cover-topbar { background: white; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
+  .ms-cover-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .ms-cover-brand-logo { width: 32px; height: 32px; border-radius: 8px; background: var(--ink); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: -0.02em; flex-shrink: 0; }
+  .ms-cover-brand-name { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; font-weight: 500; }
+  .ms-cover-meta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .ms-cover-meta-block { display: flex; flex-direction: column; gap: 2px; }
+  .ms-cover-meta-label { font-family: var(--mono); font-size: 9px; color: var(--ink-mute); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+  .ms-cover-meta-value { font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; }
+  .ms-cover-meta-value.is-status { color: var(--gold-deep); }
+  .ms-cover-version { display: inline-flex; align-items: center; gap: 6px; background: var(--ink); color: white; padding: 6px 14px; border-radius: 100px; font-family: var(--display); font-size: 11px; font-weight: 600; letter-spacing: -0.005em; }
+  .ms-cover-version-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+  .ms-cover-body { background: var(--ink); color: white; padding: 56px 40px 40px; }
+  .ms-cover-body h1 { font-family: var(--display); font-size: 44px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 600; margin: 0 0 24px; color: white; max-width: 720px; }
+  .ms-cover-body h1 .gold { color: var(--gold); }
+  .ms-cover-body p.ms-cover-sub { font-family: var(--display); font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.75); max-width: 580px; margin: 0 0 36px; }
+  .ms-cover-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 0 0 30px; }
+  .ms-cover-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  @media (max-width: 720px) {
+    .ms-cover-body { padding: 40px 28px 32px; }
+    .ms-cover-body h1 { font-size: 32px; }
+    .ms-cover-info-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  .ms-cover-info-block { min-width: 0; }
+  .ms-cover-info-label { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+  .ms-cover-info-value { font-family: var(--display); font-size: 16px; font-weight: 600; color: white; word-break: break-word; }
+  .ms-cover-info-value.is-mono { font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,0.85); letter-spacing: 0.02em; }
+
+  .ms-cover-history-bar { background: var(--gold); padding: 12px 40px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .ms-cover-history-bar strong { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--ink); }
+  .ms-cover-history-bar span { font-family: var(--display); font-size: 13px; color: rgba(10,10,10,0.75); }
+  @media (max-width: 720px) { .ms-cover-history-bar { padding: 12px 28px; } }
+
+  .ms-cover-stats { background: var(--ink-strong); color: white; padding: 28px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 32px; }
+  @media (max-width: 720px) { .ms-cover-stats { padding: 24px 28px; gap: 20px; } }
+  .ms-cover-stat { min-width: 0; }
+  .ms-cover-stat-label { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+  .ms-cover-stat-value { font-family: var(--display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: white; line-height: 1; }
+  .ms-cover-stat-value.is-amount { color: var(--gold); }
+  .ms-cover-stat-unit { font-size: 14px; color: rgba(255,255,255,0.6); margin-left: 4px; font-weight: 500; }
+
+  /* Anschreiben-Card */
+  .ms-letter-card { background: white; border-radius: 14px; padding: 36px 36px 28px; border: 1px solid var(--line-soft); margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+  .ms-letter-greeting { font-family: var(--mono); font-size: 10px; color: var(--gold-deep); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; margin-bottom: 14px; }
+  .ms-letter-headline { font-family: var(--display); font-size: 22px; line-height: 1.3; letter-spacing: -0.015em; color: var(--ink); font-weight: 600; margin: 0 0 18px; }
+  .ms-letter-headline .gold { color: var(--gold-deep); }
+  .ms-letter-text { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.65; max-width: 620px; margin-bottom: 24px; white-space: pre-line; font-weight: 400; }
+  .ms-letter-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
+  .ms-letter-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 15px; flex-shrink: 0; letter-spacing: -0.01em; }
+  .ms-letter-info strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 600; }
+  .ms-letter-info small { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; }
 
   /* Cards (Eckdaten, PDF, Material, Video) */
   .ms-card { background: white; border-radius: 14px; border: 1px solid var(--line-soft); margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
@@ -943,6 +995,76 @@
   .handoff-user-row:hover { border-color: var(--gold-deep); background: #fffbf2; }
   .handoff-user-row.selected { border-color: var(--gold-deep); background: #fef9c3; }
   .handoff-user-row.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+  .handoff-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .handoff-type-btn { background: white; border: 1.5px solid var(--line); padding: 12px 14px; border-radius: 10px; text-align: left; cursor: pointer; transition: all 0.15s; font-family: var(--display); }
+  .handoff-type-btn:hover { border-color: var(--ink-mid); }
+  .handoff-type-btn.active { border-color: var(--gold-deep); background: #fffbf2; }
+  .handoff-type-btn strong { display: block; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; letter-spacing: -0.005em; }
+  .handoff-type-btn small { display: block; font-family: var(--display); font-size: 11px; color: var(--ink-mid); line-height: 1.4; }
+
+  .handoff-reason-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .handoff-reason-chip { background: var(--paper-cool); border: 1px solid var(--line-soft); padding: 7px 12px; border-radius: 100px; font-family: var(--display); font-size: 12px; color: var(--ink-mid); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .handoff-reason-chip:hover { background: white; border-color: var(--ink-mid); }
+  .handoff-reason-chip.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+  /* KI-Generate-Buttons */
+  .btn-ai-generate { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-family: var(--mono); font-size: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; letter-spacing: 0.04em; transition: all 0.15s; }
+  .btn-ai-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+  .btn-ai-generate.is-secondary { background: white; color: var(--ink-mid); border: 1px solid var(--line); }
+  .btn-ai-generate.is-secondary:hover { border-color: var(--ink); color: var(--ink); box-shadow: none; transform: none; }
+  .btn-ai-generate.is-loading { opacity: 0.6; cursor: wait; pointer-events: none; }
+
+  /* Letter-Templates-Modal */
+  .letter-template-list { display: flex; flex-direction: column; gap: 8px; }
+  .letter-template-card { background: white; border: 1.5px solid var(--line); padding: 14px 16px; border-radius: 10px; cursor: pointer; transition: all 0.15s; }
+  .letter-template-card:hover { border-color: var(--gold-deep); background: #fffbf2; }
+  .letter-template-title { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.005em; }
+  .letter-template-tone { font-family: var(--mono); font-size: 9px; color: var(--gold-deep); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+  .letter-template-preview { font-family: var(--display); font-size: 12px; color: var(--ink-mid); line-height: 1.5; white-space: pre-line; max-height: 80px; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Interne Notizen */
+  .notes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .notes-list-empty { padding: 16px; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.02em; font-style: italic; background: var(--paper-warm); border-radius: 8px; }
+  .note-row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: flex-start; padding: 12px 14px; background: white; border: 1px solid var(--line-soft); border-radius: 10px; }
+  .note-row.is-system { background: var(--paper-cool); }
+  .note-row .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; flex-shrink: 0; }
+  .note-row.is-other .note-avatar { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: white; }
+  .note-info { min-width: 0; }
+  .note-info-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .note-info-head strong { font-family: var(--display); font-size: 12px; font-weight: 700; color: var(--ink); }
+  .note-info-head small { font-family: var(--mono); font-size: 9px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .note-text { font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.5; white-space: pre-line; }
+  .note-delete-btn { background: transparent; border: none; color: var(--ink-mute); cursor: pointer; padding: 4px; border-radius: 4px; opacity: 0; transition: opacity 0.15s; }
+  .note-row:hover .note-delete-btn { opacity: 1; }
+  .note-delete-btn:hover { background: var(--red-soft); color: var(--red); }
+
+  .notes-input-row { background: var(--paper-cool); border-radius: 10px; padding: 12px; }
+  .notes-input-row textarea { width: 100%; border: 1px solid var(--line); background: white; padding: 9px 12px; border-radius: 7px; font-family: var(--display); font-size: 13px; color: var(--ink); resize: vertical; min-height: 50px; }
+  .notes-input-row textarea:focus { outline: none; border-color: var(--ink); }
+  .notes-input-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .notes-quick-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .note-quick-chip { background: white; border: 1px solid var(--line-soft); padding: 5px 10px; border-radius: 100px; font-family: var(--display); font-size: 11px; color: var(--ink-mid); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .note-quick-chip:hover { background: var(--ink); color: white; border-color: var(--ink); }
+  .btn-add-note { background: var(--ink); color: white; border: none; padding: 7px 14px; border-radius: 7px; font-family: var(--display); font-size: 12px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+  .btn-add-note:hover { background: var(--gold-deep); }
+
+  /* Team-Nachrichten */
+  .tm-row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: flex-start; padding: 12px 14px; background: white; border: 1px solid var(--line-soft); border-radius: 10px; }
+  .tm-row.is-other { background: var(--paper-cool); }
+  .tm-row.is-reaction { border-left: 3px solid var(--gold-deep); padding-left: 12px; }
+  .tm-type-badge { display: inline-block; font-family: var(--mono); font-size: 9px; padding: 2px 8px; border-radius: 100px; letter-spacing: 0.04em; font-weight: 600; background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--line-soft); }
+  .tm-type-badge.is-reaction { background: #fffbf2; color: var(--gold-deep); border-color: var(--gold-deep); }
+  .tm-quick-chip { background: white; border: 1px solid var(--line-soft); padding: 5px 10px; border-radius: 100px; font-family: var(--display); font-size: 11px; color: var(--ink-mid); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .tm-quick-chip:hover { background: var(--ink); color: white; border-color: var(--ink); }
+  .tm-quick-chip.is-reaction { border-color: rgba(245, 165, 36, 0.4); color: var(--gold-deep); }
+  .tm-quick-chip.is-reaction:hover { background: var(--gold-deep); color: white; border-color: var(--gold-deep); }
+  .tm-action-buttons { display: flex; gap: 6px; flex-shrink: 0; }
+  .btn-add-tm { border: none; padding: 7px 12px; border-radius: 7px; font-family: var(--display); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-add-tm.is-info { background: var(--ink); color: white; }
+  .btn-add-tm.is-info:hover { background: var(--ink-strong); }
+  .btn-add-tm.is-reaction { background: var(--gold-deep); color: white; }
+  .btn-add-tm.is-reaction:hover { background: var(--gold); color: var(--ink); }
   .handoff-user-row-info strong { display: block; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
   .handoff-user-row-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 1px; letter-spacing: 0.02em; }
   .handoff-user-row-tag { font-family: var(--mono); font-size: 9px; color: var(--ink-mute); padding: 2px 6px; border-radius: 100px; background: var(--paper-warm); letter-spacing: 0.06em; font-weight: 600; }
@@ -1079,6 +1201,25 @@
 </style>
 </head>
 <body>
+
+<!-- ============ DEALFALCON MASTER HEADER ============ -->
+<div class="df-master-header">
+  <div class="df-master-header-inner">
+    <a href="/" class="df-master-logo">
+      <svg viewBox="0 0 90 90" width="22" height="22" aria-hidden="true">
+        <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
+        <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
+        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+      </svg>
+      <span><strong>dealfalcon</strong> <small>Sales-Microsites & Tracking</small></span>
+    </a>
+    <div class="df-master-header-actions">
+      <a href="https://docs.dealfalcon.app" class="df-master-link" target="_blank" rel="noopener">Hilfe</a>
+      <span class="df-master-divider"></span>
+      <span class="df-master-build">v2026.05 · Beta</span>
+    </div>
+  </div>
+</div>
 
 <!-- ============ TOPBAR ============ -->
 <header class="db-topbar">
@@ -1606,13 +1747,29 @@
                   <input type="text" id="ed-title" placeholder="Ihr Angebots-Titel">
                 </div>
                 <div class="editor-form-row">
-                  <label>Kurzbeschreibung (optional)</label>
-                  <textarea id="ed-description" placeholder="Kurze Übersicht für den Empfänger"></textarea>
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; gap: 12px; flex-wrap: wrap;">
+                    <label style="margin-bottom: 0;">Persönliches Anschreiben für den Empfänger</label>
+                    <div style="display: flex; gap: 6px;">
+                      <button type="button" class="btn-ai-generate" id="btn-ai-letter" title="KI generiert ein Anschreiben aus den Angebotsdaten">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+                        KI-Vorschlag
+                      </button>
+                      <button type="button" class="btn-ai-generate is-secondary" id="btn-letter-templates">
+                        Vorlagen
+                      </button>
+                    </div>
+                  </div>
+                  <textarea id="ed-description" placeholder="z.B. „Sehr geehrter Herr Wagner, vielen Dank für Ihr Interesse — anbei Ihr persönliches Angebot ..."" rows="6"></textarea>
+                  <small style="display:block; font-family:var(--mono); font-size:10px; color:var(--ink-mute); margin-top:6px; letter-spacing:0.04em;">Erscheint im Hero-Bereich der Microsite, direkt unter der persönlichen Begrüßung.</small>
                 </div>
                 <div class="editor-form-grid cols-2">
                   <div class="editor-form-row">
                     <label>Wert in Euro (netto)</label>
-                    <input type="number" id="ed-value" min="0" placeholder="0">
+                    <div style="position: relative;">
+                      <input type="text" id="ed-value" inputmode="decimal" placeholder="0,00" style="padding-right: 32px;">
+                      <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-size: 14px; color: var(--ink-mute); font-weight: 500; pointer-events: none;">€</span>
+                    </div>
+                    <small style="display:block; font-family:var(--mono); font-size:10px; color:var(--ink-faint); margin-top:4px; letter-spacing:0.04em;">Kaufmännisch: 121.214,34 oder einfach 121214.34</small>
                   </div>
                   <div class="editor-form-row">
                     <label>Lieferzeit / Leistungszeitraum</label>
@@ -1799,10 +1956,10 @@
   <div class="modal-card" style="max-width: 600px;">
     <div class="modal-header">
       <h3>📧 E-Mail-Vorschau</h3>
-      <p>So sähe die automatische Benachrichtigung aus, die Sie bei diesem Event erhalten.</p>
+      <p>So sähe die automatische Benachrichtigung aus, die Empfänger bei diesem Event erhalten.</p>
     </div>
     <div class="email-mock-meta">
-      <div class="email-mock-meta-row"><span>Von</span><span>noreply@dealfalcon.app</span></div>
+      <div class="email-mock-meta-row"><span>Von</span><span id="email-mock-from">noreply@dealfalcon.app</span></div>
       <div class="email-mock-meta-row"><span>An</span><span id="email-mock-to">…</span></div>
       <div class="email-mock-meta-row"><span>Betreff</span><span id="email-mock-subject">…</span></div>
     </div>
@@ -1889,6 +2046,22 @@
 </div>
 
 <!-- Customer Picker Modal (Editor: Kunde wählen) -->
+<!-- Letter-Templates Modal -->
+<div class="modal-backdrop" id="letter-templates-modal">
+  <div class="modal-card" style="max-width: 600px; max-height: 85vh; overflow: hidden; display: flex; flex-direction: column;">
+    <div class="modal-header">
+      <h3>Anschreiben-Vorlagen</h3>
+      <p>Wählen Sie eine Vorlage als Ausgangspunkt — die Daten werden automatisch eingesetzt.</p>
+    </div>
+    <div class="modal-body" style="overflow-y: auto; flex: 1;">
+      <div class="letter-template-list" id="letter-template-list"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="btn-letter-templates-cancel">Schließen</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="customer-picker-modal">
   <div class="modal-card" style="max-width: 580px;">
     <div class="modal-header">
@@ -1910,15 +2083,45 @@
 
 <!-- ============ LEAD-HANDOFF MODAL ============ -->
 <div class="modal-backdrop" id="handoff-modal">
-  <div class="modal-card" style="max-width: 520px;">
+  <div class="modal-card" style="max-width: 540px;">
     <div class="modal-header">
       <h3 id="handoff-title">Lead übergeben</h3>
       <p id="handoff-subtitle">Wählen Sie das Team-Mitglied, das den Vorgang übernimmt.</p>
     </div>
     <div class="modal-body" style="padding: 0 28px 20px;">
       <div class="handoff-user-list" id="handoff-user-list"><!-- via JS --></div>
-      <label style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; display: block; margin-top: 18px; margin-bottom: 6px;">Notiz (optional)</label>
-      <textarea id="handoff-note" placeholder="z.B. „Bin ab Mai im Urlaub, übernimmst du bitte" oder „Du kennst den Kunden besser"" style="width:100%; border:1.5px solid var(--line); background:white; padding:11px 14px; border-radius:8px; font-family: var(--display); font-size:14px; color:var(--ink); resize:vertical; min-height:60px;"></textarea>
+
+      <!-- Übergabe-Art (dauerhaft / temporär) -->
+      <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-soft);">
+        <label style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 8px;">Art der Übergabe</label>
+        <div class="handoff-type-grid">
+          <button type="button" class="handoff-type-btn active" data-handoff-type="permanent">
+            <strong>Dauerhaft</strong>
+            <small>Der neue Lead bleibt verantwortlich, bis er selbst übergibt.</small>
+          </button>
+          <button type="button" class="handoff-type-btn" data-handoff-type="temporary">
+            <strong>Temporär</strong>
+            <small>Vertretung bis zu einem festen Datum, danach automatisch zurück.</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bis-Datum (nur bei temporär) -->
+      <div id="handoff-temp-section" style="display: none; margin-top: 14px;">
+        <label style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 6px;">Vertretung bis</label>
+        <input type="date" id="handoff-until-date" style="width:100%; border:1.5px solid var(--line); background:white; padding:11px 14px; border-radius:8px; font-family: var(--display); font-size:14px; color:var(--ink);">
+      </div>
+
+      <!-- Grund (Quick-Select + Notiz) -->
+      <label style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; display: block; margin-top: 18px; margin-bottom: 8px;">Grund</label>
+      <div class="handoff-reason-chips" id="handoff-reason-chips">
+        <button type="button" class="handoff-reason-chip" data-reason="Im Urlaub – bitte übernehmen">Im Urlaub</button>
+        <button type="button" class="handoff-reason-chip" data-reason="Du kennst den Kunden besser">Kennst Kunden besser</button>
+        <button type="button" class="handoff-reason-chip" data-reason="Kapazitätsgründe">Kapazität</button>
+        <button type="button" class="handoff-reason-chip" data-reason="Fachlich passender">Fachlich passender</button>
+        <button type="button" class="handoff-reason-chip" data-reason="Krankheitsvertretung">Krankheitsvertretung</button>
+      </div>
+      <textarea id="handoff-note" placeholder="Eigene Notiz (optional)" style="width:100%; border:1.5px solid var(--line); background:white; padding:11px 14px; border-radius:8px; font-family: var(--display); font-size:14px; color:var(--ink); resize:vertical; min-height:50px; margin-top: 8px;"></textarea>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn-secondary" id="btn-handoff-cancel">Abbrechen</button>
@@ -3714,6 +3917,409 @@
     updateSectionStatus();
   }
 
+  // ============ INTERNE NOTIZEN ============
+
+  function loadNotesForDeal(dealId) {
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    return (deal && deal.notes) ? deal.notes : [];
+  }
+
+  function addDealNote(dealId, text) {
+    if (!text || !text.trim()) return;
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    if (!deal) return;
+    if (!deal.notes) deal.notes = [];
+    deal.notes.push({
+      id: genId('note'),
+      text: text.trim(),
+      authorId: getCurrentUser().id,
+      createdAt: Date.now()
+    });
+    saveDeals(deals);
+    renderDealNotes(dealId);
+    showToast('Notiz hinzugefügt.', 'success');
+  }
+
+  function deleteDealNote(dealId, noteId) {
+    if (!confirm('Notiz wirklich löschen?')) return;
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    if (!deal || !deal.notes) return;
+    deal.notes = deal.notes.filter(function(n) { return n.id !== noteId; });
+    saveDeals(deals);
+    renderDealNotes(dealId);
+  }
+
+  function renderDealNotes(dealId) {
+    var listEl = document.getElementById('deal-notes-list');
+    if (!listEl) return;
+    var notes = loadNotesForDeal(dealId).slice().sort(function(a, b) { return b.createdAt - a.createdAt; });
+    var meId = getCurrentUser().id;
+
+    if (notes.length === 0) {
+      listEl.innerHTML = '<div class="notes-list-empty">Noch keine internen Notizen — die erste schreiben oder einen Quick-Eintrag wählen.</div>';
+      return;
+    }
+    listEl.innerHTML = notes.map(function(n) {
+      var author = getUserById(n.authorId);
+      var isMe = n.authorId === meId;
+      var date = new Date(n.createdAt);
+      var dateStr = formatRelativeTime(n.createdAt);
+      return '<div class="note-row' + (isMe ? '' : ' is-other') + '" data-note-id="' + escapeHtml(n.id) + '">' +
+        '<div class="note-avatar">' + escapeHtml(userInitials(author || { name: '?' })) + '</div>' +
+        '<div class="note-info">' +
+          '<div class="note-info-head"><strong>' + escapeHtml((author && author.name) || 'Unbekannt') + (isMe ? ' (Sie)' : '') + '</strong><small>' + escapeHtml(dateStr) + '</small></div>' +
+          '<div class="note-text">' + escapeHtml(n.text) + '</div>' +
+        '</div>' +
+        (isMe ? '<button type="button" class="note-delete-btn" data-action="delete-note" title="Löschen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' : '<span></span>') +
+      '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('[data-action="delete-note"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var row = btn.closest('.note-row');
+        if (row) deleteDealNote(dealId, row.dataset.noteId);
+      });
+    });
+  }
+
+  // ============ TEAM-NACHRICHTEN ============
+
+  function loadTeamMessagesForDeal(dealId) {
+    var deal = loadDeals().find(function(d) { return d.id === dealId; });
+    return (deal && deal.teamMessages) ? deal.teamMessages : [];
+  }
+
+  function getDealRecipientUsers(deal) {
+    // Wer kriegt Benachrichtigungen: Lead + alle Kollaboratoren mit full-Sicht (limited bekommt nur "neue Version", aber keinen Inhalt)
+    var users = [];
+    var leadUser = getUserById(deal.leadUserId || 'me');
+    if (leadUser) users.push(leadUser);
+    (deal.collaborators || []).forEach(function(c) {
+      var u = getUserById(c.userId);
+      if (u && !users.some(function(x) { return x.id === u.id; })) users.push(u);
+    });
+    // Aktive Vertretungen
+    (deal.tempDelegations || []).forEach(function(td) {
+      var until = td.activeUntil ? new Date(td.activeUntil) : null;
+      if (until && until.getTime() < Date.now()) return; // abgelaufen
+      var u = getUserById(td.delegateId);
+      if (u && !users.some(function(x) { return x.id === u.id; })) users.push(u);
+    });
+    return users;
+  }
+
+  function addTeamMessage(dealId, text, expectsReaction) {
+    if (!text || !text.trim()) return;
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    if (!deal) return;
+    if (!deal.teamMessages) deal.teamMessages = [];
+    var me = getCurrentUser();
+    var msg = {
+      id: genId('tm'),
+      text: text.trim(),
+      authorId: me.id,
+      expectsReaction: !!expectsReaction,
+      createdAt: Date.now(),
+      seenBy: [me.id] // Sender hat seine eigene Nachricht gesehen
+    };
+    deal.teamMessages.push(msg);
+    saveDeals(deals);
+
+    // Benachrichtigungen für alle anderen Berechtigten
+    var recipientUsers = getDealRecipientUsers(deal).filter(function(u) { return u.id !== me.id; });
+    var notifs = loadNotifications();
+    recipientUsers.forEach(function(u) {
+      notifs.push({
+        id: genId('notif'),
+        type: 'team-message',
+        forUserId: u.id,
+        dealId: dealId,
+        messageId: msg.id,
+        label: (expectsReaction ? '🔔 Reaktion erwartet' : '💬 Team-Nachricht') + ': ' + (deal.title || deal.dealNumber),
+        detail: me.name + ': „' + msg.text.substring(0, 80) + (msg.text.length > 80 ? '…"' : '"'),
+        createdAt: Date.now(),
+        read: false
+      });
+    });
+    saveNotifications(notifs);
+    updateNotificationBadge();
+
+    // Mock-Email-Vorschau zeigen
+    if (recipientUsers.length > 0) {
+      showEmailMockForTeamMessage(deal, msg, recipientUsers);
+    }
+
+    showToast('Team-Nachricht gesendet — ' + recipientUsers.length + ' Kollege' + (recipientUsers.length === 1 ? '' : 'n') + ' benachrichtigt.', 'success');
+    renderTeamMessages(dealId);
+  }
+
+  function deleteTeamMessage(dealId, msgId) {
+    if (!confirm('Team-Nachricht wirklich löschen?')) return;
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    if (!deal || !deal.teamMessages) return;
+    deal.teamMessages = deal.teamMessages.filter(function(m) { return m.id !== msgId; });
+    saveDeals(deals);
+    renderTeamMessages(dealId);
+  }
+
+  function renderTeamMessages(dealId) {
+    var listEl = document.getElementById('team-messages-list');
+    if (!listEl) return;
+    var msgs = loadTeamMessagesForDeal(dealId).slice().sort(function(a, b) { return b.createdAt - a.createdAt; });
+    var meId = getCurrentUser().id;
+
+    if (msgs.length === 0) {
+      listEl.innerHTML = '<div class="notes-list-empty">Noch keine Team-Nachrichten — schreibe die erste oder nutze einen Quick-Eintrag.</div>';
+      return;
+    }
+    listEl.innerHTML = msgs.map(function(m) {
+      var author = getUserById(m.authorId);
+      var isMe = m.authorId === meId;
+      var dateStr = formatRelativeTime(m.createdAt);
+      var typeBadge = m.expectsReaction
+        ? '<span class="tm-type-badge is-reaction">🔔 Reaktion erwartet</span>'
+        : '<span class="tm-type-badge">💬 Nur Info</span>';
+      return '<div class="tm-row' + (isMe ? '' : ' is-other') + (m.expectsReaction ? ' is-reaction' : '') + '" data-tm-id="' + escapeHtml(m.id) + '">' +
+        '<div class="note-avatar">' + escapeHtml(userInitials(author || { name: '?' })) + '</div>' +
+        '<div class="note-info">' +
+          '<div class="note-info-head"><strong>' + escapeHtml((author && author.name) || 'Unbekannt') + (isMe ? ' (Sie)' : '') + '</strong>' + typeBadge + '<small>' + escapeHtml(dateStr) + '</small></div>' +
+          '<div class="note-text">' + escapeHtml(m.text) + '</div>' +
+        '</div>' +
+        (isMe ? '<button type="button" class="note-delete-btn" data-action="delete-tm" title="Löschen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' : '<span></span>') +
+      '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('[data-action="delete-tm"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var row = btn.closest('.tm-row');
+        if (row) deleteTeamMessage(dealId, row.dataset.tmId);
+      });
+    });
+  }
+
+  // Mock-Email-Modal für Team-Nachrichten
+  function showEmailMockForTeamMessage(deal, msg, recipientUsers) {
+    var modal = document.getElementById('email-mock-modal');
+    if (!modal) return;
+    var senderName = getCurrentUser().name;
+    var subject = (msg.expectsReaction ? '🔔 Reaktion erwartet — ' : '💬 Team-Nachricht — ') + (deal.title || deal.dealNumber);
+    var fromText = senderName + ' via Dealfalcon <noreply@dealfalcon.app>';
+    var toText = recipientUsers.map(function(u) { return u.name + ' <' + u.email + '>'; }).join(', ');
+    var bodyHtml =
+      '<p style="margin:0 0 14px;">Hallo,</p>' +
+      '<p style="margin:0 0 14px;"><strong>' + escapeHtml(senderName) + '</strong> hat eine ' + (msg.expectsReaction ? '<strong style="color: var(--gold-deep);">Nachricht mit erbetener Reaktion</strong>' : 'Team-Nachricht') + ' zum Vorgang <strong>' + escapeHtml(deal.title || deal.dealNumber) + '</strong> hinterlegt:</p>' +
+      '<div style="padding: 14px 16px; background: var(--paper-cool); border-left: 3px solid var(--gold-deep); border-radius: 6px; margin-bottom: 14px; font-style: italic;">' + escapeHtml(msg.text) + '</div>' +
+      (msg.expectsReaction ? '<p style="margin:0 0 14px;">Bitte schau es dir an und reagiere im Tool.</p>' : '<p style="margin:0 0 14px;">Du erhältst diese Mail nur zur Info — keine Aktion erforderlich.</p>') +
+      '<p style="margin:0; font-family: var(--mono); font-size: 11px; color: var(--ink-mute);">Direkt zum Vorgang: <a href="#" style="color: var(--gold-deep);">Im Dealfalcon öffnen</a></p>';
+
+    var fromEl = document.getElementById('email-mock-from'); if (fromEl) fromEl.textContent = fromText;
+    var toEl = document.getElementById('email-mock-to'); if (toEl) toEl.textContent = toText;
+    var subjEl = document.getElementById('email-mock-subject'); if (subjEl) subjEl.textContent = subject;
+    var bodyEl = document.getElementById('email-mock-body'); if (bodyEl) bodyEl.innerHTML = bodyHtml;
+    var timeEl = document.getElementById('email-mock-time'); if (timeEl) timeEl.textContent = new Date().toLocaleString('de-DE');
+    modal.classList.add('open');
+  }
+
+  function showEmailMockForVersion(deal, recipientUsers, versionNumber) {
+    var modal = document.getElementById('email-mock-modal');
+    if (!modal) return;
+    var senderName = getCurrentUser().name;
+    var subject = '📄 Neue Version v' + versionNumber + ' — ' + (deal.title || deal.dealNumber);
+    var fromText = senderName + ' via Dealfalcon <noreply@dealfalcon.app>';
+    var toText = recipientUsers.map(function(u) { return u.name + ' <' + u.email + '>'; }).join(', ');
+    var bodyHtml =
+      '<p style="margin:0 0 14px;">Hallo,</p>' +
+      '<p style="margin:0 0 14px;"><strong>' + escapeHtml(senderName) + '</strong> hat zum Vorgang <strong>' + escapeHtml(deal.title || deal.dealNumber) + '</strong> eine <strong style="color: var(--gold-deep);">neue Version v' + versionNumber + '</strong> hochgeladen.</p>' +
+      '<p style="margin:0 0 14px;">Die aktualisierte Microsite ist sofort für den Empfänger verfügbar — die vorherige Fassung bleibt im Versionsverlauf einsehbar.</p>' +
+      '<p style="margin:0; font-family: var(--mono); font-size: 11px; color: var(--ink-mute);">Direkt zum Vorgang: <a href="#" style="color: var(--gold-deep);">Im Dealfalcon öffnen</a></p>';
+
+    var fromEl = document.getElementById('email-mock-from'); if (fromEl) fromEl.textContent = fromText;
+    var toEl = document.getElementById('email-mock-to'); if (toEl) toEl.textContent = toText;
+    var subjEl = document.getElementById('email-mock-subject'); if (subjEl) subjEl.textContent = subject;
+    var bodyEl = document.getElementById('email-mock-body'); if (bodyEl) bodyEl.innerHTML = bodyHtml;
+    var timeEl = document.getElementById('email-mock-time'); if (timeEl) timeEl.textContent = new Date().toLocaleString('de-DE');
+    modal.classList.add('open');
+  }
+
+  // Bei neuer Version: Team-Nachricht + Benachrichtigung
+  function notifyTeamOfNewVersion(deal, versionNumber) {
+    var recipientUsers = getDealRecipientUsers(deal).filter(function(u) { return u.id !== getCurrentUser().id; });
+    if (recipientUsers.length === 0) return;
+    var notifs = loadNotifications();
+    recipientUsers.forEach(function(u) {
+      notifs.push({
+        id: genId('notif'),
+        type: 'new-version',
+        forUserId: u.id,
+        dealId: deal.id,
+        label: '📄 Neue Version v' + versionNumber + ': ' + (deal.title || deal.dealNumber),
+        detail: getCurrentUser().name + ' hat eine neue Version hochgeladen.',
+        createdAt: Date.now(),
+        read: false
+      });
+    });
+    saveNotifications(notifs);
+    updateNotificationBadge();
+    showEmailMockForVersion(deal, recipientUsers, versionNumber);
+  }
+
+  // ============ KI-ANSCHREIBEN-GENERATOR (Templates) ============
+
+  function getLetterContext() {
+    var primary = (editorState.recipients || []).find(function(r) { return r.isPrimary; }) || (editorState.recipients || [])[0] || {};
+    var customer = editorState.customerId ? getCustomerById(editorState.customerId) : null;
+    var leadUser = editorState.leadUserId ? getUserById(editorState.leadUserId) : getCurrentUser();
+    if (!leadUser) leadUser = getCurrentUser();
+    var company = loadJSON(KEYS.company, {});
+    var firstName = (primary.name || '').split(' ')[0] || 'Kunde';
+    var lastName = (primary.name || '').split(' ').slice(1).join(' ') || '';
+    var companyName = (customer && customer.companyName) || primary.company || '';
+    var leadFirstName = (leadUser.name || '').split(' ')[0] || 'Vertrieb';
+    var salutation = '';
+    var nameLooksFemale = /a$|ie$|ina$|elle$/i.test(firstName);
+    salutation = nameLooksFemale ? 'Sehr geehrte Frau ' + lastName : 'Sehr geehrter Herr ' + lastName;
+    if (!lastName) salutation = 'Hallo ' + firstName;
+
+    return {
+      firstName: firstName,
+      lastName: lastName,
+      fullName: primary.name || '',
+      salutation: salutation,
+      companyName: companyName,
+      ourCompany: company['c-company'] || 'unserem Team',
+      leadName: leadUser.name || '',
+      leadFirstName: leadFirstName,
+      title: editorState.title || 'Ihr Angebot',
+      value: editorState.value ? formatCurrency(editorState.value) + ' €' : '',
+      delivery: editorState.delivery || '',
+      payment: editorState.payment || ''
+    };
+  }
+
+  function buildLetterFromTemplate(toneKey) {
+    var ctx = getLetterContext();
+    var T = LETTER_TEMPLATES[toneKey];
+    if (!T) return '';
+    var text = T.template;
+    Object.keys(ctx).forEach(function(k) {
+      text = text.split('{' + k + '}').join(ctx[k]);
+    });
+    // Leere Zeilen sauber halten
+    text = text.replace(/\{[a-zA-Z]+\}/g, '').replace(/  +/g, ' ').trim();
+    return text;
+  }
+
+  var LETTER_TEMPLATES = {
+    professionell: {
+      title: 'Sachlich-professionell',
+      tone: 'Klassisch geschäftlich',
+      template: '{salutation},\n\nvielen Dank für Ihr Interesse an unseren Leistungen. Anbei finden Sie das Angebot für „{title}" in der mit Ihnen abgestimmten Form.\n\nFür Rückfragen zu den technischen Details, der Lieferzeit oder den Konditionen stehe ich Ihnen gerne zur Verfügung.\n\nIch freue mich auf Ihre Rückmeldung.\n\nMit freundlichen Grüßen\n{leadName}'
+    },
+    persoenlich: {
+      title: 'Persönlich-warm',
+      tone: 'Beziehungsorientiert',
+      template: 'Hallo {firstName},\n\nschön, dass wir gemeinsam an „{title}" arbeiten dürfen. Ich habe das Angebot so zusammengestellt, dass alle Punkte aus unserem Gespräch enthalten sind — sollte ich etwas vergessen haben, sagen Sie mir bitte direkt Bescheid.\n\nNehmen Sie sich gerne Zeit zum Durchschauen. Bei Fragen erreichen Sie mich jederzeit, ich melde mich auch persönlich bei Ihnen.\n\nIch freue mich auf den nächsten Schritt mit Ihnen.\n\nViele Grüße\n{leadFirstName}'
+    },
+    direkt: {
+      title: 'Direkt-knapp',
+      tone: 'Auf den Punkt',
+      template: '{salutation},\n\nhier Ihr Angebot zu „{title}".\n\nAlle Details finden Sie in der Übersicht unten und im PDF. Bei Fragen einfach kurz melden — ich antworte schnell.\n\nGrüße\n{leadName}'
+    },
+    beratend: {
+      title: 'Beratend-vertrauensvoll',
+      tone: 'Expertise im Vordergrund',
+      template: '{salutation},\n\nbasierend auf unseren Gesprächen und den Anforderungen von {companyName} habe ich Ihnen eine Lösung zusammengestellt, die ich Ihnen mit voller Überzeugung empfehle: „{title}".\n\nIm Angebot habe ich besonderen Wert auf die für Sie kritischen Punkte gelegt — Konditionen, Liefersicherheit und Skalierbarkeit. Falls Sie zu einzelnen Aspekten tiefer einsteigen möchten, stelle ich Ihnen gerne weiteres Material zur Verfügung oder vereinbare einen Termin.\n\nIch bin von dieser Lösung überzeugt — und freue mich darauf, sie gemeinsam mit Ihnen umzusetzen.\n\nBeste Grüße\n{leadName}'
+    },
+    folgegeschaeft: {
+      title: 'Folgegeschäft / Bestandskunde',
+      tone: 'Loyalitätsorientiert',
+      template: 'Hallo {firstName},\n\nschön, wieder von Ihnen zu hören! Wie immer freut es mich, dass Sie an uns denken — anbei das Angebot für „{title}".\n\nDa wir uns ja schon kennen, habe ich gleich Ihre üblichen Konditionen berücksichtigt. Sollten sich Ihre Anforderungen geändert haben oder wenn Sie etwas Neues besprechen möchten, melden Sie sich einfach.\n\nDanke für Ihr Vertrauen — wir freuen uns auf das Projekt.\n\nViele Grüße\n{leadFirstName}'
+    }
+  };
+
+  function generateAILetter() {
+    var btn = document.getElementById('btn-ai-letter');
+    if (!btn) return;
+    if (!hasValidRecipient()) {
+      showToast('Bitte mindestens den Hauptempfänger angeben.', 'error');
+      return;
+    }
+    if (!editorState.title || !editorState.title.trim()) {
+      showToast('Bitte einen Angebots-Titel angeben — die KI braucht den Bezug.', 'error');
+      return;
+    }
+
+    btn.classList.add('is-loading');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Generiere …';
+
+    setTimeout(function() {
+      // Tonalität auswählen — basierend auf Wert/Kontext
+      var value = editorState.value || 0;
+      var toneKey;
+      if (value > 100000) {
+        toneKey = 'beratend';
+      } else if (value > 30000) {
+        toneKey = 'professionell';
+      } else {
+        toneKey = 'persoenlich';
+      }
+      var letterText = buildLetterFromTemplate(toneKey);
+      var ta = document.getElementById('ed-description');
+      if (ta) {
+        ta.value = letterText;
+        editorState.description = letterText;
+        saveEditorDraft(editorState);
+        renderMicrositePreview();
+      }
+      btn.classList.remove('is-loading');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> KI-Vorschlag';
+      showToast('KI-Anschreiben erstellt — passen Sie es bei Bedarf an.', 'success');
+    }, 900);
+  }
+
+  function openLetterTemplatesModal() {
+    if (!hasValidRecipient()) {
+      showToast('Bitte mindestens den Hauptempfänger angeben.', 'error');
+      return;
+    }
+    if (!editorState.title || !editorState.title.trim()) {
+      showToast('Bitte einen Angebots-Titel angeben.', 'error');
+      return;
+    }
+    var listEl = document.getElementById('letter-template-list');
+    listEl.innerHTML = Object.keys(LETTER_TEMPLATES).map(function(key) {
+      var t = LETTER_TEMPLATES[key];
+      var preview = buildLetterFromTemplate(key);
+      return '<div class="letter-template-card" data-template-key="' + escapeHtml(key) + '">' +
+        '<div class="letter-template-tone">' + escapeHtml(t.tone) + '</div>' +
+        '<div class="letter-template-title">' + escapeHtml(t.title) + '</div>' +
+        '<div class="letter-template-preview">' + escapeHtml(preview) + '</div>' +
+      '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('.letter-template-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var key = card.dataset.templateKey;
+        var letterText = buildLetterFromTemplate(key);
+        var ta = document.getElementById('ed-description');
+        if (ta) {
+          ta.value = letterText;
+          editorState.description = letterText;
+          saveEditorDraft(editorState);
+          renderMicrositePreview();
+        }
+        document.getElementById('letter-templates-modal').classList.remove('open');
+        showToast('Vorlage übernommen — Sie können sie weiter anpassen.', 'success');
+      });
+    });
+    document.getElementById('letter-templates-modal').classList.add('open');
+  }
+
   function renderEditor() {
     if (!editorState) editorState = getEmptyEditorState();
 
@@ -3745,7 +4351,7 @@
     // Eckdaten in Felder schreiben
     document.getElementById('ed-title').value = editorState.title || '';
     document.getElementById('ed-description').value = editorState.description || '';
-    document.getElementById('ed-value').value = editorState.value || '';
+    document.getElementById('ed-value').value = editorState.value ? formatCurrency(editorState.value) : '';
     document.getElementById('ed-delivery').value = editorState.delivery || '';
     document.getElementById('ed-payment').value = editorState.payment || '';
     document.getElementById('ed-valid-until').value = editorState.validUntil || '';
@@ -4230,12 +4836,26 @@
       el.addEventListener('input', function() {
         var key = fieldMap[id];
         var val = el.value;
-        if (key === 'value') val = parseInt(val, 10) || 0;
+        if (key === 'value') val = parseGermanCurrency(val);
         editorState[key] = val;
         saveEditorDraft(editorState);
         updateSectionStatus();
         renderMicrositePreview();
       });
+      // Beim Verlassen des Wert-Feldes: kaufmännisch formatieren
+      if (id === 'ed-value') {
+        el.addEventListener('blur', function() {
+          if (editorState.value) {
+            el.value = formatCurrency(editorState.value);
+          }
+        });
+        el.addEventListener('focus', function() {
+          // Beim Fokus: Klartext statt formatierte Anzeige (Tausenderpunkte raus, Komma → Punkt)
+          if (editorState.value) {
+            el.value = String(editorState.value).replace('.', ',');
+          }
+        });
+      }
     });
 
     // Upload-Zonen
@@ -4468,64 +5088,107 @@
 
     // === Vorschau-Banner ===
     if (mode === 'preview') {
-      html += '<div class="ms-preview-banner">' +
+      html += '<div class="ms-preview-banner-wrap"><div class="ms-preview-banner">' +
         '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
         '<span><strong>Vorschau Empfängersicht</strong> — so sieht <strong>' + escapeHtml(customerName) + '</strong> die Microsite. Aktionen sind hier inaktiv und werden nicht getrackt.</span>' +
-      '</div>';
+      '</div></div>';
     }
 
-    // === Top-Bar (Brand + Version) ===
-    html += '<div class="ms-topbar">' +
-      '<div class="ms-brand">' +
-        '<div class="ms-brand-logo">' + escapeHtml(brandShort) + '</div>' +
-        '<div class="ms-brand-text">' +
-          '<strong>' + escapeHtml(brandFull) + '</strong>' +
-          '<small>Persönlich für ' + escapeHtml(customerName) + '</small>' +
-        '</div>' +
-      '</div>' +
-      '<div class="ms-version-pill">' +
-        '<strong>v' + currentVersion + '</strong>' +
-        (versionsCount > 0 ? ' von ' + (versionsCount + 1) : ' aktuell') +
-      '</div>' +
-    '</div>';
-
-    // === Hero ===
+    // === Cover-Hero (Vollbild in Brand-Farbe) ===
     var leadName = leadUser.name || 'Ihr Vertrieb';
     var firstLeadName = leadName.split(' ')[0];
     var heroTitle = data.title ? data.title : 'Ihr persönliches Angebot';
-    html += '<div class="ms-hero">' +
-      '<div class="ms-hero-greeting">Vorgang ' + escapeHtml(dealNumber) + '</div>' +
-      '<h1>Hallo ' + escapeHtml(firstName) + ', hier ist <span class="gold">Ihr Angebot</span> von ' + escapeHtml(firstLeadName) + '.</h1>' +
-      (data.description ? '<div class="ms-hero-letter">' + escapeHtml(data.description).replace(/\n/g, '<br>') + '</div>' : '') +
-      '<div class="ms-hero-signature">' +
-        '<div class="ms-sig-avatar">' + escapeHtml(leadInitials) + '</div>' +
-        '<div class="ms-sig-info">' +
-          '<strong>' + escapeHtml(leadName) + '</strong>' +
-          '<small>' + escapeHtml(leadUser.email || '') + (brandFull ? ' · ' + escapeHtml(brandFull) : '') + '</small>' +
+    var validUntilStr = '';
+    if (data.validUntil) {
+      var dtV = new Date(data.validUntil);
+      validUntilStr = isNaN(dtV.getTime()) ? data.validUntil : dtV.toLocaleDateString('de-DE');
+    }
+    var createdStr = new Date().toLocaleDateString('de-DE');
+    var statusLabel = mode === 'preview' ? 'Vorschau' : 'Live';
+
+    html += '<div class="ms-cover">' +
+      '<div class="ms-cover-topbar">' +
+        '<div class="ms-cover-brand">' +
+          '<div class="ms-cover-brand-logo">' + escapeHtml(brandShort) + '</div>' +
+          '<div class="ms-cover-brand-name">' + escapeHtml(brandFull) + '</div>' +
+        '</div>' +
+        '<div class="ms-cover-meta">' +
+          '<div class="ms-cover-meta-block">' +
+            '<div class="ms-cover-meta-label">Angebot</div>' +
+            '<div class="ms-cover-meta-value">' + escapeHtml(dealNumber) + '</div>' +
+          '</div>' +
+          '<div class="ms-cover-meta-block">' +
+            '<div class="ms-cover-meta-label">Status</div>' +
+            '<div class="ms-cover-meta-value is-status">' + escapeHtml(statusLabel) + '</div>' +
+          '</div>' +
+          '<div class="ms-cover-version">' +
+            '<span class="ms-cover-version-dot"></span>' +
+            'v' + currentVersion + (versionsCount > 0 ? ' · aktuell' : '') +
+          '</div>' +
         '</div>' +
       '</div>' +
+
+      '<div class="ms-cover-body">' +
+        '<h1>' + escapeHtml(heroTitle) + (customerCompanyName ? '<br><span class="gold">für ' + escapeHtml(customerCompanyName) + '</span>' : '') + '</h1>' +
+        '<p class="ms-cover-sub">Persönlich für ' + escapeHtml(customerName) + ' — alle Konditionen, Unterlagen und Botschaften übersichtlich aufbereitet.</p>' +
+        '<div class="ms-cover-divider"></div>' +
+        '<div class="ms-cover-info-grid">' +
+          '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Erstellt am</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(createdStr) + '</div>' +
+          '</div>' +
+          (validUntilStr ? '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Gültig bis</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(validUntilStr) + '</div>' +
+          '</div>' : '') +
+          '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">Ihr Ansprechpartner</div>' +
+            '<div class="ms-cover-info-value">' + escapeHtml(leadName) + '</div>' +
+          '</div>' +
+          (leadUser.email ? '<div class="ms-cover-info-block">' +
+            '<div class="ms-cover-info-label">E-Mail</div>' +
+            '<div class="ms-cover-info-value is-mono">' + escapeHtml(leadUser.email) + '</div>' +
+          '</div>' : '') +
+        '</div>' +
+      '</div>' +
+
+      (versionsCount > 0 ? '<div class="ms-cover-history-bar">' +
+        '<strong>Angebotsverlauf.</strong>' +
+        '<span>Sie blicken auf die aktuelle Fassung — frühere Versionen bleiben einsehbar und vergleichbar.</span>' +
+      '</div>' : '') +
+
+      // Stat-Bar mit großen Zahlen
+      ((data.value || data.delivery || data.payment) ?
+        '<div class="ms-cover-stats">' +
+          (data.value ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Investitionsvolumen netto</div>' +
+            '<div class="ms-cover-stat-value is-amount">' + formatCurrency(data.value) + '<span class="ms-cover-stat-unit">€</span></div>' +
+          '</div>' : '') +
+          (data.delivery ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Lieferzeit</div>' +
+            '<div class="ms-cover-stat-value">' + escapeHtml(data.delivery) + '</div>' +
+          '</div>' : '') +
+          (data.payment ? '<div class="ms-cover-stat">' +
+            '<div class="ms-cover-stat-label">Konditionen</div>' +
+            '<div class="ms-cover-stat-value">' + escapeHtml(data.payment) + '</div>' +
+          '</div>' : '') +
+        '</div>' : '') +
     '</div>';
 
-    // === Eckdaten ===
-    var facts = [];
-    if (data.value) facts.push({ label: 'Gesamtsumme netto', value: formatCurrency(data.value) + ' €', amount: true });
-    if (data.delivery) facts.push({ label: 'Lieferzeit / Leistungszeitraum', value: data.delivery });
-    if (data.payment) facts.push({ label: 'Zahlungskonditionen', value: data.payment });
-    if (data.validUntil) {
-      var dt = new Date(data.validUntil);
-      var dateStr = isNaN(dt.getTime()) ? data.validUntil : dt.toLocaleDateString('de-DE');
-      facts.push({ label: 'Gültig bis', value: dateStr });
-    }
-    if (facts.length > 0) {
-      html += '<div class="ms-card">' +
-        '<div class="ms-card-header"><h3>Eckdaten auf einen Blick</h3><small>Vorgang ' + escapeHtml(dealNumber) + ' · v' + currentVersion + '</small></div>' +
-        '<div class="ms-facts-grid">' +
-          facts.map(function(f) {
-            return '<div class="ms-fact' + (f.amount ? ' amount' : '') + '">' +
-              '<div class="ms-fact-label">' + escapeHtml(f.label) + '</div>' +
-              '<div class="ms-fact-value">' + escapeHtml(f.value) + '</div>' +
-            '</div>';
-          }).join('') +
+    // === Anschreiben-Card (eigenständig nach dem Cover) ===
+    html += '<div class="ms-container">';
+
+    if (data.description) {
+      html += '<div class="ms-letter-card">' +
+        '<div class="ms-letter-greeting">Persönliche Botschaft von ' + escapeHtml(firstLeadName) + '</div>' +
+        '<h2 class="ms-letter-headline">Hallo ' + escapeHtml(firstName) + ', hier ist <span class="gold">Ihr Angebot</span>.</h2>' +
+        '<div class="ms-letter-text">' + escapeHtml(data.description) + '</div>' +
+        '<div class="ms-letter-signature">' +
+          '<div class="ms-letter-avatar">' + escapeHtml(leadInitials) + '</div>' +
+          '<div class="ms-letter-info">' +
+            '<strong>' + escapeHtml(leadName) + '</strong>' +
+            '<small>' + escapeHtml(leadUser.email || '') + (brandFull ? ' · ' + escapeHtml(brandFull) : '') + '</small>' +
+          '</div>' +
         '</div>' +
       '</div>';
     }
@@ -4689,10 +5352,12 @@
     '</div>';
 
     // === Footer ===
+    html += '</div>'; // close .ms-container
     html += '<div class="ms-footer">Persönlich erstellt von ' + escapeHtml(brandFull) + ' · <span>powered by Dealfalcon</span></div>';
 
-    // Wrap in shell+container
-    canvas.innerHTML = '<div class="ms-shell"><div class="ms-container">' + html + '</div></div>';
+    // Wrap: shell drum rum, der Container kommt nur um die Cards (das Cover hat eigene Breite)
+    // Banner-Wrap und Cover sind selbst-zentrierend, der Rest geht in container
+    canvas.innerHTML = '<div class="ms-shell">' + html + '</div>';
   }
 
   function openSendConfirm() {
@@ -4787,6 +5452,22 @@
 
     document.getElementById('handoff-note').value = '';
     document.getElementById('btn-handoff-confirm').disabled = true;
+
+    // Reset Übergabe-Art auf "permanent"
+    _handoffContext.handoffType = 'permanent';
+    _handoffContext.reason = '';
+    document.querySelectorAll('.handoff-type-btn').forEach(function(btn) {
+      btn.classList.toggle('active', btn.dataset.handoffType === 'permanent');
+    });
+    document.getElementById('handoff-temp-section').style.display = 'none';
+    document.querySelectorAll('.handoff-reason-chip').forEach(function(chip) { chip.classList.remove('active'); });
+
+    // Default-Datum: in 2 Wochen
+    var defaultUntil = new Date();
+    defaultUntil.setDate(defaultUntil.getDate() + 14);
+    document.getElementById('handoff-until-date').value = defaultUntil.toISOString().slice(0, 10);
+    document.getElementById('handoff-until-date').min = new Date().toISOString().slice(0, 10);
+
     modal.classList.add('open');
   }
 
@@ -4831,38 +5512,71 @@
   function confirmHandoff() {
     if (!_handoffContext || !_handoffContext.selectedUserId) return;
     var note = (document.getElementById('handoff-note').value || '').trim();
+    var reason = _handoffContext.reason || '';
+    var combinedNote = [reason, note].filter(Boolean).join(' — ');
     var newLeadId = _handoffContext.selectedUserId;
     var newLeadUser = getUserById(newLeadId);
     if (!newLeadUser) return;
 
+    var handoffType = _handoffContext.handoffType || 'permanent';
+    var untilDate = null;
+    if (handoffType === 'temporary') {
+      var dateStr = document.getElementById('handoff-until-date').value;
+      if (!dateStr) {
+        showToast('Bitte ein Bis-Datum für die temporäre Übergabe angeben.', 'error');
+        return;
+      }
+      untilDate = dateStr;
+    }
+
     if (_handoffContext.fromEditor) {
-      // Editor: nur State ändern
       editorState.leadUserId = newLeadId;
-      // Wenn neuer Lead vorher Kollaborator war: aus Liste entfernen
       editorState.collaborators = (editorState.collaborators || []).filter(function(c) { return c.userId !== newLeadId; });
       saveEditorDraft(editorState);
       renderTeamSection();
-      showToast('Lead wird an ' + newLeadUser.name + ' übergeben.', 'success');
+      var msg = handoffType === 'temporary'
+        ? 'Lead temporär an ' + newLeadUser.name + ' übergeben (bis ' + new Date(untilDate).toLocaleDateString('de-DE') + ').'
+        : 'Lead an ' + newLeadUser.name + ' übergeben.';
+      showToast(msg, 'success');
     } else {
-      // Detail-Modal: Deal ändern + Activity hinzufügen
       var deals = loadDeals();
       var deal = deals.find(function(d) { return d.id === _handoffContext.dealId; });
       if (!deal) return;
       var oldLead = getUserById(deal.leadUserId || 'me');
-      deal.leadUserId = newLeadId;
-      // Wenn neuer Lead Kollaborator war: aus Liste entfernen
-      deal.collaborators = (deal.collaborators || []).filter(function(c) { return c.userId !== newLeadId; });
-      // Lead-History (optional, für Audit)
+
+      if (handoffType === 'temporary') {
+        // Temporär: nur als Vertretung speichern, alter Lead bleibt
+        if (!deal.tempDelegations) deal.tempDelegations = [];
+        deal.tempDelegations.push({
+          delegateId: newLeadId,
+          fromUserId: oldLead ? oldLead.id : null,
+          activeUntil: untilDate,
+          reason: combinedNote,
+          createdAt: Date.now()
+        });
+      } else {
+        // Dauerhaft: Lead wirklich wechseln
+        deal.leadUserId = newLeadId;
+        deal.collaborators = (deal.collaborators || []).filter(function(c) { return c.userId !== newLeadId; });
+      }
+
       if (!deal.leadHistory) deal.leadHistory = [];
       deal.leadHistory.push({
         from: oldLead ? oldLead.id : null,
         to: newLeadId,
         at: Date.now(),
+        type: handoffType,
+        until: untilDate,
+        reason: reason,
         note: note,
         byUserId: getCurrentUser().id
       });
       saveDeals(deals);
-      showToast('Lead an ' + newLeadUser.name + ' übergeben.', 'success');
+
+      var msg2 = handoffType === 'temporary'
+        ? newLeadUser.name + ' vertritt bis ' + new Date(untilDate).toLocaleDateString('de-DE') + '.'
+        : 'Lead an ' + newLeadUser.name + ' übergeben.';
+      showToast(msg2, 'success');
       openDealDetail(_handoffContext.dealId);
       renderDashboard();
       renderDealsPage();
@@ -4928,9 +5642,13 @@
     if (!primary) primary = editorState.recipients[0];
 
     var deal;
+    var wasAlreadySent = false;
+    var hadOldVersion = false;
     if (editorState.id) {
       deal = deals.find(function(d) { return d.id === editorState.id; });
       if (!deal) return;
+      wasAlreadySent = deal.status === 'sent' || deal.status === 'won' || deal.status === 'lost';
+      hadOldVersion = (deal.pdfVersions || []).length < (editorState.pdfVersions || []).length;
       applyEditorStateToDeal(deal);
       deal.status = 'sent';
       deal.sentAt = now;
@@ -4984,6 +5702,13 @@
     });
 
     saveDeals(deals);
+
+    // Wenn das eine neue Version eines bereits versendeten Deals ist:
+    // Team benachrichtigen (Notifications + Mock-Email)
+    if (wasAlreadySent && hadOldVersion) {
+      var newVersionNum = (deal.pdfVersions || []).length + 1;
+      notifyTeamOfNewVersion(deal, newVersionNum);
+    }
 
     // Aktivitäten für den Hauptempfänger starten
     var primaryRcp = deal.recipients.find(function(r) { return r.role === 'primary' });
@@ -5166,6 +5891,49 @@
       html += '</div></div>';
     }
 
+    // Team-Nachrichten — Aktionen die andere Berechtigte benachrichtigen
+    var dealRecipients = getDealRecipientUsers(deal).filter(function(u) { return u.id !== getCurrentUser().id; });
+    var hasOtherUsers = dealRecipients.length > 0;
+    html += '<div class="detail-section">' +
+      '<div class="detail-section-title">Team-Nachrichten <small style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-left: 8px; letter-spacing: 0.04em; font-weight: 500;">' +
+        (hasOtherUsers ? '— ' + dealRecipients.length + ' Kolleg' + (dealRecipients.length === 1 ? 'e' : 'en') + ' werden bei neuen Nachrichten benachrichtigt' : '— noch keine weiteren Berechtigten') +
+      '</small></div>' +
+      '<div class="notes-list" id="team-messages-list"></div>' +
+      (hasOtherUsers ? '<div class="notes-input-row">' +
+        '<textarea id="team-message-input" placeholder="Nachricht ans Team … z.B. „Bin im Termin, kann erst Donnerstag antworten"" rows="2"></textarea>' +
+        '<div class="notes-input-actions">' +
+          '<div class="notes-quick-chips">' +
+            '<button type="button" class="tm-quick-chip is-info" data-tm-quick="Status-Update: Vorgang läuft planmäßig" data-tm-reaction="false">📊 Status-Update</button>' +
+            '<button type="button" class="tm-quick-chip is-info" data-tm-quick="Kunde hat sich gemeldet — neue Infos siehe Notizen" data-tm-reaction="false">📞 Kundenkontakt</button>' +
+            '<button type="button" class="tm-quick-chip is-reaction" data-tm-quick="Brauche kurze Rücksprache zum Preis — wer kann?" data-tm-reaction="true">🔔 Hilfe gefragt</button>' +
+            '<button type="button" class="tm-quick-chip is-reaction" data-tm-quick="Bitte um Freigabe für Sonderkondition" data-tm-reaction="true">🔔 Freigabe nötig</button>' +
+          '</div>' +
+          '<div class="tm-action-buttons">' +
+            '<button type="button" class="btn-add-tm is-info" id="btn-add-tm-info">💬 Nur Info</button>' +
+            '<button type="button" class="btn-add-tm is-reaction" id="btn-add-tm-reaction">🔔 Reaktion erwartet</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>' : '<div class="notes-list-empty">Sobald Sie Kollegen einladen oder den Lead teilen, können Sie hier Nachrichten senden.</div>') +
+    '</div>';
+
+    // Interne Notizen
+    html += '<div class="detail-section">' +
+      '<div class="detail-section-title">Interne Notizen <small style="font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-left: 8px; letter-spacing: 0.04em; font-weight: 500;">— nur Verlauf, kein Versand an Kollegen</small></div>' +
+      '<div class="notes-list" id="deal-notes-list"></div>' +
+      '<div class="notes-input-row">' +
+        '<textarea id="deal-note-input" placeholder="Notiz zum Vorgang … (Verlauf, To-Dos, Gedanken)" rows="2"></textarea>' +
+        '<div class="notes-input-actions">' +
+          '<div class="notes-quick-chips">' +
+            '<button type="button" class="note-quick-chip" data-quick-note="Kunde meldet sich nächste Woche zurück">📞 Folgegespräch geplant</button>' +
+            '<button type="button" class="note-quick-chip" data-quick-note="Kunde signalisiert Interesse, möchte aber noch intern abstimmen">💭 Interesse, intern</button>' +
+            '<button type="button" class="note-quick-chip" data-quick-note="Konkurrenzangebot wird parallel geprüft">⚠️ Konkurrenz im Spiel</button>' +
+            '<button type="button" class="note-quick-chip" data-quick-note="Preis muss noch verhandelt werden">💰 Preisverhandlung offen</button>' +
+          '</div>' +
+          '<button type="button" class="btn-add-note" id="btn-add-note">Notiz hinzufügen</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
     // Aktivitäts-Timeline
     html += '<div class="detail-section">' +
       '<div class="detail-section-title">Vollständige Aktivitäts-Timeline</div>';
@@ -5207,6 +5975,53 @@
 
     document.getElementById('detail-body').innerHTML = html;
     document.getElementById('deal-detail-modal').classList.add('open');
+
+    // Notizen rendern
+    renderDealNotes(dealId);
+    // Notizen-Bindings
+    var btnAddNote = document.getElementById('btn-add-note');
+    if (btnAddNote) btnAddNote.addEventListener('click', function() {
+      var input = document.getElementById('deal-note-input');
+      if (!input) return;
+      addDealNote(dealId, input.value);
+      input.value = '';
+    });
+    document.querySelectorAll('.note-quick-chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var text = chip.dataset.quickNote;
+        if (text) addDealNote(dealId, text);
+      });
+    });
+
+    // Team-Nachrichten rendern + binden
+    renderTeamMessages(dealId);
+    var btnAddTmInfo = document.getElementById('btn-add-tm-info');
+    if (btnAddTmInfo) btnAddTmInfo.addEventListener('click', function() {
+      var input = document.getElementById('team-message-input');
+      if (!input || !input.value.trim()) {
+        showToast('Bitte zuerst eine Nachricht schreiben oder einen Quick-Eintrag wählen.', 'error');
+        return;
+      }
+      addTeamMessage(dealId, input.value, false);
+      input.value = '';
+    });
+    var btnAddTmReaction = document.getElementById('btn-add-tm-reaction');
+    if (btnAddTmReaction) btnAddTmReaction.addEventListener('click', function() {
+      var input = document.getElementById('team-message-input');
+      if (!input || !input.value.trim()) {
+        showToast('Bitte zuerst eine Nachricht schreiben oder einen Quick-Eintrag wählen.', 'error');
+        return;
+      }
+      addTeamMessage(dealId, input.value, true);
+      input.value = '';
+    });
+    document.querySelectorAll('.tm-quick-chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var text = chip.dataset.tmQuick;
+        var expectsReaction = chip.dataset.tmReaction === 'true';
+        if (text) addTeamMessage(dealId, text, expectsReaction);
+      });
+    });
 
     // Beim Öffnen: alle Aktivitäten dieses Vorgangs als gesehen markieren
     var seen = loadSeenActivities();
@@ -5897,8 +6712,30 @@
   }
 
   function formatCurrency(num) {
-    if (!num) return '0,–';
-    return num.toLocaleString('de-DE');
+    if (num === null || num === undefined || num === '') return '0,00';
+    var n = Number(num);
+    if (isNaN(n)) return '0,00';
+    return n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function parseGermanCurrency(str) {
+    if (typeof str === 'number') return str;
+    if (!str) return 0;
+    // "121.214,34" → "121214.34"; "121214,34" → "121214.34"; "121214.34" → "121214.34"
+    var s = String(str).replace(/[^\d.,-]/g, '').trim();
+    if (!s) return 0;
+    var hasComma = s.indexOf(',') >= 0;
+    var hasDot = s.indexOf('.') >= 0;
+    if (hasComma && hasDot) {
+      // Beide vorhanden: Punkt ist Tausender, Komma ist Dezimal
+      s = s.replace(/\./g, '').replace(',', '.');
+    } else if (hasComma) {
+      // Nur Komma: ist Dezimal
+      s = s.replace(',', '.');
+    }
+    // Nur Punkt → wie geschrieben (englisches Format)
+    var n = parseFloat(s);
+    return isNaN(n) ? 0 : n;
   }
 
   function bindFeedTabs() {
@@ -5981,7 +6818,7 @@
       {
         customer: 'Andreas Wagner', customerCompany: 'Wagner Haustechnik GmbH', customerId: 'demo_cust_wagner',
         title: 'Heizungssanierung MFH Lindenstraße',
-        value: 42800,
+        value: 42800.50,
         description: 'Sehr geehrter Herr Wagner,\n\nvielen Dank für Ihr Interesse an unserer Lösung. Anbei finden Sie Ihr persönliches Angebot zur Heizungssanierung Ihres Mehrfamilienhauses.\n\nBei Fragen zur Förderung oder zu Details der Anlage bin ich jederzeit persönlich für Sie erreichbar.\n\nBeste Grüße',
         delivery: '8 Wochen ab Auftragseingang',
         payment: '30% Anzahlung, 70% nach Inbetriebnahme',
@@ -6008,7 +6845,7 @@
       {
         customer: 'Christine Müller', customerCompany: 'Müller Engineering AG', customerId: 'demo_cust_mueller',
         title: 'CNC-Fertigungsstraße Modul A-3',
-        value: 187500,
+        value: 187500.00,
         description: 'Sehr geehrte Frau Müller,\n\nwie besprochen sende ich Ihnen das Angebot für die CNC-Fertigungsstraße Modul A-3 inklusive aller technischen Details und CE-Zertifikate.\n\nDas Angebot ist 30 Tage gültig — bei Fragen zur Inbetriebnahme oder zu Schulungen sprechen Sie uns gerne an.\n\nMit freundlichen Grüßen',
         delivery: '14 Wochen, Lieferung CIP Werk',
         payment: '40% Anzahlung, 60% bei Auslieferung',
@@ -6032,7 +6869,7 @@
       {
         customer: 'Thomas Klein', customerCompany: 'Klein Metalltechnik', customerId: 'demo_cust_klein',
         title: 'Stanzwerkzeug-Set Sonderanfertigung',
-        value: 24600,
+        value: 24600.75,
         description: 'Sehr geehrter Herr Klein,\n\nanbei das Angebot für Ihr Stanzwerkzeug-Set in Sonderanfertigung. Die Präzisionswerkzeuge sind exakt auf Ihre 4mm-Stahlprofile ausgelegt.\n\nIch bin gespannt auf Ihre Rückmeldung.\n\nBeste Grüße',
         delivery: '6 Wochen, Express möglich',
         payment: 'Netto 14 Tage',
@@ -7134,6 +7971,20 @@
       });
     }
 
+    // KI-Anschreiben
+    var btnAiLetter = document.getElementById('btn-ai-letter');
+    if (btnAiLetter) btnAiLetter.addEventListener('click', generateAILetter);
+    var btnLetterTemplates = document.getElementById('btn-letter-templates');
+    if (btnLetterTemplates) btnLetterTemplates.addEventListener('click', openLetterTemplatesModal);
+    var btnLetterTemplatesCancel = document.getElementById('btn-letter-templates-cancel');
+    if (btnLetterTemplatesCancel) btnLetterTemplatesCancel.addEventListener('click', function() {
+      document.getElementById('letter-templates-modal').classList.remove('open');
+    });
+    var letterTemplatesBackdrop = document.getElementById('letter-templates-modal');
+    if (letterTemplatesBackdrop) letterTemplatesBackdrop.addEventListener('click', function(e) {
+      if (e.target === letterTemplatesBackdrop) letterTemplatesBackdrop.classList.remove('open');
+    });
+
     // Handoff-Modal Bindings
     var btnHandoffCancel = document.getElementById('btn-handoff-cancel');
     if (btnHandoffCancel) btnHandoffCancel.addEventListener('click', closeHandoffModal);
@@ -7145,6 +7996,32 @@
         if (e.target === handoffBackdrop) closeHandoffModal();
       });
     }
+
+    // Type-Toggle (dauerhaft / temporär)
+    document.querySelectorAll('.handoff-type-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.handoff-type-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var type = btn.dataset.handoffType;
+        if (_handoffContext) _handoffContext.handoffType = type;
+        document.getElementById('handoff-temp-section').style.display = type === 'temporary' ? '' : 'none';
+      });
+    });
+
+    // Reason-Chips
+    document.querySelectorAll('.handoff-reason-chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var reason = chip.dataset.reason;
+        if (chip.classList.contains('active')) {
+          chip.classList.remove('active');
+          if (_handoffContext) _handoffContext.reason = '';
+        } else {
+          document.querySelectorAll('.handoff-reason-chip').forEach(function(c) { c.classList.remove('active'); });
+          chip.classList.add('active');
+          if (_handoffContext) _handoffContext.reason = reason;
+        }
+      });
+    });
 
     // Success-Overlay Bindings
     var btnSuccessStay = document.getElementById('btn-success-stay');
