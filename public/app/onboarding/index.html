@@ -259,6 +259,150 @@
     .mp-hero-meta { grid-template-columns: 1fr; gap: 14px; }
     .mp-data-row { grid-template-columns: 1fr; gap: 18px; }
   }
+
+  /* ============ STEP 3: TEAM ============ */
+  .team-card { background: white; border-radius: 14px; border: 1px solid var(--line-soft); padding: 28px 32px; margin-bottom: 18px; max-width: 760px; }
+  .plan-info-row { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; padding: 16px 18px; background: linear-gradient(135deg, #fffbf2, #fef3c7); border-radius: 10px; border: 1px solid #fef3c7; }
+  .plan-info-icon { width: 42px; height: 42px; flex-shrink: 0; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--black); }
+  .plan-info-text { flex: 1; min-width: 0; }
+  .plan-info-text strong { display: block; font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; }
+  .plan-info-text small { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0.02em; }
+  .plan-info-counter { font-family: var(--mono); font-size: 13px; color: var(--gold-deep); font-weight: 700; padding: 6px 12px; background: white; border-radius: 6px; border: 1px solid var(--gold); }
+
+  .team-list { list-style: none; }
+  .team-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
+  .team-row:last-child { border-bottom: none; }
+  .team-avatar { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 14px; color: white; background: linear-gradient(135deg, var(--ink-mid), var(--ink)); letter-spacing: -0.02em; }
+  .team-avatar.is-self { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); }
+  .team-avatar.is-pending { background: var(--paper-cool); color: var(--ink-mute); border: 1.5px dashed var(--line); }
+  .team-info { flex: 1; min-width: 0; }
+  .team-info-name { font-family: var(--display); font-size: 14px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; }
+  .team-info-name .self-tag { display: inline-block; margin-left: 6px; font-family: var(--mono); font-size: 9px; color: var(--gold-deep); background: #fef9c3; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.04em; vertical-align: middle; font-weight: 600; }
+  .team-info-email { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+  .team-role-pill { padding: 4px 10px; border-radius: 100px; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .team-role-pill.role-admin { background: #1e293b; color: white; }
+  .team-role-pill.role-vertrieb { background: #dbeafe; color: #1e40af; }
+  .team-role-pill.role-betrachter { background: var(--paper-cool); color: var(--ink-mid); border: 1px solid var(--line-soft); }
+  .team-status { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .team-status.pending { color: var(--gold-deep); }
+  .team-remove { background: transparent; border: none; color: var(--ink-faint); cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.15s; }
+  .team-remove:hover { color: var(--red); background: var(--red-soft); }
+
+  .invite-form { display: grid; grid-template-columns: 1.5fr 1fr 1fr auto; gap: 10px; align-items: end; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line-soft); }
+  .invite-form .form-field { margin: 0; }
+  .invite-form .btn-invite { background: var(--ink); color: white; border: none; padding: 11px 18px; border-radius: 8px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; height: 44px; display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  .invite-form .btn-invite:hover { background: var(--black-soft); transform: translateY(-1px); }
+  .invite-form .btn-invite:disabled { background: var(--ink-mute); cursor: not-allowed; transform: none; opacity: 0.6; }
+  @media (max-width: 880px) { .invite-form { grid-template-columns: 1fr; } }
+
+  /* Mock-Einladungs-Mail Modal */
+  .invite-mail-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+  .invite-mail-modal.open { display: flex; animation: modalIn 0.2s ease-out; }
+  @keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
+  .invite-mail-card { background: white; border-radius: 14px; max-width: 580px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; }
+  @keyframes cardIn { from { opacity: 0; transform: scale(0.95) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .invite-mail-header { padding: 22px 28px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; }
+  .invite-mail-header strong { font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
+  .invite-mail-header .close-btn { background: transparent; border: none; cursor: pointer; padding: 8px; border-radius: 6px; color: var(--ink-mute); }
+  .invite-mail-header .close-btn:hover { background: var(--paper-cool); color: var(--ink); }
+  .invite-mail-meta { padding: 18px 28px; border-bottom: 1px solid var(--line-soft); background: var(--paper-warm); }
+  .invite-mail-meta-row { display: grid; grid-template-columns: 80px 1fr; gap: 12px; padding: 4px 0; }
+  .invite-mail-meta-row span:first-child { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; text-transform: uppercase; }
+  .invite-mail-meta-row span:last-child { font-family: var(--display); font-size: 13px; color: var(--ink); }
+  .invite-mail-body { padding: 28px; font-family: var(--display); font-size: 14px; color: var(--ink-strong); line-height: 1.65; }
+  .invite-mail-body h2 { font-family: var(--display); font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink); letter-spacing: -0.02em; }
+  .invite-mail-body p { margin-bottom: 14px; }
+  .invite-mail-body .accept-button { display: inline-block; background: var(--gold); color: var(--black); padding: 12px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; margin: 12px 0; }
+  .invite-mail-footer { padding: 14px 28px; border-top: 1px solid var(--line-soft); background: var(--paper-warm); font-family: var(--mono); font-size: 11px; color: var(--ink-mute); display: flex; justify-content: space-between; align-items: center; }
+
+  /* ============ STEP 4: DOCUMENTS ============ */
+  .docs-empty-hero { background: linear-gradient(135deg, white, var(--paper-warm)); border: 1px solid var(--line-soft); border-radius: 14px; padding: 56px 32px; text-align: center; max-width: 760px; }
+  .docs-empty-hero .docs-icon-wrap { width: 72px; height: 72px; margin: 0 auto 22px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(245,165,36,0.25); }
+  .docs-empty-hero h3 { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.02em; }
+  .docs-empty-hero p { font-family: var(--display); font-size: 14px; color: var(--ink-mid); line-height: 1.6; max-width: 460px; margin: 0 auto 24px; }
+  .docs-empty-hero .btn-ai-suggest { background: linear-gradient(135deg, var(--ink), var(--ink-strong)); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+  .docs-empty-hero .btn-ai-suggest:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+  .docs-empty-hero .btn-ai-suggest:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+  .docs-empty-hero .btn-ai-suggest svg { color: var(--gold); }
+  .docs-empty-secondary { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 14px; letter-spacing: 0.04em; }
+  .docs-empty-secondary a { color: var(--ink); text-decoration: underline; cursor: pointer; }
+
+  /* AI-Generation animation */
+  .ai-thinking { display: none; flex-direction: column; align-items: center; gap: 16px; padding: 48px; }
+  .ai-thinking.show { display: flex; }
+  .ai-thinking-pulse { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); animation: pulse 1.4s ease-in-out infinite; box-shadow: 0 0 40px rgba(245,165,36,0.4); }
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+  .ai-thinking-text { font-family: var(--display); font-size: 14px; color: var(--ink-mid); text-align: center; }
+  .ai-thinking-text strong { color: var(--ink); }
+
+  /* File Browser */
+  .docs-browser { background: white; border-radius: 14px; border: 1px solid var(--line-soft); overflow: hidden; max-width: 1100px; min-height: 500px; display: grid; grid-template-columns: 280px 1fr; }
+  .docs-tree { background: var(--paper-warm); border-right: 1px solid var(--line-soft); padding: 18px 0; overflow-y: auto; }
+  .docs-tree-header { padding: 0 18px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line-soft); margin-bottom: 8px; }
+  .docs-tree-header strong { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.1em; text-transform: uppercase; }
+  .docs-tree-action { background: transparent; border: none; color: var(--ink-mute); cursor: pointer; padding: 4px; border-radius: 4px; transition: all 0.15s; }
+  .docs-tree-action:hover { color: var(--ink); background: white; }
+  .docs-tree-list { list-style: none; padding: 0; }
+  .docs-tree-folder { font-family: var(--display); font-size: 13px; }
+  .docs-tree-folder-row { display: flex; align-items: center; gap: 8px; padding: 8px 18px; cursor: pointer; transition: background 0.15s; color: var(--ink-mid); }
+  .docs-tree-folder-row:hover { background: white; color: var(--ink); }
+  .docs-tree-folder-row.active { background: white; color: var(--ink); font-weight: 600; box-shadow: inset 3px 0 0 var(--gold); }
+  .docs-tree-folder-row svg { flex-shrink: 0; color: var(--ink-faint); }
+  .docs-tree-folder-row.active svg { color: var(--gold); }
+  .docs-tree-folder-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .docs-tree-folder-count { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+
+  .docs-content { padding: 28px; overflow-y: auto; }
+  .docs-content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+  .docs-content-title { font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .docs-content-title small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; font-weight: 400; }
+  .docs-content-actions { display: flex; gap: 8px; }
+  .docs-content-action { background: white; color: var(--ink-mid); border: 1.5px solid var(--line); padding: 8px 14px; border-radius: 8px; font-family: var(--display); font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  .docs-content-action:hover { border-color: var(--ink); color: var(--ink); }
+  .docs-content-action.primary { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .docs-files { list-style: none; }
+  .docs-file-row { display: grid; grid-template-columns: 32px 1fr auto auto auto; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
+  .docs-file-row:last-child { border-bottom: none; }
+  .docs-file-icon { color: var(--ink-faint); }
+  .docs-file-name { font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 500; }
+  .docs-file-name small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 1px; font-weight: 400; }
+  .docs-file-size { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); }
+  .docs-file-date { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); }
+  .docs-file-action { background: transparent; border: none; color: var(--ink-faint); cursor: pointer; padding: 6px; border-radius: 4px; }
+  .docs-file-action:hover { color: var(--ink); background: var(--paper-cool); }
+
+  .docs-empty-folder { padding: 64px 24px; text-align: center; color: var(--ink-faint); font-family: var(--display); font-size: 13px; }
+
+  @media (max-width: 880px) { .docs-browser { grid-template-columns: 1fr; min-height: auto; } .docs-tree { border-right: none; border-bottom: 1px solid var(--line-soft); max-height: 200px; } }
+
+  /* ============ STEP 5: FERTIG ============ */
+  .summary-hero { background: linear-gradient(135deg, var(--ink), var(--black-soft)); color: white; border-radius: 14px; padding: 48px 40px; max-width: 760px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .summary-hero::before { content: ""; position: absolute; top: -50%; right: -20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(245,165,36,0.2), transparent 70%); pointer-events: none; }
+  .summary-hero-content { position: relative; z-index: 1; }
+  .summary-hero-icon { width: 68px; height: 68px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; color: var(--black); box-shadow: 0 12px 28px rgba(245,165,36,0.25); }
+  .summary-hero h2 { font-family: var(--display); font-size: 30px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 10px; line-height: 1.1; }
+  .summary-hero p { font-family: var(--display); font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.55; max-width: 520px; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 760px; margin-bottom: 24px; }
+  @media (max-width: 700px) { .summary-grid { grid-template-columns: 1fr; } }
+  .summary-card { background: white; border-radius: 10px; border: 1px solid var(--line-soft); padding: 20px 22px; }
+  .summary-card-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--gold-deep); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .summary-card-eyebrow svg { color: var(--green); }
+  .summary-card-title { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 4px; }
+  .summary-card-detail { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); line-height: 1.5; letter-spacing: 0.02em; }
+  .summary-card.skipped { background: var(--paper-warm); border-style: dashed; }
+  .summary-card.skipped .summary-card-eyebrow { color: var(--ink-mute); }
+  .summary-card.skipped .summary-card-eyebrow svg { color: var(--ink-faint); }
+
+  .summary-cta { background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 14px; padding: 28px 32px; max-width: 760px; margin-bottom: 24px; display: flex; align-items: center; gap: 22px; }
+  .summary-cta-text { flex: 1; min-width: 0; }
+  .summary-cta-text strong { display: block; font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; margin-bottom: 4px; }
+  .summary-cta-text p { font-family: var(--display); font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+  .btn-go-dashboard { background: var(--ink); color: white; border: none; padding: 14px 26px; border-radius: 10px; font-family: var(--display); font-size: 15px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; transition: all 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .btn-go-dashboard:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.15); background: var(--black-soft); }
+  @media (max-width: 700px) { .summary-cta { flex-direction: column; align-items: stretch; } .btn-go-dashboard { justify-content: center; } }
+
 </style>
 </head>
 <body>
@@ -507,24 +651,224 @@
     </section>
 
     <section class="ob-step-screen" data-step="3">
-      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 3 von 5 — Team</div><h1 class="ob-screen-title">Kollegen einladen</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — User-Limit gemäß Plan, Rollen, Mock-Einladungs-Mail.</p></div>
-      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Team-Verwaltung kommt im nächsten Schritt</h3><p>Hier können Sie demnächst Kollegen einladen, Rollen vergeben und das Team-Limit Ihres Plans nutzen.</p></div>
-      <div class="ob-step-footer"><button type="button" class="btn btn-secondary" data-goto="2">Zurück</button><button type="button" class="btn btn-skip" data-goto="4">Vorerst überspringen</button></div>
+      <div class="ob-screen-header">
+        <div class="ob-eyebrow">Schritt 3 von 5 — Team</div>
+        <h1 class="ob-screen-title">Kollegen einladen</h1>
+        <p class="ob-screen-subtitle">Laden Sie Vertriebsmitarbeiter:innen oder Geschäftsführung ein. Jede Person bekommt eine eigene Anmeldung und arbeitet im selben Workspace.</p>
+      </div>
+
+      <div class="team-card">
+        <div class="plan-info-row">
+          <div class="plan-info-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="plan-info-text">
+            <strong id="plan-name-display">Business-Plan</strong>
+            <small id="plan-detail-display">Bis zu 5 Nutzer · monatliche Abrechnung</small>
+          </div>
+          <div class="plan-info-counter" id="user-counter">1 / 5</div>
+        </div>
+
+        <ul class="team-list" id="team-list">
+          <!-- via JS -->
+        </ul>
+
+        <div class="invite-form">
+          <div class="form-field">
+            <label class="form-label" for="invite-email">E-Mail-Adresse</label>
+            <input type="email" class="form-input" id="invite-email" placeholder="kollege@firma.de" autocomplete="off">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="invite-name">Name</label>
+            <input type="text" class="form-input" id="invite-name" placeholder="Max Mustermann">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="invite-role">Rolle</label>
+            <select class="form-select" id="invite-role">
+              <option value="vertrieb">Vertriebler</option>
+              <option value="admin">Teamleiter (Admin)</option>
+              <option value="betrachter">Betrachter (read-only)</option>
+            </select>
+          </div>
+          <button type="button" class="btn-invite" id="btn-send-invite">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Einladen
+          </button>
+        </div>
+      </div>
+
+      <div class="team-card" style="background: var(--paper-warm); border-style: dashed;">
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+          <div style="flex-shrink: 0; width: 32px; height: 32px; background: var(--paper-cool); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--ink-mute);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div>
+            <div style="font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; margin-bottom: 4px;">Was bedeuten die Rollen?</div>
+            <div style="font-family: var(--display); font-size: 13px; color: var(--ink-mid); line-height: 1.55;">
+              <strong>Teamleiter</strong> verwalten Plan, Branding, Team und sehen alle Vorgänge.<br>
+              <strong>Vertriebler</strong> erstellen, versenden und tracken eigene Vorgänge.<br>
+              <strong>Betrachter</strong> sehen nur freigegebene Vorgänge — gut für GF oder Buchhaltung.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ob-step-footer">
+        <button type="button" class="btn btn-secondary" data-goto="2">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+          Zurück
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-skip" id="btn-skip-step3">Überspringen</button>
+          <button type="button" class="btn btn-primary" id="btn-complete-step3">
+            Speichern &amp; weiter
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <section class="ob-step-screen" data-step="4">
-      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 4 von 5 — Dokumente</div><h1 class="ob-screen-title">Dokumenten-Bibliothek</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — Datei-Browser mit Tree-Struktur, Drag &amp; Drop, KI-Vorschlag.</p></div>
-      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Dokumenten-Browser kommt im nächsten Schritt</h3><p>Hier können Sie demnächst Ordner anlegen, Dateien hochladen und einen KI-generierten Vorschlag für Beispielstrukturen abrufen.</p></div>
-      <div class="ob-step-footer"><button type="button" class="btn btn-secondary" data-goto="3">Zurück</button><button type="button" class="btn btn-skip" data-goto="5">Vorerst überspringen</button></div>
+      <div class="ob-screen-header">
+        <div class="ob-eyebrow">Schritt 4 von 5 — Dokumente</div>
+        <h1 class="ob-screen-title">Ihre Dokumenten-Bibliothek</h1>
+        <p class="ob-screen-subtitle">Hier landen alle Materialien, die Sie an Kunden senden — Datenblätter, Zertifikate, Vorlagen, Bilder. Wir können einen guten Startpunkt für Sie vorschlagen.</p>
+      </div>
+
+      <!-- Empty state -->
+      <div id="docs-empty-state">
+        <div class="docs-empty-hero">
+          <div class="docs-icon-wrap">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--black);"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Lassen Sie uns einen Startpunkt für Sie schaffen</h3>
+          <p>Unsere KI analysiert Ihre Branche und Ihren Plan und schlägt eine sinnvolle Ordnerstruktur mit Beispiel-Dokumenten vor — für Heizungsbau anders als für Maschinenbau oder SaaS.</p>
+          <button type="button" class="btn-ai-suggest" id="btn-ai-generate">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            KI-Vorschlag generieren
+          </button>
+          <div class="docs-empty-secondary">oder <a id="link-create-empty">Manuell mit leerer Bibliothek starten</a></div>
+        </div>
+      </div>
+
+      <!-- AI thinking state -->
+      <div class="ai-thinking" id="docs-thinking">
+        <div class="ai-thinking-pulse"></div>
+        <div class="ai-thinking-text">
+          <strong>Erstelle Ihre Dokument-Struktur …</strong><br>
+          <small id="ai-thinking-step">Analysiere Branche und Plan</small>
+        </div>
+      </div>
+
+      <!-- Browser state -->
+      <div id="docs-browser-state" style="display:none;">
+        <div class="docs-browser">
+          <aside class="docs-tree">
+            <div class="docs-tree-header">
+              <strong>Ordner</strong>
+              <button type="button" class="docs-tree-action" id="btn-new-folder" title="Neuer Ordner">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
+            <ul class="docs-tree-list" id="docs-tree-list"><!-- via JS --></ul>
+          </aside>
+          <main class="docs-content">
+            <div class="docs-content-header">
+              <div class="docs-content-title" id="docs-current-title">
+                Auswählen…
+                <small id="docs-current-meta">Klicken Sie auf einen Ordner</small>
+              </div>
+              <div class="docs-content-actions">
+                <button type="button" class="docs-content-action" id="btn-upload-file">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Datei hochladen
+                </button>
+              </div>
+            </div>
+            <ul class="docs-files" id="docs-files-list"><!-- via JS --></ul>
+          </main>
+        </div>
+      </div>
+
+      <div class="ob-step-footer" style="max-width: 1100px;">
+        <button type="button" class="btn btn-secondary" data-goto="3">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+          Zurück
+        </button>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn btn-skip" id="btn-skip-step4">Überspringen</button>
+          <button type="button" class="btn btn-primary" id="btn-complete-step4">
+            Speichern &amp; weiter
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <section class="ob-step-screen" data-step="5">
-      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 5 von 5 — Fertig</div><h1 class="ob-screen-title">Bereit zum Loslegen</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — Übersicht des Setups und Sprung ins Dashboard.</p></div>
-      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Abschluss kommt im nächsten Schritt</h3><p>Hier sehen Sie demnächst eine Zusammenfassung Ihres Setups und gehen direkt ins Dashboard, wo Sie Ihr erstes Angebot anlegen können.</p></div>
-      <div class="ob-step-footer"><button type="button" class="btn btn-secondary" data-goto="4">Zurück</button></div>
+      <div class="ob-screen-header" style="margin-bottom: 28px;">
+        <div class="ob-eyebrow">Schritt 5 von 5 — Fertig</div>
+        <h1 class="ob-screen-title">Ihr Dealfalcon ist startbereit</h1>
+        <p class="ob-screen-subtitle">Glückwunsch! Sie können jetzt Ihren ersten Vorgang anlegen und an Ihre Kunden versenden.</p>
+      </div>
+
+      <div class="summary-hero">
+        <div class="summary-hero-content">
+          <div class="summary-hero-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <h2 id="summary-greeting">Setup abgeschlossen</h2>
+          <p id="summary-message">Alles ist eingerichtet — Ihr Workspace ist bereit für den ersten Kunden.</p>
+        </div>
+      </div>
+
+      <div class="summary-grid" id="summary-cards">
+        <!-- via JS gefüllt -->
+      </div>
+
+      <div class="summary-cta">
+        <div class="summary-cta-text">
+          <strong>Bereit für Ihren ersten Vorgang?</strong>
+          <p>Im Dashboard können Sie jetzt einen Kunden anlegen, ein Angebot zusammenstellen und als Microsite versenden.</p>
+        </div>
+        <button type="button" class="btn-go-dashboard" id="btn-go-dashboard">
+          Zum Dashboard
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+        </button>
+      </div>
+
+      <div class="ob-step-footer">
+        <button type="button" class="btn btn-secondary" data-goto="4">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+          Zurück
+        </button>
+      </div>
     </section>
 
   </main>
+</div>
+
+
+<!-- Mock-Einladungs-Mail Modal -->
+<div class="invite-mail-modal" id="invite-mail-modal">
+  <div class="invite-mail-card">
+    <div class="invite-mail-header">
+      <strong>📧 Einladungs-E-Mail (Vorschau)</strong>
+      <button type="button" class="close-btn" id="btn-close-mail-modal">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="invite-mail-meta">
+      <div class="invite-mail-meta-row"><span>Von</span><span id="mail-from">noreply@dealfalcon.app</span></div>
+      <div class="invite-mail-meta-row"><span>An</span><span id="mail-to">…</span></div>
+      <div class="invite-mail-meta-row"><span>Betreff</span><span id="mail-subject">…</span></div>
+    </div>
+    <div class="invite-mail-body" id="mail-body"></div>
+    <div class="invite-mail-footer">
+      <span>Demo · Mail wird nicht wirklich versendet</span>
+      <span>Dealfalcon GmbH</span>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
@@ -955,6 +1299,524 @@
     setTimeout(function() { goToStep(3); }, 400);
   }
 
+  // ============ STEP 3: TEAM ============
+  var PLAN_LIMITS = {
+    solo: { max: 1, name: 'Solo-Plan', detail: '1 Nutzer · monatliche Abrechnung' },
+    team: { max: 3, name: 'Team-Plan', detail: 'Bis zu 3 Nutzer · monatliche Abrechnung' },
+    business: { max: 5, name: 'Business-Plan', detail: 'Bis zu 5 Nutzer · monatliche Abrechnung' },
+    pro: { max: 10, name: 'Pro-Plan', detail: 'Bis zu 10 Nutzer · monatliche Abrechnung' },
+    enterprise: { max: 999, name: 'Enterprise-Plan', detail: 'Unbegrenzt Nutzer · individuell' }
+  };
+
+  function getPlanInfo() {
+    var signup = loadJSON(KEYS.signup, {});
+    var planId = (signup.plan || 'business').toLowerCase();
+    return PLAN_LIMITS[planId] || PLAN_LIMITS.business;
+  }
+
+  function loadTeam() {
+    var account = loadJSON(KEYS.account, null);
+    var team = loadJSON(KEYS.team, null);
+    if (team && team.members) return team;
+
+    // Default: Self-Eintrag aus Account
+    var self = {
+      id: 'self',
+      email: (account && account.email) || 'demo@dealfalcon.app',
+      name: (account && account.name) || extractNameFromEmail((account && account.email) || ''),
+      role: 'admin',
+      status: 'self',
+      addedAt: Date.now()
+    };
+    var initial = { members: [self] };
+    saveJSON(KEYS.team, initial);
+    return initial;
+  }
+
+  function extractNameFromEmail(email) {
+    if (!email) return 'Sie';
+    var local = email.split('@')[0];
+    return local.split(/[.\-_]/).map(function(p) { return p.charAt(0).toUpperCase() + p.slice(1); }).join(' ');
+  }
+
+  function getInitials(name) {
+    if (!name) return '?';
+    var parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+  }
+
+  function renderTeamUI() {
+    var planInfo = getPlanInfo();
+    var team = loadTeam();
+    var planEl = document.getElementById('plan-name-display');
+    var detailEl = document.getElementById('plan-detail-display');
+    var counterEl = document.getElementById('user-counter');
+    if (planEl) planEl.textContent = planInfo.name;
+    if (detailEl) detailEl.textContent = planInfo.detail;
+    if (counterEl) counterEl.textContent = team.members.length + ' / ' + (planInfo.max === 999 ? '∞' : planInfo.max);
+
+    var listEl = document.getElementById('team-list');
+    if (!listEl) return;
+
+    var ROLE_LABELS = { admin: 'Teamleiter', vertrieb: 'Vertriebler', betrachter: 'Betrachter' };
+    var STATUS_LABELS = { self: 'Sie', active: 'Aktiv', pending: 'Einladung versendet' };
+
+    listEl.innerHTML = team.members.map(function(m) {
+      var isSelf = m.status === 'self';
+      var isPending = m.status === 'pending';
+      var avatarClass = isSelf ? 'is-self' : (isPending ? 'is-pending' : '');
+      var statusClass = isPending ? 'pending' : '';
+      var removeBtn = isSelf ? '' :
+        '<button type="button" class="team-remove" data-remove-id="' + m.id + '" title="Entfernen">' +
+          '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>' +
+        '</button>';
+
+      return '<li class="team-row">' +
+        '<div class="team-avatar ' + avatarClass + '">' + getInitials(m.name) + '</div>' +
+        '<div class="team-info">' +
+          '<div class="team-info-name">' + escapeHtml(m.name) + (isSelf ? '<span class="self-tag">SIE</span>' : '') + '</div>' +
+          '<div class="team-info-email">' + escapeHtml(m.email) + '</div>' +
+        '</div>' +
+        '<span class="team-role-pill role-' + m.role + '">' + (ROLE_LABELS[m.role] || m.role) + '</span>' +
+        '<span class="team-status ' + statusClass + '">' + (STATUS_LABELS[m.status] || m.status) + '</span>' +
+        removeBtn +
+      '</li>';
+    }).join('');
+
+    // Bind remove buttons
+    listEl.querySelectorAll('[data-remove-id]').forEach(function(btn) {
+      btn.addEventListener('click', function() { removeTeamMember(btn.dataset.removeId); });
+    });
+
+    // Disable invite button bei vollem Team
+    var inviteBtn = document.getElementById('btn-send-invite');
+    if (inviteBtn) {
+      var atLimit = team.members.length >= planInfo.max;
+      inviteBtn.disabled = atLimit;
+      inviteBtn.title = atLimit ? 'User-Limit erreicht — bitte Plan upgraden' : '';
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function sendInvite() {
+    var emailEl = document.getElementById('invite-email');
+    var nameEl = document.getElementById('invite-name');
+    var roleEl = document.getElementById('invite-role');
+    if (!emailEl || !nameEl || !roleEl) return;
+
+    var email = (emailEl.value || '').trim();
+    var name = (nameEl.value || '').trim();
+    var role = roleEl.value;
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailEl.classList.add('invalid');
+      showToast('Bitte gültige E-Mail eingeben.', 'error');
+      emailEl.focus();
+      return;
+    }
+    if (!name) {
+      nameEl.classList.add('invalid');
+      showToast('Bitte Name eingeben.', 'error');
+      nameEl.focus();
+      return;
+    }
+    emailEl.classList.remove('invalid');
+    nameEl.classList.remove('invalid');
+
+    var team = loadTeam();
+    var planInfo = getPlanInfo();
+
+    // Limit-Check
+    if (team.members.length >= planInfo.max) {
+      showToast('User-Limit erreicht. Plan upgraden für mehr.', 'error');
+      return;
+    }
+
+    // Duplicate-Check
+    var exists = team.members.some(function(m) { return m.email.toLowerCase() === email.toLowerCase(); });
+    if (exists) {
+      showToast('Diese E-Mail ist bereits im Team.', 'error');
+      return;
+    }
+
+    var newMember = {
+      id: 'm_' + Date.now(),
+      email: email,
+      name: name,
+      role: role,
+      status: 'pending',
+      addedAt: Date.now()
+    };
+    team.members.push(newMember);
+    saveJSON(KEYS.team, team);
+
+    // Form leeren
+    emailEl.value = '';
+    nameEl.value = '';
+    roleEl.value = 'vertrieb';
+
+    renderTeamUI();
+    showInviteMailPreview(newMember);
+  }
+
+  function removeTeamMember(id) {
+    if (!confirm('Person aus dem Team entfernen?')) return;
+    var team = loadTeam();
+    team.members = team.members.filter(function(m) { return m.id !== id; });
+    saveJSON(KEYS.team, team);
+    renderTeamUI();
+    showToast('Mitglied entfernt.', 'success');
+  }
+
+  function showInviteMailPreview(member) {
+    var account = loadJSON(KEYS.account, null);
+    var company = loadJSON(KEYS.company, {});
+    var inviterName = (account && account.name) || extractNameFromEmail((account && account.email) || '');
+    var companyName = company['c-company'] || 'Ihrem Workspace';
+
+    var ROLE_DESC = {
+      admin: 'als <strong>Teamleiter:in</strong> mit vollem Zugriff',
+      vertrieb: 'als <strong>Vertriebler:in</strong>',
+      betrachter: 'als <strong>Betrachter:in</strong> (nur Leserechte)'
+    };
+
+    document.getElementById('mail-to').textContent = member.email;
+    document.getElementById('mail-subject').textContent = inviterName + ' hat Sie zu ' + companyName + ' auf Dealfalcon eingeladen';
+    document.getElementById('mail-body').innerHTML =
+      '<h2>Hallo ' + escapeHtml(member.name.split(' ')[0]) + ',</h2>' +
+      '<p>' + escapeHtml(inviterName) + ' hat Sie eingeladen, ' + ROLE_DESC[member.role] + ' bei <strong>' + escapeHtml(companyName) + '</strong> auf Dealfalcon mitzuwirken.</p>' +
+      '<p>Mit Dealfalcon versenden Sie Angebote als personalisierte Microsites — sehen, wer wann öffnet, und schließen schneller ab.</p>' +
+      '<a class="accept-button" href="#">Einladung annehmen</a>' +
+      '<p style="font-size: 12px; color: #6e6e73; margin-top: 20px;">Sie haben diese E-Mail erhalten, weil Sie zu einem Workspace eingeladen wurden. Falls dies ein Fehler war, ignorieren Sie diese E-Mail einfach.</p>';
+
+    document.getElementById('invite-mail-modal').classList.add('open');
+  }
+
+  function closeInviteMailModal() {
+    document.getElementById('invite-mail-modal').classList.remove('open');
+  }
+
+  function completeStep3() {
+    markStepDone(3);
+    showToast('Team gespeichert.', 'success');
+    setTimeout(function() { goToStep(4); }, 400);
+  }
+
+  // ============ STEP 4: DOCUMENTS ============
+  // Branchen-spezifische Vorschläge basierend auf der Adresse / dem Namen
+  function buildAISuggestion() {
+    var company = loadJSON(KEYS.company, {});
+    var name = (company['c-company'] || '').toLowerCase();
+
+    // Heuristik
+    var industry = 'general';
+    if (/heiz|sanit|haust|shk|installat/i.test(name)) industry = 'shk';
+    else if (/maschin|metall|fertig|industrie|cnc/i.test(name)) industry = 'maschinenbau';
+    else if (/agentur|design|marketing|werb/i.test(name)) industry = 'agentur';
+
+    var SUGGESTIONS = {
+      shk: {
+        folders: [
+          { id: 'angebote', name: 'Vorlagen Angebote', icon: 'folder', files: [
+            { name: 'Heizungssanierung_Vorlage.pdf', size: '1.2 MB', date: 'Heute', type: 'pdf' },
+            { name: 'Wartungsvertrag_Standard.docx', size: '88 KB', date: 'Heute', type: 'doc' }
+          ]},
+          { id: 'datenblaetter', name: 'Hersteller-Datenblätter', icon: 'folder', files: [
+            { name: 'Viessmann_Vitocal_250-A.pdf', size: '4.8 MB', date: 'Heute', type: 'pdf' },
+            { name: 'Buderus_Logaplus_W6.pdf', size: '3.1 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'foerder', name: 'Förder-Dokumente', icon: 'folder', files: [
+            { name: 'BAFA_Antrag_Wärmepumpe.pdf', size: '320 KB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'zertifikate', name: 'Zertifikate & Nachweise', icon: 'folder', files: [
+            { name: 'Meisterurkunde_SHK.pdf', size: '180 KB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'bilder', name: 'Referenz-Bilder', icon: 'folder', files: [] }
+        ]
+      },
+      maschinenbau: {
+        folders: [
+          { id: 'angebote', name: 'Vorlagen Angebote', icon: 'folder', files: [
+            { name: 'Sondermaschine_Angebot_Vorlage.pdf', size: '2.1 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'datenblaetter', name: 'Komponenten-Datenblätter', icon: 'folder', files: [
+            { name: 'Servomotor_Spezifikation.pdf', size: '1.8 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'cad', name: 'CAD & Zeichnungen', icon: 'folder', files: [] },
+          { id: 'zertifikate', name: 'CE & Zertifikate', icon: 'folder', files: [
+            { name: 'CE_Konformität_Standard.pdf', size: '240 KB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'referenzen', name: 'Referenz-Projekte', icon: 'folder', files: [] }
+        ]
+      },
+      agentur: {
+        folders: [
+          { id: 'angebote', name: 'Vorlagen Angebote', icon: 'folder', files: [
+            { name: 'Branding_Paket_Standard.pdf', size: '890 KB', date: 'Heute', type: 'pdf' },
+            { name: 'Web_Design_Angebot.pdf', size: '1.4 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'cases', name: 'Case Studies', icon: 'folder', files: [] },
+          { id: 'praesi', name: 'Präsentationen', icon: 'folder', files: [
+            { name: 'Agentur-Vorstellung_2026.pdf', size: '5.2 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'team', name: 'Team & Methoden', icon: 'folder', files: [] }
+        ]
+      },
+      general: {
+        folders: [
+          { id: 'angebote', name: 'Vorlagen Angebote', icon: 'folder', files: [
+            { name: 'Standard_Angebot.docx', size: '64 KB', date: 'Heute', type: 'doc' }
+          ]},
+          { id: 'unternehmen', name: 'Unternehmens-Material', icon: 'folder', files: [
+            { name: 'Firmenpräsentation.pdf', size: '2.4 MB', date: 'Heute', type: 'pdf' }
+          ]},
+          { id: 'zertifikate', name: 'Zertifikate', icon: 'folder', files: [] },
+          { id: 'agb', name: 'AGB & Verträge', icon: 'folder', files: [
+            { name: 'AGB_Stand_2026.pdf', size: '180 KB', date: 'Heute', type: 'pdf' }
+          ]}
+        ]
+      }
+    };
+
+    return { industry: industry, structure: SUGGESTIONS[industry] };
+  }
+
+  function generateAIDocs() {
+    var emptyState = document.getElementById('docs-empty-state');
+    var thinking = document.getElementById('docs-thinking');
+    var browser = document.getElementById('docs-browser-state');
+    var thinkingStep = document.getElementById('ai-thinking-step');
+
+    emptyState.style.display = 'none';
+    thinking.classList.add('show');
+
+    var steps = [
+      'Analysiere Branche und Plan',
+      'Erstelle passende Ordnerstruktur',
+      'Generiere Beispiel-Dokumente',
+      'Fast fertig …'
+    ];
+    var i = 0;
+    var interval = setInterval(function() {
+      i++;
+      if (i < steps.length) {
+        thinkingStep.textContent = steps[i];
+      } else {
+        clearInterval(interval);
+        thinking.classList.remove('show');
+        var suggestion = buildAISuggestion();
+        var docs = { folders: suggestion.structure.folders, currentFolderId: suggestion.structure.folders[0].id };
+        saveJSON(KEYS.documents, docs);
+        browser.style.display = 'block';
+        renderDocsBrowser();
+        showToast('Vorschlag erstellt — ' + suggestion.structure.folders.length + ' Ordner angelegt.', 'success');
+      }
+    }, 700);
+  }
+
+  function startEmptyDocs() {
+    var emptyState = document.getElementById('docs-empty-state');
+    var browser = document.getElementById('docs-browser-state');
+    var docs = { folders: [{ id: 'general', name: 'Allgemein', icon: 'folder', files: [] }], currentFolderId: 'general' };
+    saveJSON(KEYS.documents, docs);
+    emptyState.style.display = 'none';
+    browser.style.display = 'block';
+    renderDocsBrowser();
+  }
+
+  function renderDocsBrowser() {
+    var docs = loadJSON(KEYS.documents, null);
+    if (!docs || !docs.folders) return;
+
+    // Tree
+    var treeEl = document.getElementById('docs-tree-list');
+    if (treeEl) {
+      treeEl.innerHTML = docs.folders.map(function(f) {
+        var active = f.id === docs.currentFolderId ? 'active' : '';
+        return '<li class="docs-tree-folder">' +
+          '<div class="docs-tree-folder-row ' + active + '" data-folder-id="' + f.id + '">' +
+            '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>' +
+            '<span class="docs-tree-folder-name">' + escapeHtml(f.name) + '</span>' +
+            '<span class="docs-tree-folder-count">' + f.files.length + '</span>' +
+          '</div>' +
+        '</li>';
+      }).join('');
+
+      treeEl.querySelectorAll('[data-folder-id]').forEach(function(row) {
+        row.addEventListener('click', function() {
+          var d = loadJSON(KEYS.documents, {});
+          d.currentFolderId = row.dataset.folderId;
+          saveJSON(KEYS.documents, d);
+          renderDocsBrowser();
+        });
+      });
+    }
+
+    // Content
+    var current = docs.folders.find(function(f) { return f.id === docs.currentFolderId; }) || docs.folders[0];
+    var titleEl = document.getElementById('docs-current-title');
+    var metaEl = document.getElementById('docs-current-meta');
+    var filesEl = document.getElementById('docs-files-list');
+
+    if (titleEl) {
+      // Innen-HTML neu setzen, damit der Name gesetzt UND der <small>-Counter erhalten bleibt
+      titleEl.innerHTML = escapeHtml(current.name) + '<small id="docs-current-meta">' + current.files.length + ' ' + (current.files.length === 1 ? 'Datei' : 'Dateien') + '</small>';
+    }
+
+    if (filesEl) {
+      if (current.files.length === 0) {
+        filesEl.innerHTML = '<li class="docs-empty-folder">Dieser Ordner ist leer.<br>Klicken Sie auf „Datei hochladen" oder ziehen Sie Dateien hierher.</li>';
+      } else {
+        var FILE_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>';
+        filesEl.innerHTML = current.files.map(function(file) {
+          var typeLabel = (file.type || 'file').toUpperCase();
+          return '<li class="docs-file-row">' +
+            '<div class="docs-file-icon">' + FILE_ICON + '</div>' +
+            '<div class="docs-file-name">' + escapeHtml(file.name) + '<small>' + typeLabel + '</small></div>' +
+            '<div class="docs-file-size">' + escapeHtml(file.size) + '</div>' +
+            '<div class="docs-file-date">' + escapeHtml(file.date) + '</div>' +
+            '<button type="button" class="docs-file-action" title="Mehr">' +
+              '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>' +
+            '</button>' +
+          '</li>';
+        }).join('');
+      }
+    }
+  }
+
+  function restoreDocsState() {
+    var docs = loadJSON(KEYS.documents, null);
+    if (!docs || !docs.folders || docs.folders.length === 0) {
+      // Empty state behalten
+      return;
+    }
+    document.getElementById('docs-empty-state').style.display = 'none';
+    document.getElementById('docs-browser-state').style.display = 'block';
+    renderDocsBrowser();
+  }
+
+  function addNewFolder() {
+    var name = prompt('Name des neuen Ordners:');
+    if (!name || !name.trim()) return;
+    var docs = loadJSON(KEYS.documents, { folders: [] });
+    var id = 'f_' + Date.now();
+    docs.folders.push({ id: id, name: name.trim(), icon: 'folder', files: [] });
+    docs.currentFolderId = id;
+    saveJSON(KEYS.documents, docs);
+    renderDocsBrowser();
+    showToast('Ordner angelegt.', 'success');
+  }
+
+  function uploadDemoFile() {
+    var docs = loadJSON(KEYS.documents, null);
+    if (!docs || !docs.folders.length) return;
+    var current = docs.folders.find(function(f) { return f.id === docs.currentFolderId; });
+    if (!current) return;
+    var name = prompt('Dateiname (Demo — keine echte Datei):', 'Mein_Dokument.pdf');
+    if (!name) return;
+    current.files.push({ name: name, size: '— KB', date: 'Heute', type: name.split('.').pop() });
+    saveJSON(KEYS.documents, docs);
+    renderDocsBrowser();
+    showToast('Datei hinzugefügt.', 'success');
+  }
+
+  function completeStep4() {
+    markStepDone(4);
+    showToast('Dokumente gespeichert.', 'success');
+    setTimeout(function() { goToStep(5); }, 400);
+  }
+
+  // ============ STEP 5: FERTIG ============
+  function renderSummary() {
+    var account = loadJSON(KEYS.account, null);
+    var company = loadJSON(KEYS.company, {});
+    var brand = loadJSON(KEYS.brand, {});
+    var team = loadTeam();
+    var docs = loadJSON(KEYS.documents, null);
+    var status = loadStatus();
+    var planInfo = getPlanInfo();
+
+    var firstName = '';
+    if (account && account.name) firstName = account.name.split(' ')[0];
+    else if (account && account.email) firstName = extractNameFromEmail(account.email).split(' ')[0];
+
+    var greetingEl = document.getElementById('summary-greeting');
+    var msgEl = document.getElementById('summary-message');
+    if (greetingEl) greetingEl.textContent = firstName ? ('Geschafft, ' + firstName + '!') : 'Geschafft!';
+    if (msgEl) msgEl.textContent = 'Ihr ' + planInfo.name + ' ist eingerichtet — Sie können sofort mit Ihrem ersten Vorgang starten.';
+
+    var cards = [];
+
+    // Firmendaten
+    var hasCompany = status.stepsDone.indexOf(1) !== -1 || (company['c-company'] && company['c-company'].length > 0);
+    cards.push({
+      done: hasCompany,
+      eyebrow: 'Firmendaten',
+      title: hasCompany ? (company['c-company'] || 'Erfasst') : 'Übersprungen',
+      detail: hasCompany ? ((company['c-street'] || '') + ' · ' + (company['c-zip'] || '') + ' ' + (company['c-city'] || '')).trim() : 'Können Sie später ergänzen'
+    });
+
+    // Erscheinung
+    var hasBrand = status.stepsDone.indexOf(2) !== -1;
+    var brandDetail = '3 Brand-Farben gewählt';
+    if (brand.logo) brandDetail = 'Logo hochgeladen · ' + brandDetail;
+    if (brand.sections && Object.keys(brand.sections).length > 0) {
+      brandDetail += ' · ' + Object.keys(brand.sections).length + ' Sektionen angepasst';
+    }
+    cards.push({
+      done: hasBrand,
+      eyebrow: 'Erscheinung',
+      title: hasBrand ? 'Microsite gestaltet' : 'Übersprungen',
+      detail: hasBrand ? brandDetail : 'Standard-Design wird verwendet'
+    });
+
+    // Team
+    var pendingCount = team.members.filter(function(m) { return m.status === 'pending'; }).length;
+    var hasTeam = status.stepsDone.indexOf(3) !== -1;
+    cards.push({
+      done: hasTeam || team.members.length > 1,
+      eyebrow: 'Team',
+      title: team.members.length === 1 ? 'Nur Sie' : (team.members.length + ' Mitglieder'),
+      detail: pendingCount > 0 ? (pendingCount + ' Einladung' + (pendingCount > 1 ? 'en' : '') + ' ausstehend') : 'Bereit für Vorgänge'
+    });
+
+    // Dokumente
+    var hasDocs = docs && docs.folders && docs.folders.length > 0;
+    var totalFiles = hasDocs ? docs.folders.reduce(function(sum, f) { return sum + f.files.length; }, 0) : 0;
+    cards.push({
+      done: status.stepsDone.indexOf(4) !== -1 || hasDocs,
+      eyebrow: 'Dokumente',
+      title: hasDocs ? (docs.folders.length + ' Ordner · ' + totalFiles + ' Dateien') : 'Übersprungen',
+      detail: hasDocs ? 'Bereit zur Verwendung in Microsites' : 'Können Sie später anlegen'
+    });
+
+    var checkSvg = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>';
+    var dashSvg = '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+
+    var grid = document.getElementById('summary-cards');
+    if (grid) {
+      grid.innerHTML = cards.map(function(c) {
+        var skipClass = c.done ? '' : 'skipped';
+        var icon = c.done ? checkSvg : dashSvg;
+        return '<div class="summary-card ' + skipClass + '">' +
+          '<div class="summary-card-eyebrow">' + icon + c.eyebrow + '</div>' +
+          '<div class="summary-card-title">' + escapeHtml(c.title) + '</div>' +
+          '<div class="summary-card-detail">' + escapeHtml(c.detail) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+
+  function goToDashboard() {
+    markStepDone(5);
+    showToast('Willkommen im Dashboard!', 'success');
+    setTimeout(function() { window.location.href = '/app/dashboard'; }, 600);
+  }
+
   // ============ NAVIGATION ============
   function goToStep(n) {
     if (n < 1 || n > TOTAL_STEPS) return;
@@ -966,6 +1828,10 @@
     document.querySelectorAll('.ob-step-item').forEach(function(item) {
       item.classList.toggle('active', parseInt(item.dataset.step, 10) === n);
     });
+    // Step-spezifische Renderer
+    if (n === 3) renderTeamUI();
+    if (n === 4) restoreDocsState();
+    if (n === 5) renderSummary();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     updateSidebarStatus();
   }
@@ -1144,6 +2010,50 @@
     // Reset link
     var resetLink = document.getElementById('reset-onboarding-link');
     if (resetLink) resetLink.addEventListener('click', resetOnboarding);
+
+    // ============ STEP 3 BINDINGS ============
+    var btnSendInvite = document.getElementById('btn-send-invite');
+    var btnSkipStep3 = document.getElementById('btn-skip-step3');
+    var btnCompleteStep3 = document.getElementById('btn-complete-step3');
+    var btnCloseMail = document.getElementById('btn-close-mail-modal');
+    if (btnSendInvite) btnSendInvite.addEventListener('click', sendInvite);
+    if (btnSkipStep3) btnSkipStep3.addEventListener('click', function() { goToStep(4); });
+    if (btnCompleteStep3) btnCompleteStep3.addEventListener('click', completeStep3);
+    if (btnCloseMail) btnCloseMail.addEventListener('click', closeInviteMailModal);
+
+    // Mail-Modal: Klick auf Backdrop schließt
+    var mailModal = document.getElementById('invite-mail-modal');
+    if (mailModal) {
+      mailModal.addEventListener('click', function(e) {
+        if (e.target === mailModal) closeInviteMailModal();
+      });
+    }
+
+    // Enter im Invite-Form sendet ab
+    ['invite-email', 'invite-name'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); sendInvite(); }
+      });
+    });
+
+    // ============ STEP 4 BINDINGS ============
+    var btnAIGenerate = document.getElementById('btn-ai-generate');
+    var linkCreateEmpty = document.getElementById('link-create-empty');
+    var btnNewFolder = document.getElementById('btn-new-folder');
+    var btnUploadFile = document.getElementById('btn-upload-file');
+    var btnSkipStep4 = document.getElementById('btn-skip-step4');
+    var btnCompleteStep4 = document.getElementById('btn-complete-step4');
+    if (btnAIGenerate) btnAIGenerate.addEventListener('click', generateAIDocs);
+    if (linkCreateEmpty) linkCreateEmpty.addEventListener('click', startEmptyDocs);
+    if (btnNewFolder) btnNewFolder.addEventListener('click', addNewFolder);
+    if (btnUploadFile) btnUploadFile.addEventListener('click', uploadDemoFile);
+    if (btnSkipStep4) btnSkipStep4.addEventListener('click', function() { goToStep(5); });
+    if (btnCompleteStep4) btnCompleteStep4.addEventListener('click', completeStep4);
+
+    // ============ STEP 5 BINDINGS ============
+    var btnGoDashboard = document.getElementById('btn-go-dashboard');
+    if (btnGoDashboard) btnGoDashboard.addEventListener('click', goToDashboard);
 
     // Click outside picker = close
     document.addEventListener('click', function(e) {
