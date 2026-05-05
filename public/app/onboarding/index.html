@@ -3,202 +3,533 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dealfalcon — Onboarding (in Vorbereitung)</title>
+<title>Dealfalcon — Onboarding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --black: #0a0a0a; --black-soft: #161616;
+    --gold: #f5a524; --gold-deep: #c97a14; --gold-light: #fbbf24;
+    --ink: #0a0a0a; --ink-strong: #1d1d1f; --ink-mid: #424245; --ink-mute: #6e6e73; --ink-faint: #86868b;
+    --paper: #ffffff; --paper-warm: #fbfbfb; --paper-cool: #f5f5f7;
+    --line: #d2d2d7; --line-soft: #e8e8ed;
+    --green: #16a34a; --green-soft: #dcfce7;
+    --red: #dc2626; --red-soft: #fee2e2;
+    --display: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Geist Mono', 'SF Mono', monospace;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter Tight', sans-serif;
-    background: #f5f5f7;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    color: #1d1d1f;
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--display); color: var(--ink-strong); background: var(--paper-cool); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  /* MINI HEADER */
+  .mini-header { background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 100; }
+  .mini-header-inner { padding: 14px 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .mini-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .mini-logo-icon { width: 38px; height: 38px; }
+  .mini-logo-text { font-family: var(--mono); font-size: 18px; font-weight: 600; letter-spacing: -0.5px; color: white; }
+  .mini-account { display: flex; align-items: center; gap: 14px; color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 12px; }
+  .mini-account strong { color: white; }
+  .mini-logout { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); transition: all 0.15s; }
+  .mini-logout:hover { color: white; border-color: rgba(255,255,255,0.3); }
+
+  /* LAYOUT */
+  .ob-shell { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 64px); }
+  .ob-sidebar { background: white; border-right: 1px solid var(--line-soft); padding: 32px 0; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
+  .ob-sidebar-header { padding: 0 24px 24px; border-bottom: 1px solid var(--line-soft); margin-bottom: 16px; }
+  .ob-sidebar-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+  .ob-sidebar-title { font-family: var(--display); font-size: 19px; font-weight: 700; color: var(--ink); letter-spacing: -0.015em; line-height: 1.2; }
+  .ob-sidebar-progress { margin-top: 12px; background: var(--paper-cool); height: 4px; border-radius: 100px; overflow: hidden; }
+  .ob-sidebar-progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.4s ease-out; width: 0%; }
+  .ob-sidebar-progress-label { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 8px; }
+
+  .ob-step-list { list-style: none; padding: 0 12px; }
+  .ob-step-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-bottom: 2px; }
+  .ob-step-item:hover { background: var(--paper-cool); }
+  .ob-step-item.active { background: linear-gradient(135deg, #fffbf2, #fef3c7); }
+  .ob-step-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); background: white; color: var(--ink-mute); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 600; transition: all 0.15s; margin-top: 2px; }
+  .ob-step-item.active .ob-step-num { background: var(--gold); border-color: var(--gold); color: var(--black); box-shadow: 0 0 0 4px rgba(245,165,36,0.15); }
+  .ob-step-item.done .ob-step-num { background: var(--green); border-color: var(--green); color: white; }
+  .ob-step-info { flex: 1; min-width: 0; }
+  .ob-step-title { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; line-height: 1.3; }
+  .ob-step-meta { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 2px; }
+  .ob-step-item.done .ob-step-meta { color: var(--green); }
+
+  .ob-sidebar-footer { padding: 16px 24px 0; border-top: 1px solid var(--line-soft); margin-top: 24px; }
+  .ob-reset-link { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); text-decoration: none; padding: 8px 0; cursor: pointer; }
+  .ob-reset-link:hover { color: var(--red); }
+
+  /* MAIN */
+  .ob-main { overflow-x: hidden; background: var(--paper-cool); }
+  .ob-step-screen { display: none; padding: 48px 48px 96px; }
+  .ob-step-screen.active { display: block; animation: fadeIn 0.3s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .ob-screen-header { max-width: 760px; margin-bottom: 40px; }
+  .ob-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+  .ob-screen-title { font-family: var(--display); font-size: 36px; font-weight: 700; color: var(--ink); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 14px; }
+  .ob-screen-subtitle { font-family: var(--display); font-size: 16px; color: var(--ink-mid); line-height: 1.55; }
+
+  .ob-card { background: white; border-radius: 14px; padding: 32px; border: 1px solid var(--line-soft); margin-bottom: 24px; max-width: 760px; }
+  .ob-card-title { font-family: var(--display); font-size: 17px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; margin-bottom: 6px; }
+  .ob-card-subtitle { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em; margin-bottom: 22px; }
+
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 4px; }
+  .form-grid.full { grid-template-columns: 1fr; }
+  .form-grid.cols-2-1 { grid-template-columns: 2fr 1fr; }
+  .form-grid + .form-grid { margin-top: 18px; }
+  .form-field { display: flex; flex-direction: column; }
+  .form-label { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; margin-bottom: 6px; }
+  .form-label .req { color: var(--gold-deep); margin-left: 2px; }
+  .form-label .opt { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 6px; }
+  .form-input, .form-select { width: 100%; border: 1.5px solid var(--line); background: white; padding: 11px 14px; border-radius: 8px; font-family: var(--display); font-size: 15px; color: var(--ink); transition: border-color 0.15s, box-shadow 0.15s; }
+  .form-input:focus, .form-select:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(10,10,10,0.06); }
+  .form-input.invalid { border-color: var(--red); background: var(--red-soft); }
+  .form-hint { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 6px; letter-spacing: 0.02em; }
+
+  /* STEP 2 LAYOUT */
+  .appearance-layout { display: grid; grid-template-columns: 380px 1fr; gap: 24px; max-width: none; }
+  .appearance-controls { background: white; border-radius: 14px; border: 1px solid var(--line-soft); padding: 24px; height: fit-content; position: sticky; top: 96px; max-height: calc(100vh - 128px); overflow-y: auto; }
+
+  .controls-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--line-soft); }
+  .controls-block:last-child { border-bottom: none; padding-bottom: 0; }
+  .controls-block-title { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 4px; }
+  .controls-block-subtitle { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; margin-bottom: 14px; }
+
+  /* LOGO UPLOAD */
+  .logo-uploader { border: 2px dashed var(--line); border-radius: 10px; padding: 22px; text-align: center; cursor: pointer; transition: all 0.15s; background: var(--paper-warm); }
+  .logo-uploader:hover { border-color: var(--gold); background: #fffbf2; }
+  .logo-uploader.has-logo { border-style: solid; padding: 14px; }
+  .logo-preview { max-width: 100%; max-height: 60px; margin: 0 auto 8px; display: block; object-fit: contain; }
+  .logo-uploader-label { font-family: var(--display); font-size: 13px; color: var(--ink-mid); font-weight: 500; }
+  .logo-uploader-meta { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 4px; }
+  .logo-actions { display: flex; gap: 6px; margin-top: 8px; justify-content: center; }
+  .logo-action { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); background: transparent; border: none; padding: 4px 8px; cursor: pointer; border-radius: 4px; letter-spacing: 0.04em; }
+  .logo-action:hover { background: var(--paper-cool); color: var(--ink); }
+  .logo-action.danger:hover { color: var(--red); background: var(--red-soft); }
+
+  /* BRAND COLORS */
+  .brand-color-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+  .brand-color-row + .brand-color-row { border-top: 1px solid var(--line-soft); }
+  .brand-color-label { flex: 1; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 500; }
+  .brand-color-label small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); font-weight: 400; margin-top: 1px; }
+  .brand-color-swatch { flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--line); cursor: pointer; position: relative; overflow: hidden; transition: all 0.15s; }
+  .brand-color-swatch:hover { transform: scale(1.05); border-color: var(--ink); }
+  .brand-color-swatch input[type="color"] { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: transparent; cursor: pointer; opacity: 0; }
+  .brand-color-hex { font-family: var(--mono); font-size: 11px; color: var(--ink-mid); width: 78px; text-align: right; }
+
+  .btn-suggest { width: 100%; background: linear-gradient(135deg, var(--ink), var(--ink-strong)); color: white; border: none; padding: 12px; border-radius: 8px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; transition: all 0.15s; }
+  .btn-suggest:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+
+  /* SECTIONS LIST */
+  .sections-list { list-style: none; }
+  .section-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line-soft); border-radius: 8px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s; background: white; }
+  .section-item:hover { border-color: var(--gold); }
+  .section-item.editing { border-color: var(--gold); background: #fffbf2; box-shadow: 0 0 0 3px rgba(245,165,36,0.1); }
+  .section-color-dot { flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--line); }
+  .section-color-dot.has-text { display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; }
+  .section-item-name { flex: 1; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 500; }
+  .section-item-name small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); font-weight: 400; margin-top: 1px; }
+  .section-item-arrow { color: var(--ink-faint); flex-shrink: 0; }
+
+  /* COLOR PICKER */
+  .color-picker-popover { position: fixed; background: white; border: 1px solid var(--line); border-radius: 12px; padding: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 50; min-width: 240px; display: none; }
+  .color-picker-popover.open { display: block; animation: popIn 0.15s ease-out; }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  .picker-title { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+  .picker-quicks { display: flex; gap: 8px; margin-bottom: 24px; }
+  .picker-quick { flex: 1; aspect-ratio: 1; border-radius: 8px; border: 2px solid var(--line); cursor: pointer; transition: all 0.15s; position: relative; }
+  .picker-quick:hover { transform: scale(1.05); }
+  .picker-quick.active { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+  .picker-quick-label { position: absolute; bottom: -16px; left: 0; right: 0; text-align: center; font-family: var(--mono); font-size: 9px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .picker-custom { display: flex; gap: 8px; align-items: center; padding-top: 14px; border-top: 1px solid var(--line-soft); }
+  .picker-custom-swatch { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid var(--line); cursor: pointer; position: relative; overflow: hidden; }
+  .picker-custom-swatch input[type="color"] { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: transparent; cursor: pointer; opacity: 0; }
+  .picker-custom-input { flex: 1; border: 1.5px solid var(--line); border-radius: 6px; padding: 8px 10px; font-family: var(--mono); font-size: 12px; color: var(--ink); }
+  .picker-custom-input:focus { outline: none; border-color: var(--ink); }
+  .picker-actions { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); }
+  .picker-action-btn { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); background: transparent; border: none; cursor: pointer; letter-spacing: 0.04em; padding: 4px 8px; }
+  .picker-action-btn:hover { color: var(--ink); }
+  .picker-action-btn.primary { color: var(--gold-deep); font-weight: 600; }
+
+  /* MICROSITE PREVIEW */
+  .preview-wrap { background: white; border-radius: 14px; border: 1px solid var(--line-soft); overflow: hidden; }
+  .preview-bar { background: var(--ink); color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .preview-bar-eyebrow { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.55); letter-spacing: 0.08em; text-transform: uppercase; }
+  .preview-bar-eyebrow strong { color: white; }
+  .preview-mode-toggle { display: flex; background: rgba(255,255,255,0.08); border-radius: 6px; padding: 2px; }
+  .preview-mode-btn { background: transparent; border: none; color: rgba(255,255,255,0.6); font-family: var(--mono); font-size: 10px; padding: 5px 10px; border-radius: 4px; cursor: pointer; letter-spacing: 0.04em; }
+  .preview-mode-btn.active { background: rgba(255,255,255,0.12); color: white; }
+
+  .mp-frame {
+    --mp-page-bg: #f5f5f7;
+    --mp-hero-bg: #1A2949;
+    --mp-hero-title: #ffffff;
+    --mp-hero-subline: rgba(255,255,255,0.78);
+    --mp-hero-text-soft: rgba(255,255,255,0.6);
+    --mp-banner-bg: #ea7a1f;
+    --mp-banner-text: #ffffff;
+    --mp-versionspill-bg: #1A2949;
+    --mp-versionspill-text: #ffffff;
+    --mp-data-bg: #0a0a0a;
+    --mp-data-text: #ffffff;
+    --mp-data-label: rgba(255,255,255,0.55);
+    --mp-cta-bg: #ffffff;
+    --mp-cta-text: #0a0a0a;
+    --mp-button-bg: #f5a524;
+    --mp-button-text: #0a0a0a;
+    --mp-line: rgba(255,255,255,0.15);
+    background: var(--mp-page-bg);
+    transition: background 0.2s;
   }
-  .stub-card {
-    background: white;
-    border-radius: 16px;
-    padding: 56px 48px;
-    max-width: 540px;
-    text-align: center;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.06);
-    border: 1px solid #e8e8ed;
+
+  .mp-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 28px; background: white; border-bottom: 1px solid #e8e8ed; }
+  .mp-toolbar-left { display: flex; align-items: center; gap: 10px; }
+  .mp-toolbar-logo { width: 36px; height: 36px; background: var(--paper-cool); border: 1.5px solid var(--line); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--ink-mute); font-family: var(--mono); font-size: 11px; font-weight: 700; overflow: hidden; }
+  .mp-toolbar-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .mp-toolbar-text strong { display: block; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; }
+  .mp-toolbar-text small { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; }
+  .mp-toolbar-right { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); display: flex; align-items: center; gap: 6px; }
+  .mp-toolbar-right strong { color: var(--ink); }
+
+  .mp-banner { background: var(--mp-banner-bg); color: var(--mp-banner-text); padding: 12px 28px; font-family: var(--mono); font-size: 12px; text-align: center; letter-spacing: 0.02em; cursor: pointer; }
+  .mp-banner strong { font-weight: 700; }
+
+  .mp-hero { background: var(--mp-hero-bg); color: var(--mp-hero-title); padding: 56px 56px 28px; cursor: pointer; position: relative; }
+  .mp-hero-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mp-hero-text-soft); margin-bottom: 14px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .mp-version-pill { background: var(--mp-versionspill-bg); color: var(--mp-versionspill-text); padding: 5px 12px; border-radius: 100px; font-family: var(--mono); font-size: 11px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+  .mp-hero h1 { font-family: var(--display); font-size: 42px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; color: var(--mp-hero-title); cursor: pointer; margin-bottom: 14px; }
+  .mp-hero-subline { font-family: var(--display); font-size: 16px; line-height: 1.55; color: var(--mp-hero-subline); max-width: 640px; cursor: pointer; margin-bottom: 28px; }
+  .mp-hero-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 20px; border-top: 1px solid var(--mp-line); cursor: pointer; }
+  .mp-hero-meta-block .mp-meta-label { font-family: var(--mono); font-size: 10px; color: var(--mp-hero-text-soft); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .mp-hero-meta-block .mp-meta-value { font-family: var(--display); font-size: 15px; color: var(--mp-hero-title); font-weight: 500; }
+
+  .mp-data { background: var(--mp-data-bg); color: var(--mp-data-text); padding: 36px 56px; cursor: pointer; }
+  .mp-data-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .mp-data-block .mp-data-label { font-family: var(--mono); font-size: 10px; color: var(--mp-data-label); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .mp-data-block .mp-data-value { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--mp-data-text); letter-spacing: -0.02em; }
+  .mp-data-block .mp-data-suffix { font-family: var(--display); font-size: 16px; color: var(--mp-data-label); margin-left: 4px; font-weight: 400; }
+
+  .mp-cta { background: var(--mp-cta-bg); color: var(--mp-cta-text); padding: 48px 56px; text-align: center; cursor: pointer; }
+  .mp-cta h2 { font-family: var(--display); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--mp-cta-text); }
+  .mp-cta p { font-family: var(--display); font-size: 14px; color: var(--mp-cta-text); opacity: 0.65; margin-bottom: 22px; }
+  .mp-cta-button { display: inline-flex; align-items: center; gap: 8px; background: var(--mp-button-bg); color: var(--mp-button-text); padding: 12px 24px; border-radius: 8px; font-family: var(--display); font-size: 14px; font-weight: 600; border: none; cursor: pointer; }
+
+  .mp-section { position: relative; }
+  .mp-frame [data-section]:hover { outline: 2px dashed var(--gold); outline-offset: -4px; }
+  .mp-frame [data-section].editing { outline: 2px solid var(--gold); outline-offset: -4px; }
+  .mp-edit-tag { position: absolute; top: 8px; right: 8px; background: var(--gold); color: var(--black); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 5; }
+  .mp-frame [data-section]:hover .mp-edit-tag, .mp-frame [data-section].editing .mp-edit-tag { opacity: 1; }
+
+  /* FOOTER */
+  .ob-step-footer { max-width: 760px; display: flex; justify-content: space-between; align-items: center; padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--line-soft); }
+  .ob-step-screen[data-step="2"] .ob-step-footer { max-width: none; }
+  .btn { font-family: var(--display); font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; border: none; padding: 12px 22px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+  .btn-secondary { background: white; border: 1.5px solid var(--line); color: var(--ink-mid); }
+  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-primary { background: var(--ink); color: white; }
+  .btn-primary:hover { background: var(--black-soft); transform: translateY(-1px); }
+  .btn-skip { background: transparent; color: var(--ink-mute); font-family: var(--mono); font-size: 12px; border: none; padding: 8px 12px; cursor: pointer; letter-spacing: 0.04em; }
+  .btn-skip:hover { color: var(--ink); }
+
+  .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: white; padding: 14px 22px; border-radius: 10px; font-family: var(--display); font-size: 14px; box-shadow: 0 12px 32px rgba(0,0,0,0.18); transition: transform 0.3s ease-out; z-index: 200; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--red); }
+  .toast.success { background: var(--green); }
+
+  .stub-card { background: white; border: 1px dashed var(--line); border-radius: 14px; padding: 64px 32px; text-align: center; max-width: 760px; }
+  .stub-card h3 { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+  .stub-card p { font-family: var(--display); font-size: 14px; color: var(--ink-mid); line-height: 1.6; max-width: 480px; margin: 0 auto 4px; }
+  .stub-card .badge { display: inline-block; font-family: var(--mono); font-size: 11px; color: var(--gold-deep); background: #fef9c3; padding: 6px 12px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; }
+
+  @media (max-width: 1024px) { .ob-shell { grid-template-columns: 220px 1fr; } .appearance-layout { grid-template-columns: 320px 1fr; } }
+  @media (max-width: 880px) {
+    .ob-shell { grid-template-columns: 1fr; }
+    .ob-sidebar { position: relative; height: auto; padding: 16px 0; }
+    .ob-step-list { display: flex; overflow-x: auto; padding: 0 16px; gap: 8px; }
+    .ob-step-item { flex-shrink: 0; }
+    .ob-sidebar-header, .ob-sidebar-footer { display: none; }
+    .ob-step-screen { padding: 24px 16px 64px; }
+    .ob-screen-title { font-size: 28px; }
+    .form-grid, .form-grid.cols-2-1 { grid-template-columns: 1fr; }
+    .appearance-layout { grid-template-columns: 1fr; }
+    .appearance-controls { position: relative; max-height: none; }
+    .mp-hero, .mp-data, .mp-cta { padding-left: 24px; padding-right: 24px; }
+    .mp-hero h1 { font-size: 28px; }
+    .mp-hero-meta { grid-template-columns: 1fr; gap: 14px; }
+    .mp-data-row { grid-template-columns: 1fr; gap: 18px; }
   }
-  .stub-icon {
-    width: 72px;
-    height: 72px;
-    background: linear-gradient(135deg, #fef9c3, #fbbf24);
-    border-radius: 50%;
-    margin: 0 auto 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #c97a14;
-  }
-  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; line-height: 1.15; }
-  p { font-size: 15px; color: #424245; line-height: 1.55; margin-bottom: 12px; max-width: 460px; margin-left: auto; margin-right: auto; }
-  .account-info {
-    background: #f5f5f7;
-    border-radius: 10px;
-    padding: 18px 22px;
-    margin: 28px auto;
-    text-align: left;
-    max-width: 380px;
-    border: 1px solid #e8e8ed;
-  }
-  .account-info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    font-size: 13px;
-  }
-  .account-info-row:not(:last-child) { border-bottom: 1px solid #e8e8ed; }
-  .account-info-label {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: #6e6e73;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .account-info-value {
-    font-family: 'Geist Mono', monospace;
-    color: #1d1d1f;
-    font-weight: 500;
-  }
-  .actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 24px;
-  }
-  .btn {
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 11px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .btn-primary { background: #0a0a0a; color: white; }
-  .btn-primary:hover { background: #1d1d1f; transform: translateY(-1px); }
-  .btn-secondary { background: white; border: 1.5px solid #d2d2d7; color: #424245; }
-  .btn-secondary:hover { border-color: #0a0a0a; color: #0a0a0a; }
-  .btn-danger { background: white; border: 1.5px solid #fecaca; color: #dc2626; }
-  .btn-danger:hover { background: #fee2e2; border-color: #dc2626; }
-  .footer-note {
-    margin-top: 32px;
-    padding-top: 20px;
-    border-top: 1px solid #e8e8ed;
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    color: #86868b;
-    letter-spacing: 0.04em;
-  }
-  .footer-note a {
-    color: #c97a14;
-    text-decoration: none;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .footer-note a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
-<div class="stub-card">
-  <div class="stub-icon">
-    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polyline points="12,6 12,12 16,14"/>
-    </svg>
-  </div>
-
-  <h1 id="welcome-title">Willkommen, <span id="firstname-display">…</span>!</h1>
-  <p>Ihr Account wurde erfolgreich angelegt. Das geführte Onboarding (Firmendaten, Microsite-Erscheinung, Team, Dokumente) wird in der nächsten Etappe ergänzt.</p>
-
-  <div class="account-info" id="account-box">
-    <!-- via JS -->
-  </div>
-
-  <div class="actions">
-    <a href="/demo/" class="btn btn-primary">
-      Live-Demo ansehen
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+<header class="mini-header">
+  <div class="mini-header-inner">
+    <a class="mini-logo" href="/">
+      <svg class="mini-logo-icon" viewBox="0 0 90 90" aria-hidden="true">
+        <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
+        <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
+        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+      </svg>
+      <span class="mini-logo-text">dealfalcon</span>
     </a>
-    <a href="/" class="btn btn-secondary">Zur Startseite</a>
+    <div class="mini-account">
+      <span>Eingeloggt als <strong id="header-email">…</strong></span>
+      <a href="/" class="mini-logout">Abmelden</a>
+    </div>
   </div>
+</header>
 
-  <div class="footer-note">
-    Demo-Modus · Daten werden lokal im Browser gespeichert
-    <br><a onclick="resetAll()">Demo zurücksetzen &amp; Account löschen</a>
-  </div>
+<div class="ob-shell">
+
+  <aside class="ob-sidebar">
+    <div class="ob-sidebar-header">
+      <div class="ob-sidebar-eyebrow">Onboarding</div>
+      <div class="ob-sidebar-title">In wenigen Schritten zu Ihrer ersten Microsite</div>
+      <div class="ob-sidebar-progress"><div class="ob-sidebar-progress-bar" id="progress-bar"></div></div>
+      <div class="ob-sidebar-progress-label" id="progress-label">0 / 5 Schritte abgeschlossen</div>
+    </div>
+
+    <ul class="ob-step-list" id="step-list">
+      <li class="ob-step-item active" data-step="1" onclick="goToStep(1)">
+        <div class="ob-step-num">1</div>
+        <div class="ob-step-info"><div class="ob-step-title">Firmendaten</div><div class="ob-step-meta">Pflicht · ca. 2 Min</div></div>
+      </li>
+      <li class="ob-step-item" data-step="2" onclick="goToStep(2)">
+        <div class="ob-step-num">2</div>
+        <div class="ob-step-info"><div class="ob-step-title">Erscheinung</div><div class="ob-step-meta">Logo &amp; Farben · 3 Min</div></div>
+      </li>
+      <li class="ob-step-item" data-step="3" onclick="goToStep(3)">
+        <div class="ob-step-num">3</div>
+        <div class="ob-step-info"><div class="ob-step-title">Team</div><div class="ob-step-meta">Kollegen einladen · 1 Min</div></div>
+      </li>
+      <li class="ob-step-item" data-step="4" onclick="goToStep(4)">
+        <div class="ob-step-num">4</div>
+        <div class="ob-step-info"><div class="ob-step-title">Dokumente</div><div class="ob-step-meta">Optional · überspringbar</div></div>
+      </li>
+      <li class="ob-step-item" data-step="5" onclick="goToStep(5)">
+        <div class="ob-step-num">5</div>
+        <div class="ob-step-info"><div class="ob-step-title">Fertig</div><div class="ob-step-meta">Zum Dashboard</div></div>
+      </li>
+    </ul>
+
+    <div class="ob-sidebar-footer">
+      <a class="ob-reset-link" onclick="resetOnboarding()">Onboarding-Daten zurücksetzen</a>
+    </div>
+  </aside>
+
+  <main class="ob-main">
+
+    <section class="ob-step-screen active" data-step="1">
+      <div class="ob-screen-header">
+        <div class="ob-eyebrow">Schritt 1 von 5 — Firmendaten</div>
+        <h1 class="ob-screen-title">Ihre Firmen­daten vervollständigen</h1>
+        <p class="ob-screen-subtitle">Wir haben die Basis aus Ihrer Anmeldung übernommen. Ergänzen Sie noch UStID und Handelsregister, damit Ihre Angebote rechtskonform versendet werden können.</p>
+      </div>
+
+      <div class="ob-card">
+        <div class="ob-card-title">Übernommen aus Ihrer Anmeldung</div>
+        <div class="ob-card-subtitle">Sie können diese Werte hier ändern, wenn nötig.</div>
+        <div class="form-grid full"><div class="form-field"><label class="form-label" for="c-company">Unternehmen<span class="req">*</span></label><input type="text" class="form-input" id="c-company" autocomplete="organization"></div></div>
+        <div class="form-grid full"><div class="form-field"><label class="form-label" for="c-street">Straße &amp; Hausnummer<span class="req">*</span></label><input type="text" class="form-input" id="c-street" autocomplete="street-address"></div></div>
+        <div class="form-grid cols-2-1">
+          <div class="form-field"><label class="form-label" for="c-city">Stadt<span class="req">*</span></label><input type="text" class="form-input" id="c-city" autocomplete="address-level2"></div>
+          <div class="form-field"><label class="form-label" for="c-zip">PLZ<span class="req">*</span></label><input type="text" class="form-input" id="c-zip" autocomplete="postal-code"></div>
+        </div>
+        <div class="form-grid full"><div class="form-field"><label class="form-label" for="c-country">Land<span class="req">*</span></label><select class="form-select" id="c-country"><option value="DE">Deutschland</option><option value="AT">Österreich</option><option value="CH">Schweiz</option><option value="LI">Liechtenstein</option><option value="LU">Luxemburg</option></select></div></div>
+      </div>
+
+      <div class="ob-card">
+        <div class="ob-card-title">Geschäftliche Angaben</div>
+        <div class="ob-card-subtitle">Diese Angaben erscheinen im Footer Ihrer Microsites und in den PDF-Angeboten.</div>
+        <div class="form-grid">
+          <div class="form-field"><label class="form-label" for="c-vatid">UStID <span class="opt">(empfohlen)</span></label><input type="text" class="form-input" id="c-vatid" placeholder="DE123456789"><small class="form-hint">Format: Länderkürzel + 9 Ziffern (DE), 11 Ziffern (AT)</small></div>
+          <div class="form-field"><label class="form-label" for="c-taxid">Steuernummer <span class="opt">(optional)</span></label><input type="text" class="form-input" id="c-taxid" placeholder="z.B. 12/345/67890"></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field"><label class="form-label" for="c-hreg">Handelsregister-Nr. <span class="opt">(optional)</span></label><input type="text" class="form-input" id="c-hreg" placeholder="HRB 12345"></div>
+          <div class="form-field"><label class="form-label" for="c-court">Registergericht <span class="opt">(optional)</span></label><input type="text" class="form-input" id="c-court" placeholder="Amtsgericht Köln"></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field"><label class="form-label" for="c-ceo">Geschäftsführer:in <span class="opt">(optional)</span></label><input type="text" class="form-input" id="c-ceo" placeholder="Vor- und Nachname"></div>
+          <div class="form-field"><label class="form-label" for="c-website">Webseite <span class="opt">(optional)</span></label><input type="url" class="form-input" id="c-website" placeholder="https://…"></div>
+        </div>
+      </div>
+
+      <div class="ob-step-footer">
+        <button class="btn btn-skip" onclick="goToStep(2)">Später ergänzen</button>
+        <button class="btn btn-primary" onclick="completeStep1()">Speichern &amp; weiter <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></button>
+      </div>
+    </section>
+
+    <section class="ob-step-screen" data-step="2">
+      <div class="ob-screen-header">
+        <div class="ob-eyebrow">Schritt 2 von 5 — Erscheinung</div>
+        <h1 class="ob-screen-title">So sehen Ihre Kunden Ihre Angebote</h1>
+        <p class="ob-screen-subtitle">Laden Sie Ihr Logo hoch und wählen Sie 3 Brand-Farben — wir erstellen einen Vorschlag. Klicken Sie dann auf einzelne Sektionen rechts, um sie individuell anzupassen.</p>
+      </div>
+
+      <div class="appearance-layout">
+
+        <div class="appearance-controls">
+
+          <div class="controls-block">
+            <div class="controls-block-title">Logo</div>
+            <div class="controls-block-subtitle">PNG/SVG · max. 1 MB · transparent empfohlen</div>
+            <div class="logo-uploader" id="logo-uploader" onclick="document.getElementById('logo-file').click()">
+              <div id="logo-empty">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--ink-mute); margin-bottom: 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div class="logo-uploader-label">Logo hochladen</div>
+                <div class="logo-uploader-meta">Klick oder Drag &amp; Drop</div>
+              </div>
+              <div id="logo-loaded" style="display:none;">
+                <img id="logo-preview" class="logo-preview" alt="Logo-Vorschau">
+                <div class="logo-actions">
+                  <button class="logo-action" onclick="event.stopPropagation(); document.getElementById('logo-file').click()">Ersetzen</button>
+                  <button class="logo-action danger" onclick="event.stopPropagation(); removeLogo()">Entfernen</button>
+                </div>
+              </div>
+            </div>
+            <input type="file" id="logo-file" accept="image/png,image/jpeg,image/svg+xml" style="display:none">
+          </div>
+
+          <div class="controls-block">
+            <div class="controls-block-title">Brand-Farben</div>
+            <div class="controls-block-subtitle">Wählen Sie 3 Farben — wir erstellen einen Vorschlag</div>
+            <div class="brand-color-row">
+              <div class="brand-color-label">Hauptfarbe<small>Hero, Akzente</small></div>
+              <div class="brand-color-swatch" id="sw-primary" style="background:#1A2949;"><input type="color" id="primary-color" value="#1A2949" oninput="updateBrandColor('primary', this.value)"></div>
+              <div class="brand-color-hex" id="hex-primary">#1A2949</div>
+            </div>
+            <div class="brand-color-row">
+              <div class="brand-color-label">Zusatzfarbe<small>Buttons, Highlights</small></div>
+              <div class="brand-color-swatch" id="sw-accent" style="background:#f5a524;"><input type="color" id="accent-color" value="#f5a524" oninput="updateBrandColor('accent', this.value)"></div>
+              <div class="brand-color-hex" id="hex-accent">#F5A524</div>
+            </div>
+            <div class="brand-color-row">
+              <div class="brand-color-label">Hintergrund<small>Microsite-Background</small></div>
+              <div class="brand-color-swatch" id="sw-bg" style="background:#f5f5f7;"><input type="color" id="bg-color" value="#f5f5f7" oninput="updateBrandColor('bg', this.value)"></div>
+              <div class="brand-color-hex" id="hex-bg">#F5F5F7</div>
+            </div>
+            <button class="btn-suggest" onclick="generateSuggestion()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>Vorschlag generieren</button>
+          </div>
+
+          <div class="controls-block">
+            <div class="controls-block-title">Sektionen anpassen</div>
+            <div class="controls-block-subtitle">Klicken Sie auf eine Sektion oder direkt im Preview rechts</div>
+            <ul class="sections-list" id="sections-list">
+              <li class="section-item" data-section="banner" onclick="openSectionPicker('banner')"><div class="section-color-dot" style="background: var(--gold-deep);"></div><div class="section-item-name">Status-Banner<small>Oben über dem Hero</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="hero-bg" onclick="openSectionPicker('hero-bg')"><div class="section-color-dot" style="background: #1A2949;"></div><div class="section-item-name">Hero-Hintergrund<small>Großer Bereich oben</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="hero-title" onclick="openSectionPicker('hero-title')"><div class="section-color-dot has-text" style="background: white; color: black;">Aa</div><div class="section-item-name">Hero-Titel<small>Schriftfarbe der Überschrift</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="hero-subline" onclick="openSectionPicker('hero-subline')"><div class="section-color-dot has-text" style="background: white; color: rgba(0,0,0,0.6);">Aa</div><div class="section-item-name">Hero-Subline<small>Beschreibungstext im Hero</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="version-pill" onclick="openSectionPicker('version-pill')"><div class="section-color-dot" style="background: #1A2949;"></div><div class="section-item-name">Versions-Pill<small>v3 · aktuell</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="data-bg" onclick="openSectionPicker('data-bg')"><div class="section-color-dot" style="background: #0a0a0a;"></div><div class="section-item-name">Eckdaten-Block<small>Dunkler Bereich mit Summe, Lieferzeit</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="cta-bg" onclick="openSectionPicker('cta-bg')"><div class="section-color-dot" style="background: white; border-color: var(--ink);"></div><div class="section-item-name">CTA-Bereich<small>Unten mit „Annehmen"-Button</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+              <li class="section-item" data-section="button" onclick="openSectionPicker('button')"><div class="section-color-dot" style="background: #f5a524;"></div><div class="section-item-name">CTA-Button<small>„Angebot annehmen"</small></div><svg class="section-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="preview-bar">
+            <div class="preview-bar-eyebrow">Vorschau · So sieht Ihr Kunde das Angebot · <strong>Live</strong></div>
+            <div class="preview-mode-toggle">
+              <button class="preview-mode-btn active" data-mode="desktop">Desktop</button>
+              <button class="preview-mode-btn" data-mode="mobile">Mobile</button>
+            </div>
+          </div>
+
+          <div class="mp-frame" id="mp-frame">
+            <div class="mp-toolbar">
+              <div class="mp-toolbar-left">
+                <div class="mp-toolbar-logo" id="mp-logo"><span>LOGO</span></div>
+                <div class="mp-toolbar-text"><strong id="mp-company-name">Ihr Unternehmen</strong><small>Persönlich für Andreas Wagner</small></div>
+              </div>
+              <div class="mp-toolbar-right">Vorgang <strong>2026-0512</strong></div>
+            </div>
+
+            <div class="mp-section" data-section="banner" onclick="openSectionPicker('banner', event)">
+              <div class="mp-edit-tag">Banner</div>
+              <div class="mp-banner"><strong>Vorschau Empfängersicht</strong> — so sieht Andreas Wagner diesen Vorgang im Browser.</div>
+            </div>
+
+            <div class="mp-section mp-hero" data-section="hero-bg" onclick="openSectionPicker('hero-bg', event)">
+              <div class="mp-edit-tag">Hero</div>
+              <div class="mp-hero-eyebrow">
+                <span>Vorgang 2026-0512</span>
+                <span class="mp-section mp-version-pill" data-section="version-pill" onclick="event.stopPropagation(); openSectionPicker('version-pill', event)"><span class="mp-edit-tag" style="top: -6px; right: -6px;">Pill</span>v1 · Entwurf</span>
+              </div>
+              <h1 class="mp-section" data-section="hero-title" onclick="event.stopPropagation(); openSectionPicker('hero-title', event)"><span class="mp-edit-tag">Titel</span>Heizungssanierung MFH Lindenstraße — Wärmepumpe + Pufferspeicher</h1>
+              <p class="mp-section mp-hero-subline" data-section="hero-subline" onclick="event.stopPropagation(); openSectionPicker('hero-subline', event)"><span class="mp-edit-tag">Subline</span>Eine schlüsselfertige Sanierung Ihres Mehrfamilienhauses mit Viessmann Vitocal 250-A — inklusive Hydraulischem Abgleich, Förderantrag-Vorbereitung und 5 Jahren Wartung.</p>
+              <div class="mp-hero-meta">
+                <div class="mp-hero-meta-block"><div class="mp-meta-label">Erstellt am</div><div class="mp-meta-value">02.05.2026</div></div>
+                <div class="mp-hero-meta-block"><div class="mp-meta-label">Gültig bis</div><div class="mp-meta-value">15.06.2026</div></div>
+              </div>
+            </div>
+
+            <div class="mp-section mp-data" data-section="data-bg" onclick="openSectionPicker('data-bg', event)">
+              <div class="mp-edit-tag">Eckdaten</div>
+              <div class="mp-data-row">
+                <div class="mp-data-block"><div class="mp-data-label">Gesamtsumme netto</div><div class="mp-data-value">42.800,–<span class="mp-data-suffix">€</span></div></div>
+                <div class="mp-data-block"><div class="mp-data-label">Lieferzeit</div><div class="mp-data-value">6–8<span class="mp-data-suffix">Wochen</span></div></div>
+                <div class="mp-data-block"><div class="mp-data-label">Konditionen</div><div class="mp-data-value">40/50/10<span class="mp-data-suffix">% netto</span></div></div>
+              </div>
+            </div>
+
+            <div class="mp-section mp-cta" data-section="cta-bg" onclick="openSectionPicker('cta-bg', event)">
+              <div class="mp-edit-tag">CTA-Bereich</div>
+              <h2>Bei Fragen stehe ich persönlich bereit</h2>
+              <p>Andreas Wagner antwortet i.d.R. innerhalb von 2h. Wenn alles passt, können Sie das Angebot direkt verbindlich annehmen.</p>
+              <button class="mp-section mp-cta-button" data-section="button" onclick="event.stopPropagation(); openSectionPicker('button', event)"><span class="mp-edit-tag">Button</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>Angebot verbindlich annehmen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-picker-popover" id="color-picker">
+        <div class="picker-title" id="picker-title">Farbe wählen</div>
+        <div class="picker-quicks" id="picker-quicks"></div>
+        <div class="picker-custom">
+          <div class="picker-custom-swatch"><input type="color" id="picker-custom-color" value="#000000"></div>
+          <input type="text" class="picker-custom-input" id="picker-custom-hex" placeholder="#hexcode" maxlength="7">
+        </div>
+        <div class="picker-actions">
+          <button class="picker-action-btn" onclick="resetSection()">Zurücksetzen</button>
+          <button class="picker-action-btn primary" onclick="closePicker()">Fertig</button>
+        </div>
+      </div>
+
+      <div class="ob-step-footer">
+        <button class="btn btn-secondary" onclick="goToStep(1)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>Zurück</button>
+        <button class="btn btn-primary" onclick="completeStep2()">Speichern &amp; weiter <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg></button>
+      </div>
+    </section>
+
+    <section class="ob-step-screen" data-step="3">
+      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 3 von 5 — Team</div><h1 class="ob-screen-title">Kollegen einladen</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — User-Limit gemäß Plan, Rollen, Mock-Einladungs-Mail.</p></div>
+      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Team-Verwaltung kommt im nächsten Schritt</h3><p>Hier können Sie demnächst Kollegen einladen, Rollen vergeben und das Team-Limit Ihres Plans nutzen.</p></div>
+      <div class="ob-step-footer"><button class="btn btn-secondary" onclick="goToStep(2)">Zurück</button><button class="btn btn-skip" onclick="goToStep(4)">Vorerst überspringen</button></div>
+    </section>
+
+    <section class="ob-step-screen" data-step="4">
+      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 4 von 5 — Dokumente</div><h1 class="ob-screen-title">Dokumenten-Bibliothek</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — Datei-Browser mit Tree-Struktur, Drag &amp; Drop, KI-Vorschlag.</p></div>
+      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Dokumenten-Browser kommt im nächsten Schritt</h3><p>Hier können Sie demnächst Ordner anlegen, Dateien hochladen und einen KI-generierten Vorschlag für Beispielstrukturen abrufen.</p></div>
+      <div class="ob-step-footer"><button class="btn btn-secondary" onclick="goToStep(3)">Zurück</button><button class="btn btn-skip" onclick="goToStep(5)">Vorerst überspringen</button></div>
+    </section>
+
+    <section class="ob-step-screen" data-step="5">
+      <div class="ob-screen-header"><div class="ob-eyebrow">Schritt 5 von 5 — Fertig</div><h1 class="ob-screen-title">Bereit zum Loslegen</h1><p class="ob-screen-subtitle">Folgt in der nächsten Etappe — Übersicht des Setups und Sprung ins Dashboard.</p></div>
+      <div class="stub-card"><span class="badge">Etappe 3</span><h3>Abschluss kommt im nächsten Schritt</h3><p>Hier sehen Sie demnächst eine Zusammenfassung Ihres Setups und gehen direkt ins Dashboard, wo Sie Ihr erstes Angebot anlegen können.</p></div>
+      <div class="ob-step-footer"><button class="btn btn-secondary" onclick="goToStep(4)">Zurück</button></div>
+    </section>
+
+  </main>
 </div>
 
-<script>
-  function loadAccount() {
-    try { return JSON.parse(localStorage.getItem('df_account') || 'null'); }
-    catch(e) { return null; }
-  }
+<div class="toast" id="toast"><span id="toast-msg"></span></div>
 
-  const PLAN_NAMES = {
-    solo: 'Solo (1 Benutzer)',
-    team: 'Team (3 Benutzer)',
-    business: 'Business (5 Benutzer)',
-    pro: 'Pro (10 Benutzer)',
-    enterprise: 'Enterprise (∞ Benutzer)'
-  };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const a = loadAccount();
-    if (!a) {
-      // Wenn kein Account: zurück zum Signup
-      document.getElementById('welcome-title').innerHTML = 'Kein Account gefunden';
-      document.querySelector('p').textContent = 'Es scheint, dass noch kein Account angelegt wurde. Starten Sie jetzt mit der Anmeldung.';
-      document.getElementById('account-box').style.display = 'none';
-      document.querySelector('.actions').innerHTML = '<a href="/signup" class="btn btn-primary">Account anlegen</a><a href="/" class="btn btn-secondary">Zur Startseite</a>';
-      return;
-    }
-
-    document.getElementById('firstname-display').textContent = a.firstname || a.email || 'da';
-
-    const box = document.getElementById('account-box');
-    box.innerHTML = `
-      <div class="account-info-row">
-        <span class="account-info-label">Unternehmen</span>
-        <span class="account-info-value">${a.company || '—'}</span>
-      </div>
-      <div class="account-info-row">
-        <span class="account-info-label">E-Mail</span>
-        <span class="account-info-value">${a.email || '—'}</span>
-      </div>
-      <div class="account-info-row">
-        <span class="account-info-label">Plan</span>
-        <span class="account-info-value">${PLAN_NAMES[a.plan] || a.plan || '—'}</span>
-      </div>
-      <div class="account-info-row">
-        <span class="account-info-label">Zahlmethode</span>
-        <span class="account-info-value">${a.paymentMethod === 'paypal' ? 'PayPal' : 'Kreditkarte'}</span>
-      </div>
-    `;
-  });
-
-  function resetAll() {
-    if (!confirm('Demo-Daten löschen und neu starten? Account, Onboarding und alle gespeicherten Werte werden entfernt.')) return;
-    ['df_signup','df_account','df_onboarding','df_company','df_brand','df_team','df_documents'].forEach(k => localStorage.removeItem(k));
-    window.location.href = '/';
-  }
-</script>
-
+<script src="onboarding.js"></script>
 </body>
 </html>
