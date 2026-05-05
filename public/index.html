@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dealfalcon — 50 % höhere Abschlusswahrscheinlichkeit durch Transparenz.</title>
+<meta name="description" content="Dealfalcon zeigt Ihrem Vertrieb live, was nach dem Senden des Angebots passiert. Wer liest, wo verweilt er, wann ist der richtige Moment für den Anruf. Für alle, die erklärungsbedürftige Leistungen verkaufen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --black-soft: #161616;
+    --black-deep: #050505;
+    --gold: #f5a524;
+    --gold-deep: #c97a14;
+    --gold-light: #fbbf24;
+
+    --ink: #0a0a0a;
+    --ink-strong: #1d1d1f;
+    --ink-mid: #424245;
+    --ink-mute: #6e6e73;
+    --ink-faint: #86868b;
+
+    --paper: #ffffff;
+    --paper-warm: #fbfbfb;
+    --paper-cool: #f5f5f7;
+    --line: #d2d2d7;
+    --line-soft: #e8e8ed;
+
+    --display: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Geist Mono', 'SF Mono', monospace;
+
+    --green: #16a34a;
+    --red: #dc2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--display);
+    color: var(--ink-strong);
+    background: var(--paper);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--gold); color: var(--black); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .container-narrow { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+  .container-wide { max-width: 1340px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    max-width: 1340px;
+    margin: 0 auto;
+    height: 72px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: white;
+  }
+  .logo-icon { width: 44px; height: 44px; }
+  .logo-text {
+    font-family: var(--mono);
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: white;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    font-weight: 400;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: white; }
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600 !important;
+  }
+  .nav-cta-ghost {
+    border: 1px solid rgba(255,255,255,0.18);
+    color: white !important;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500 !important;
+    transition: all 0.15s;
+  }
+  .nav-cta-ghost:hover {
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--black-deep);
+    color: white;
+    padding: 120px 24px 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(245, 165, 36, 0.18), transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(245, 165, 36, 0.10), transparent 50%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(245, 165, 36, 0.10);
+    border: 1px solid rgba(245, 165, 36, 0.3);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    margin-bottom: 36px;
+  }
+  .hero-eyebrow .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 120px);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    margin-bottom: 36px;
+    color: white;
+  }
+  .hero h1 .number {
+    color: var(--gold);
+    display: inline-block;
+    position: relative;
+  }
+  .hero h1 .number::after {
+    content: "";
+    position: absolute;
+    inset: -8px -16px;
+    background: radial-gradient(ellipse, rgba(245, 165, 36, 0.25), transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .hero h1 .small {
+    font-size: 0.45em;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    display: block;
+    margin-top: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-sub {
+    font-size: clamp(18px, 2vw, 24px);
+    color: rgba(255,255,255,0.75);
+    max-width: 720px;
+    margin: 0 auto 48px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: -0.01em;
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+  .btn-gold:hover {
+    background: var(--gold-light);
+    box-shadow: 0 12px 32px rgba(245, 165, 36, 0.4);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: white;
+    border-color: rgba(255,255,255,0.25);
+  }
+  .btn-ghost:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.04em;
+  }
+
+  /* PROBLEM */
+  .problem-section {
+    background: var(--black);
+    color: white;
+    padding: 140px 0;
+    text-align: center;
+  }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-size: clamp(36px, 5.5vw, 76px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin-bottom: 28px;
+    color: var(--black);
+  }
+  .problem-section .section-title { color: white; }
+  .problem-section .section-title .accent { color: var(--gold); }
+  .section-sub {
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.5;
+    max-width: 720px;
+    margin: 0 auto;
+    letter-spacing: -0.01em;
+  }
+  .problem-section .section-sub { color: rgba(255,255,255,0.65); }
+
+  .problem-scene {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .scene-step {
+    padding: 40px 28px;
+    text-align: center;
+    position: relative;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .scene-step:last-child { border-right: none; }
+  .scene-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .scene-icon-big {
+    font-size: 56px;
+    margin-bottom: 24px;
+    opacity: 0.85;
+  }
+  .scene-step h3 {
+    font-size: 26px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 14px;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+  .scene-step p {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+  }
+  .scene-step.problem h3 { color: #ff8866; }
+
+  /* SOLUTION */
+  .solution-section {
+    background: white;
+    padding: 160px 0 140px;
+    text-align: center;
+    position: relative;
+  }
+  .solution-section .section-eyebrow {
+    color: var(--gold-deep);
+  }
+  .solution-section h2 {
+    font-size: clamp(40px, 6vw, 88px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    color: var(--black);
+  }
+  .solution-section h2 .accent {
+    color: var(--gold-deep);
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* COCKPIT-DEMO */
+  .cockpit-demo {
+    margin-top: 100px;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .cockpit-frame {
+    background: var(--black);
+    border-radius: 24px;
+    padding: 0;
+    box-shadow:
+      0 20px 80px rgba(0,0,0,0.15),
+      0 8px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .cockpit-bar {
+    background: var(--black);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .cockpit-dots { display: flex; gap: 7px; }
+  .cockpit-dots span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+  .cockpit-dots span:nth-child(1) { background: #ff5f57; }
+  .cockpit-dots span:nth-child(2) { background: #febc2e; }
+  .cockpit-dots span:nth-child(3) { background: #28c840; }
+  .cockpit-url {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-left: 12px;
+  }
+  .cockpit-content {
+    background: white;
+    padding: 36px;
+    text-align: left;
+  }
+  .cockpit-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 32px;
+  }
+  .cockpit-side h3 {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .deal-stats {
+    background: linear-gradient(135deg, var(--black), #1a1a1a);
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 18px;
+  }
+  .deal-stats-customer {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .deal-stats-amount {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .deal-stats-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+  }
+  .deal-quick-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .deal-quick-stat {
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+  }
+  .deal-quick-stat strong {
+    display: block;
+    font-size: 18px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .deal-quick-stat small {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  .live-feed-card {
+    background: var(--paper-cool);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .live-feed-header {
+    background: var(--black);
+    color: white;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .live-feed-header .live-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gold);
+  }
+  .live-feed-header .live-dot::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .feed-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item.new {
+    background: linear-gradient(90deg, rgba(245, 165, 36, 0.08), transparent);
+  }
+  .feed-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .feed-icon.eye { background: #fef9f0; color: var(--gold-deep); }
+  .feed-icon.click { background: #ecfdf5; color: var(--green); }
+  .feed-icon.download { background: #eff6ff; color: #2563eb; }
+  .feed-info strong {
+    display: block;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 2px;
+    letter-spacing: -0.005em;
+  }
+  .feed-info small {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .feed-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .ai-suggestion {
+    background: linear-gradient(135deg, var(--black), #1a1a1a);
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    margin-top: 20px;
+    border: 1px solid rgba(245, 165, 36, 0.2);
+  }
+  .ai-suggestion-eyebrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .ai-suggestion-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .ai-conf {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: rgba(245, 165, 36, 0.15);
+    color: var(--gold);
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+  }
+  .ai-suggestion h4 {
+    font-size: 17px;
+    color: white;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .ai-suggestion p {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* STORY */
+  .story-section {
+    padding: 160px 0;
+    background: var(--black);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .story-section.alt { background: var(--black-soft); }
+  .story-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(245, 165, 36, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .story-section.alt::before {
+    background: radial-gradient(ellipse at bottom left, rgba(245, 165, 36, 0.08), transparent 60%);
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .story-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .story-headline {
+    font-size: clamp(36px, 4.5vw, 60px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin-bottom: 28px;
+    color: white;
+  }
+  .story-headline .accent { color: var(--gold); }
+  .story-text {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    margin-bottom: 24px;
+  }
+  .story-text strong {
+    color: white;
+    font-weight: 600;
+  }
+
+  .story-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .story-stat {
+    border-left: 2px solid var(--gold);
+    padding-left: 16px;
+  }
+  .story-stat-num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.025em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .story-stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  .story-quote {
+    font-family: 'Source Serif Pro', Georgia, serif;
+    font-size: 19px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    padding: 8px 0 8px 20px;
+    margin-top: 20px;
+  }
+
+  .story-visual {
+    perspective: 1200px;
+  }
+  .story-mock {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    color: var(--ink);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+    transform: rotateY(-4deg) rotateX(2deg);
+    transition: transform 0.4s ease;
+  }
+  .story-section.alt .story-mock {
+    transform: rotateY(4deg) rotateX(2deg);
+  }
+  .story-mock:hover {
+    transform: rotateY(-2deg) rotateX(1deg) translateY(-4px);
+  }
+  .story-section.alt .story-mock:hover {
+    transform: rotateY(2deg) rotateX(1deg) translateY(-4px);
+  }
+  .mock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 24px;
+  }
+  .mock-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .mock-version-pill {
+    background: var(--paper-cool);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .mock-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .mock-amount {
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 24px 0 8px;
+  }
+  .mock-amount small {
+    font-size: 16px;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .mock-amount-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .mock-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 1px solid var(--line-soft);
+    font-size: 14px;
+  }
+  .mock-row span { color: var(--ink-mute); }
+  .mock-row strong { color: var(--ink); font-weight: 600; }
+  .mock-cta {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    gap: 8px;
+  }
+  .mock-cta-btn {
+    flex: 1;
+    background: var(--black);
+    color: white;
+    padding: 12px;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .mock-cta-btn.ghost {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  /* WORKFLOW */
+  .workflow-section {
+    background: white;
+    padding: 160px 0;
+    color: var(--ink);
+  }
+  .workflow-section .section-eyebrow { color: var(--gold-deep); }
+  .workflow-section .section-sub { color: var(--ink-mid); }
+
+  .workflow-steps {
+    margin-top: 100px;
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+  .wf-step {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .wf-step:nth-child(even) {
+    grid-template-columns: 1fr 200px;
+  }
+  .wf-step:nth-child(even) .wf-num {
+    order: 2;
+    text-align: right;
+  }
+  .wf-step:nth-child(even) .wf-content {
+    order: 1;
+    text-align: right;
+  }
+  .wf-num {
+    font-family: var(--mono);
+    font-size: 110px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .wf-content h3 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .wf-content p {
+    font-size: 18px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    max-width: 640px;
+  }
+  .wf-step:nth-child(even) .wf-content p {
+    margin-left: auto;
+  }
+  .wf-tag {
+    display: inline-block;
+    margin-top: 16px;
+    background: var(--paper-cool);
+    color: var(--ink-mid);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .wf-step.wf-highlight .wf-content {
+    background: linear-gradient(135deg, rgba(245,165,36,0.06), transparent 60%);
+    border-left: 3px solid var(--gold);
+    padding: 24px 28px;
+    margin-left: -28px;
+    border-radius: 0 16px 16px 0;
+  }
+  .wf-step:nth-child(even).wf-highlight .wf-content {
+    border-left: none;
+    border-right: 3px solid var(--gold);
+    margin-left: 0;
+    margin-right: -28px;
+    border-radius: 16px 0 0 16px;
+    background: linear-gradient(225deg, rgba(245,165,36,0.06), transparent 60%);
+  }
+  .wf-step.wf-highlight .wf-tag {
+    background: rgba(245,165,36,0.12);
+    color: var(--gold-deep);
+  }
+
+  /* VALUE */
+  .value-section {
+    background: var(--black);
+    color: white;
+    padding: 160px 0;
+    text-align: center;
+  }
+  .value-section .section-title { color: white; }
+  .value-section .section-sub { color: rgba(255,255,255,0.65); }
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 100px;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .value-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 48px 36px;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .value-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(245, 165, 36, 0.15);
+  }
+  .value-stat {
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .value-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .value-card p {
+    color: rgba(255,255,255,0.65);
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+  }
+
+  /* ADVANTAGES */
+  .advantages-section {
+    background: white;
+    padding: 160px 0;
+  }
+  .adv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .adv-card {
+    background: var(--paper-cool);
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    padding: 32px;
+    transition: all 0.2s;
+  }
+  .adv-card:hover {
+    background: white;
+    border-color: var(--gold);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+  .adv-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  .adv-card h3 {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 10px;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  .adv-card p {
+    color: var(--ink-mid);
+    font-size: 14.5px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+  }
+
+  /* INDUSTRY */
+  .industry-section {
+    background: var(--paper-cool);
+    padding: 160px 0;
+    text-align: center;
+  }
+  .industry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 80px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .ind-card {
+    background: white;
+    border: 1px solid var(--line-soft);
+    border-radius: 16px;
+    padding: 28px 26px;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .ind-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 8px 24px rgba(245, 165, 36, 0.12);
+    transform: translateY(-2px);
+  }
+  .ind-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--paper-cool), white);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+  .ind-card strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .ind-card small {
+    font-family: var(--display);
+    font-size: 13px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--black);
+    color: white;
+    padding: 180px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(245, 165, 36, 0.15), transparent 70%);
+  }
+  .cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .cta-section h2 {
+    font-size: clamp(48px, 7vw, 100px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .cta-section h2 .accent { color: var(--gold); }
+  .cta-section p {
+    font-size: 22px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+    margin: 0 auto 48px;
+    max-width: 640px;
+    letter-spacing: -0.01em;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--black-deep);
+    color: rgba(255,255,255,0.6);
+    padding: 80px 0 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    margin-bottom: 60px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+  }
+  .footer-about { max-width: 380px; }
+  .footer-about p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    margin-top: 18px;
+  }
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .footer-col h4 {
+    font-size: 13px;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 12px; }
+  .footer-col a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 920px) {
+    .nav-links { display: none; }
+    .hero { min-height: 70vh; padding: 80px 24px 60px; }
+    .problem-scene { grid-template-columns: 1fr; }
+    .scene-step { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .scene-step:last-child { border-bottom: none; }
+    .cockpit-grid { grid-template-columns: 1fr; }
+    .story-grid { grid-template-columns: 1fr; gap: 48px; }
+    .story-mock { transform: none !important; }
+    .story-stats { grid-template-columns: 1fr; gap: 16px; }
+    .wf-step, .wf-step:nth-child(even) { grid-template-columns: 80px 1fr; gap: 24px; }
+    .wf-step:nth-child(even) .wf-num,
+    .wf-step:nth-child(even) .wf-content { order: initial; text-align: left; }
+    .wf-step:nth-child(even) .wf-content p { margin-left: 0; }
+    .wf-num { font-size: 56px; }
+    .wf-content h3 { font-size: 22px; }
+    .wf-content p { font-size: 15px; }
+    .value-grid, .industry-grid, .adv-grid { grid-template-columns: 1fr; }
+    .value-card { padding: 32px 24px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+    .footer-cols { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+  }
+
+  /* Icon-Override für SVG-Icons */
+  .scene-icon-big {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.85);
+  }
+  .scene-icon-big svg {
+    display: block;
+  }
+  .feed-icon {
+    background: transparent !important;
+    border: 1px solid var(--line-soft);
+    color: var(--ink-strong);
+  }
+  .feed-icon svg { display: block; }
+  .adv-icon {
+    background: transparent !important;
+    border: 1px solid var(--line-soft);
+    color: var(--ink);
+    width: 56px;
+    height: 56px;
+  }
+  .adv-icon svg { display: block; }
+  .ind-icon {
+    background: white !important;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    width: 56px;
+    height: 56px;
+  }
+  .ind-icon svg { display: block; }
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">
+      <svg class="logo-icon" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
+        <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
+        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+      </svg>
+      <span class="logo-text">dealfalcon</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#workflow">So geht's</a></li>
+      <li><a href="#stories">Beispiele</a></li>
+      <li><a href="/pricing">Preise</a></li>
+      <li><a href="/signup" class="nav-cta-ghost">Jetzt starten</a></li>
+      <li><a href="/demo" class="nav-cta">Live-Demo</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="pulse"></span>
+      Vertriebs-Cockpit für erklärungsbedürftige Leistungen
+    </div>
+    <h1>
+      <span class="number">+50 %</span>
+      <span class="small">höhere Abschlusswahrscheinlichkeit<br>durch Transparenz nach dem Versand.</span>
+    </h1>
+    <p class="hero-sub">
+      Sie senden Ihr Angebot — und sehen live, was beim Kunden passiert. Wer liest. Wo er verweilt. Wann der richtige Moment für den Anruf ist. Schluss mit Funkstille nach dem PDF-Versand.
+    </p>
+    <div class="hero-cta">
+      <a href="/demo" class="btn btn-gold">Live-Demo ansehen</a>
+      <a href="#problem" class="btn btn-ghost">So funktioniert's</a>
+    </div>
+    <div class="hero-meta">Server in Deutschland · DSGVO-konform · Made in Germany</div>
+  </div>
+</section>
+
+<section class="problem-section" id="problem">
+  <div class="container">
+    <div class="section-eyebrow">Vorher · ohne Dealfalcon</div>
+    <h2 class="section-title">Sie schicken das Angebot.<br>Und dann <span class="accent">Stille.</span></h2>
+    <p class="section-sub">
+      Drei Szenen, die jeder Vertrieb kennt. Drei Momente, in denen Sie blind sind — und der Kunde alleine entscheidet.
+    </p>
+  </div>
+
+  <div class="problem-scene">
+    <div class="scene-step problem">
+      <div class="scene-time">Tag 1 · 14:30 Uhr</div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="12" width="36" height="24" rx="2"/><polyline points="6,14 24,28 42,14"/><circle cx="38" cy="16" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Mail ist raus.</h3>
+      <p>Angebots-PDF im Anhang. Persönliche Anrede. Sie haben drei Stunden daran gearbeitet. Sie drücken Senden.</p>
+    </div>
+    <div class="scene-step problem">
+      <div class="scene-time">Tag 4 · irgendwann</div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14c1-3 3-5 6-5h8c3 0 5 2 6 5 3 1 5 3 5 6s-2 5-5 6H14c-3-1-5-3-5-6s2-5 5-6z"/><line x1="20" y1="32" x2="20" y2="40"/><line x1="28" y1="32" x2="28" y2="40"/><circle cx="24" cy="38" r="2" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Kein Wort vom Kunden.</h3>
+      <p>Wurde es überhaupt geöffnet? Liegt es im Spam? Hat ein Kollege es weitergeleitet? Sie wissen es nicht. Sie warten.</p>
+    </div>
+    <div class="scene-step problem">
+      <div class="scene-time">Tag 11 · zu spät</div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8c0-1 1-2 2-2h6c1 0 2 1 2 2l1 7c0 1 0 2-1 3l-3 3c2 5 6 9 11 11l3-3c1-1 2-1 3-1l7 1c1 0 2 1 2 2v6c0 1-1 2-2 2C18 38 10 30 10 8z"/><circle cx="38" cy="10" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Nachfass-Anruf — Absage.</h3>
+      <p>„Wir haben uns für einen Wettbewerber entschieden." Sie hatten den Auftrag fast in der Tasche. Sie hatten nur den falschen Moment für Ihren Anruf.</p>
+    </div>
+  </div>
+</section>
+
+<section class="solution-section">
+  <div class="container">
+    <div class="section-eyebrow">Nachher · mit Dealfalcon</div>
+    <h2>Sie wissen <span class="accent">alles.</span><br>In Echtzeit.</h2>
+    <p class="section-sub" style="color: var(--ink-mid); margin-top: 20px;">
+      Ihr Angebot ist eine Microsite. Ihr Live-Cockpit zeigt Ihnen jeden Klick, jede Verweildauer, jede Frage. Sie greifen ein, wenn der Moment es verlangt — nicht aus Bauchgefühl.
+    </p>
+  </div>
+
+  <div class="cockpit-demo">
+    <div class="cockpit-frame">
+      <div class="cockpit-bar">
+        <div class="cockpit-dots"><span></span><span></span><span></span></div>
+        <div class="cockpit-url">cockpit.dealfalcon.app/2026-0428</div>
+      </div>
+      <div class="cockpit-content">
+        <div class="cockpit-grid">
+          <div class="cockpit-side">
+            <h3>Vorgang aktiv</h3>
+            <div class="deal-stats">
+              <div class="deal-stats-customer">Müller GmbH · Vorgang 2026-0428</div>
+              <div class="deal-stats-amount">192.900 €</div>
+              <div class="deal-stats-label">netto · v3 publiziert</div>
+              <div class="deal-quick-stats">
+                <div class="deal-quick-stat">
+                  <strong>3</strong>
+                  <small>Empfänger aktiv</small>
+                </div>
+                <div class="deal-quick-stat">
+                  <strong>14 m</strong>
+                  <small>Lesezeit</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-suggestion">
+              <div class="ai-suggestion-eyebrow">
+                <span class="ai-suggestion-label">◆ KI-Empfehlung</span>
+                <span class="ai-conf">87 %</span>
+              </div>
+              <h4>Jetzt anrufen — heisses Signal.</h4>
+              <p>Markus Berger hat in 2h dreimal die Skizze geöffnet. Klassisches Pre-Decision-Verhalten.</p>
+            </div>
+          </div>
+
+          <div class="cockpit-side">
+            <h3>Live-Aktivität</h3>
+            <div class="live-feed-card">
+              <div class="live-feed-header">
+                <span class="live-dot">LIVE</span>
+                <span>letzte 24h</span>
+              </div>
+              <div class="feed-item new">
+                <div class="feed-icon eye"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 24c4-8 11-12 20-12s16 4 20 12c-4 8-11 12-20 12S8 32 4 24z"/><circle cx="24" cy="24" r="6" fill="#f5a524" stroke="none"/></svg></div>
+                <div class="feed-info">
+                  <strong>Markus Berger schaut Skizze · 3. Mal</strong>
+                  <small>4 Min · IP-Verlauf identisch</small>
+                </div>
+                <span class="feed-time">jetzt</span>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon click"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l6 22 5-9 9-5z"/><line x1="24" y1="24" x2="36" y2="36"/><circle cx="36" cy="36" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+                <div class="feed-info">
+                  <strong>Datenblatt PBT15 geöffnet</strong>
+                  <small>von Sabine Kraus · Einkauf</small>
+                </div>
+                <span class="feed-time">vor 2h</span>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon download"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="6" x2="24" y2="30"/><polyline points="14,22 24,32 34,22"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="32" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+                <div class="feed-info">
+                  <strong>Original-PDF heruntergeladen</strong>
+                  <small>von Thomas Müller · Geschäftsführung</small>
+                </div>
+                <span class="feed-time">vor 5h</span>
+              </div>
+              <div class="feed-item">
+                <div class="feed-icon eye"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polygon points="20,16 32,24 20,32" fill="#f5a524" stroke="none"/></svg></div>
+                <div class="feed-info">
+                  <strong>Erklärvideo zu Position 02 angesehen</strong>
+                  <small>2:14 von 2:32 Min · Markus Berger</small>
+                </div>
+                <span class="feed-time">vor 1d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-section" id="stories">
+  <div class="story-grid">
+    <div class="story-content">
+      <div class="story-meta">Beispiel 01 · Maschinenbau</div>
+      <h2 class="story-headline">
+        Eine Sondermaschine.<br>
+        <span class="accent">Drei Wochen früher</span><br>
+        verkauft.
+      </h2>
+      <p class="story-text">
+        Ein Maschinenbau-Vertrieb verschickt ein Angebot über <strong>180.000 Euro</strong> für eine Sondermaschine. Drei Empfänger beim Kunden: Geschäftsführung, Einkauf, Produktionsleitung. Früher hieß das: <strong>drei Wochen Funkstille</strong>, dann ein Anruf, oft zu spät.
+      </p>
+      <p class="story-text">
+        Mit Dealfalcon sieht der Vertrieb am dritten Tag, dass der Produktionsleiter zweimal die Werkzeugaufnahme-Skizze öffnet — und dann das Erklärvideo zur Sondererweiterung. <strong>Das ist das Signal.</strong> Anruf am gleichen Nachmittag. Frage geklärt. Auftrag eine Woche später unterschrieben.
+      </p>
+
+      <div class="story-stats">
+        <div class="story-stat">
+          <div class="story-stat-num">−47 %</div>
+          <div class="story-stat-label">Verkaufszyklus</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">3,2 ×</div>
+          <div class="story-stat-label">Mehr Reaktionen</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">100 %</div>
+          <div class="story-stat-label">Sichtbarkeit</div>
+        </div>
+      </div>
+
+      <div class="story-quote">
+        „Wir haben aufgehört zu raten, wann wir anrufen. Jetzt wissen wir es."
+      </div>
+    </div>
+
+    <div class="story-visual">
+      <div class="story-mock">
+        <div class="mock-header">
+          <span class="mock-brand">MASCHINEN-AG</span>
+          <span class="mock-version-pill">v3 · aktuell</span>
+        </div>
+        <div class="mock-amount-label">Vorgang 2026-0428 · Sondermaschine</div>
+        <h3 class="mock-title">Profilbiegelösung mit<br>Sondererweiterung.</h3>
+        <div class="mock-amount">192.900<small>€ netto</small></div>
+        <div class="mock-row"><span>Lieferzeit</span><strong>14–16 Wochen</strong></div>
+        <div class="mock-row"><span>Zahlungskonditionen</span><strong>30/60/10 % netto</strong></div>
+        <div class="mock-row"><span>Gültig bis</span><strong>30.06.2026</strong></div>
+        <div class="mock-row"><span>Empfänger</span><strong>3 aktiv</strong></div>
+        <div class="mock-cta">
+          <span class="mock-cta-btn">Original-PDF</span>
+          <span class="mock-cta-btn ghost">Frage stellen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story-section alt">
+  <div class="story-grid">
+    <div class="story-visual">
+      <div class="story-mock">
+        <div class="mock-header">
+          <span class="mock-brand">SHK-MEISTER</span>
+          <span class="mock-version-pill">v2 · aktuell</span>
+        </div>
+        <div class="mock-amount-label">Wärmepumpen-Anlage · Familie Schmidt</div>
+        <h3 class="mock-title">Luft-Wasser-Wärmepumpe<br>mit Pufferspeicher.</h3>
+        <div class="mock-amount">23.450<small>€ netto</small></div>
+        <div class="mock-row"><span>Inbetriebnahme</span><strong>6–8 Wochen</strong></div>
+        <div class="mock-row"><span>Förderung</span><strong>−9.380 €</strong></div>
+        <div class="mock-row"><span>Eigenanteil</span><strong>14.070 €</strong></div>
+        <div class="mock-row"><span>Empfänger</span><strong>2 aktiv</strong></div>
+        <div class="mock-cta">
+          <span class="mock-cta-btn">Original-PDF</span>
+          <span class="mock-cta-btn ghost">Frage stellen</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-content">
+      <div class="story-meta">Beispiel 02 · Sanitär, Heizung, Klima</div>
+      <h2 class="story-headline">
+        Eine Wärmepumpe.<br>
+        <span class="accent">Zwei Entscheider</span><br>
+        beim Kunden.
+      </h2>
+      <p class="story-text">
+        Ein SHK-Betrieb verschickt das Angebot für eine Wärmepumpen-Anlage. Hausherr und Hausherrin, beide haben Fragen. Früher: ein PDF an die Email-Adresse des Mannes, die Frau wird nie eingebunden, <strong>die Entscheidung verzögert sich um Wochen</strong>.
+      </p>
+      <p class="story-text">
+        Mit Dealfalcon bekommen <strong>beide Empfänger ihren eigenen Magic-Link</strong>. Der SHK-Meister sieht: Sie schaut sich dreimal die Förder-Detail-Seite an, er das Datenblatt zur Pumpe. Beim nächsten Telefonat geht der Vertrieb gezielt auf die Förderfrage ein — der Auftrag ist am gleichen Tag fixiert.
+      </p>
+
+      <div class="story-stats">
+        <div class="story-stat">
+          <div class="story-stat-num">+28 %</div>
+          <div class="story-stat-label">Abschlussquote</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">2</div>
+          <div class="story-stat-label">Empfänger pro Vorgang</div>
+        </div>
+        <div class="story-stat">
+          <div class="story-stat-num">9 Tage</div>
+          <div class="story-stat-label">Statt 4 Wochen</div>
+        </div>
+      </div>
+
+      <div class="story-quote">
+        „Endlich sehen wir, dass auch die Frau das Angebot liest. Das war früher unsichtbar."
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="workflow-section" id="workflow">
+  <div class="container-narrow">
+    <div style="text-align: center;">
+      <div class="section-eyebrow">So geht's</div>
+      <h2 class="section-title">Sieben Schritte<br>vom PDF zum Abschluss.</h2>
+      <p class="section-sub">
+        Sie arbeiten weiter mit Ihrem ERP, Word oder Buchhaltungs-Tool. Dealfalcon greift dort ein, wo das PDF normalerweise als E-Mail-Anhang verschickt würde.
+      </p>
+    </div>
+  </div>
+
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num">01</div>
+      <div class="wf-content">
+        <h3>PDF hochladen.</h3>
+        <p>Ihr fertiges Angebots-PDF — aus dem ERP, aus Word, aus InDesign. Dealfalcon zerlegt nichts. Ihr offizielles Dokument bleibt das offizielle Dokument.</p>
+        <span class="wf-tag">15 Sekunden</span>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">02</div>
+      <div class="wf-content">
+        <h3>Material auswählen.</h3>
+        <p>Datenblätter, Produktvideos, Fotos vom letzten Projekt — einmal in der Bibliothek hinterlegt, mit einem Klick zum Angebot dazu. Keine Suche im Dateisystem.</p>
+        <span class="wf-tag">30 Sekunden</span>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">03</div>
+      <div class="wf-content">
+        <h3>Empfänger wählen.</h3>
+        <p>Jeder Empfänger bekommt seinen eigenen Magic-Link. Optional binden Sie interne Kollegen ein, die mitbenachrichtigt werden — ohne im Empfängerkreis aufzutauchen.</p>
+        <span class="wf-tag">20 Sekunden</span>
+      </div>
+    </div>
+
+    <div class="wf-step wf-highlight">
+      <div class="wf-num">04</div>
+      <div class="wf-content">
+        <h3>Erklärvideo aufnehmen.</h3>
+        <p>Ein zweiminütiges Video, in dem Sie das Angebot persönlich erklären — die Logik hinter dem Preis, die wichtigsten Argumente, was Sie besonders macht. Aufgenommen direkt im Browser, eingebettet in die Microsite.</p>
+        <p style="margin-top: 12px;"><strong style="color: var(--gold-deep);">Der unterschätzte Hebel:</strong> Sie sprechen damit jeden Empfänger an — auch die Hausherrin, den Konstrukteur, die Geschäftsführung. Auch die Menschen, mit denen Sie nie persönlich gesprochen haben. Sie sind im Raum, ohne im Raum zu sein.</p>
+        <span class="wf-tag">2 Minuten · optional</span>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">05</div>
+      <div class="wf-content">
+        <h3>Versenden.</h3>
+        <p>Eine personalisierte E-Mail aus Ihrem Haus an jeden Empfänger. Microsite öffnet im Browser — vollständig in Ihrem Corporate Design, mit PDF im Zentrum, Material drumherum, Video als persönliche Begrüssung.</p>
+        <span class="wf-tag">1 Klick</span>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">06</div>
+      <div class="wf-content">
+        <h3>Live mitverfolgen.</h3>
+        <p>Sobald der Kunde die Seite öffnet, läuft das Tracking. Wer liest, wo verweilt er, welches Datenblatt wurde geladen, ob das Video komplett geschaut wurde. Die KI weist Sie auf den richtigen Moment für den Anruf hin.</p>
+        <span class="wf-tag">in Echtzeit</span>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">07</div>
+      <div class="wf-content">
+        <h3>Versionen, Abschluss.</h3>
+        <p>Korrekturangebot? Neue PDF hochladen, optional ein neues Video für die Anpassung. Alle Empfänger werden informiert, alte Versionen bleiben einsehbar. Bei Abschluss markieren Sie Gewonnen oder Verloren — die KI hilft beim Begründungstext.</p>
+        <span class="wf-tag">jederzeit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="value-section">
+  <div class="container">
+    <div class="section-eyebrow">Was Sie gewinnen</div>
+    <h2 class="section-title">Drei Zahlen<br>aus realen Pilotkunden.</h2>
+    <p class="section-sub">
+      Was Vertriebe gewinnen, die mit Dealfalcon arbeiten. Gemessen über die ersten sechs Monate.
+    </p>
+  </div>
+
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-stat">+50 %</div>
+      <h3>Höhere Abschlusswahrscheinlichkeit.</h3>
+      <p>Weil Sie wissen, wann Sie eingreifen müssen. Weil keine Frage unbeantwortet bleibt. Weil der Kunde sich gesehen fühlt.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-stat">−47 %</div>
+      <h3>Kürzerer Verkaufszyklus.</h3>
+      <p>Statt drei Wochen Funkstille gefolgt von verspäteten Nachfass-Anrufen — gezielte Eingriffe im richtigen Moment, der Abschluss kommt schneller.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-stat">3,2 ×</div>
+      <h3>Mehr Reaktionsrate.</h3>
+      <p>Eine Microsite mit Video, Bildern und Erklärung wird dreimal so oft geöffnet wie ein PDF im Mailanhang. Pflicht-Lesen wird zu Wollen-Lesen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="advantages-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-eyebrow">Was Dealfalcon ausmacht</div>
+      <h2 class="section-title">Sechs Stärken,<br>auf die Sie zählen können.</h2>
+      <p class="section-sub" style="color: var(--ink-mid); margin-top: 20px;">
+        Gebaut für den deutschsprachigen Mittelstand. Für Vertriebe, die erklärungsbedürftige Leistungen verkaufen — und denen Tracking, Markenauftritt und Datenschutz gleich wichtig sind.
+      </p>
+    </div>
+  </div>
+
+  <div class="adv-grid">
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="8" x2="8" y2="40"/><line x1="12" y1="8" x2="12" y2="40"/><rect x="16" y="10" width="4" height="30"/><rect x="22" y="8" width="4" height="32"/><rect x="30" y="14" width="6" height="26" transform="rotate(-8 33 27)"/><circle cx="33" cy="14" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Tenant-Bibliothek für alle.</h3>
+      <p>Datenblätter, Bilder, Videos — einmal von einem Kollegen gepflegt, sofort von allen im Vertrieb nutzbar. Kein Duplizieren, kein Suchen, kein veraltetes Material in Umlauf.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="14" rx="1"/><rect x="26" y="8" width="14" height="14" rx="1"/><rect x="8" y="26" width="14" height="14" rx="1"/><rect x="26" y="26" width="14" height="14" rx="1" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Komplettes Brand-Kit.</h3>
+      <p>Vier Markenfarben mit WCAG-Kontrast-Check, Typografie, eigene Domain. Die Microsite wirkt wie eine Erweiterung Ihrer Webseite — nicht wie ein eingebettetes Tool.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="16" r="4"/><path d="M6 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="4"/><path d="M26 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="3" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Kollegen mit einbinden.</h3>
+      <p>Konstrukteur, Vertriebsleiter, After-Sales — alle Beteiligten werden bei Aktivität benachrichtigt und sehen den Vorgang. Ohne dass jemand davon im Empfängerkreis erscheint.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polyline points="14,24 21,31 34,18"/><circle cx="34" cy="18" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Lücken-Check vor Versand.</h3>
+      <p>Sie speichern als Entwurf, Dealfalcon zeigt Ihnen, was noch fehlt — PDF, Empfänger, Eckdaten. Versendet wird erst, wenn alle Pflichtfelder stehen. Kein verfrühter Klick.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="3"/><circle cx="18" cy="20" r="2"/><circle cx="30" cy="20" r="2"/><line x1="16" y1="30" x2="32" y2="30"/><circle cx="24" cy="6" r="2.5" fill="#f5a524" stroke="none"/><line x1="24" y1="8" x2="24" y2="10" stroke="currentColor"/></svg></div>
+      <h3>KI mit Industrie-Kontext.</h3>
+      <p>„Der Konstrukteur schaut zum dritten Mal die Skizze an — jetzt ist der Moment für den Anruf." Die KI versteht echtes Verkaufsverhalten und gibt Ihnen handfeste Empfehlungen, nicht generische Tipps.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6l16 6v10c0 10-7 18-16 22-9-4-16-12-16-22V12z"/><polyline points="16,24 22,30 32,18"/><circle cx="32" cy="18" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <h3>Server in Deutschland.</h3>
+      <p>Alle Daten bleiben in der EU. Auftragsverarbeitungsvertrag automatisch. DSGVO-konform von der ersten Sekunde — Voraussetzung für seriöse Geschäftsbeziehungen im DACH-Raum.</p>
+    </div>
+  </div>
+</section>
+
+<section class="industry-section">
+  <div class="container">
+    <div class="section-eyebrow">Für wen?</div>
+    <h2 class="section-title">Für alle, die erklärungsbedürftige<br>Leistungen verkaufen.</h2>
+    <p class="section-sub" style="color: var(--ink-mid); margin-top: 20px;">
+      Egal ob B2B oder B2C — überall dort, wo das Angebot mehr ist als ein Preis.
+    </p>
+  </div>
+
+  <div class="industry-grid">
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v6M24 38v6M44 24h-6M10 24H4M37 11l-4 4M15 33l-4 4M37 37l-4-4M15 15l-4-4"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Maschinen- &amp; Anlagenbau</strong>
+      <small>Sondermaschinen, Anlagen, Werkzeugbau, Sondermaschinenbau</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6c-5 0-9 4-9 9 0 2 1 4 2 5L8 35c-2 2-2 5 0 7s5 2 7 0l15-15c1 1 3 2 5 2 5 0 9-4 9-9 0-2-1-3-2-5l-5 5-5-5 5-5c-2-1-3-2-5-2z"/><circle cx="11" cy="37" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Handwerk &amp; Bau</strong>
+      <small>SHK, Elektro, Tischler, Dachdecker, Generalunternehmer</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="10"/><line x1="24" y1="38" x2="24" y2="44"/><line x1="4" y1="24" x2="10" y2="24"/><line x1="38" y1="24" x2="44" y2="24"/><line x1="10" y1="10" x2="14" y2="14"/><line x1="34" y1="34" x2="38" y2="38"/><line x1="10" y1="38" x2="14" y2="34"/><line x1="34" y1="14" x2="38" y2="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Energie &amp; Photovoltaik</strong>
+      <small>PV-Anlagen, Wärmepumpen, Energieberatung, E-Mobilität</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="24,4 30,18 44,20 34,30 36,44 24,37 12,44 14,30 4,20 18,18"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Agenturen &amp; Beratung</strong>
+      <small>Werbe-, Web- und PR-Agenturen, Strategie- und Unternehmensberatung</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="30" width="40" height="10" rx="1"/><line x1="10" y1="30" x2="10" y2="36"/><line x1="16" y1="30" x2="16" y2="34"/><line x1="22" y1="30" x2="22" y2="36"/><line x1="28" y1="30" x2="28" y2="34"/><line x1="34" y1="30" x2="34" y2="36"/><line x1="40" y1="30" x2="40" y2="34"/><circle cx="40" cy="30" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Architekten &amp; Planer</strong>
+      <small>Architekturbüros, Innenarchitekten, Garten- und Landschaftsbau</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6 6 6-12 6 8 6-8 6 12 6-6-2 22H8z"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="22" r="3" fill="#f5a524" stroke="none"/></svg></div>
+      <strong>Hochpreisige Dienstleistung</strong>
+      <small>Hochzeiten, Eventproduktion, Immobilienmakler, IT-Dienstleister</small>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Sehen Sie es <span class="accent">selbst.</span></h2>
+    <p>
+      Eine Live-Demo mit echten Vorgängen. Sie testen das Cockpit, die Microsite und die KI-Empfehlung — direkt im Browser, ohne Anmeldung.
+    </p>
+    <div class="cta-buttons">
+      <a href="/demo" class="btn btn-gold">Live-Demo ansehen</a>
+      <a href="/pricing" class="btn btn-ghost">Preise ansehen</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-about">
+      <a class="logo" href="/">
+        <svg class="logo-icon" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
+          <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
+          <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+        </svg>
+        <span class="logo-text">dealfalcon</span>
+      </a>
+      <p>
+        Aus statischen PDF-Angeboten werden lebendige Microsites — mit Live-Tracking, KI-Empfehlung und vollständiger Versionierung. Für alle, die erklärungsbedürftige Leistungen verkaufen.
+      </p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Produkt</h4>
+        <ul>
+          <li><a href="#problem">Problem</a></li>
+          <li><a href="#workflow">So geht's</a></li>
+          <li><a href="#stories">Beispiele</a></li>
+          <li><a href="/pricing">Preise</a></li>
+          <li><a href="/demo">Live-Demo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Unternehmen</h4>
+        <ul>
+          <li><a href="#">Über uns</a></li>
+          <li><a href="mailto:hello@dealfalcon.io">Kontakt</a></li>
+          <li><a href="#">Karriere</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Rechtliches</h4>
+        <ul>
+          <li><a href="#">Impressum</a></li>
+          <li><a href="#">Datenschutz</a></li>
+          <li><a href="#">AGB</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Dealfalcon</span>
+    <span>Server in Deutschland · DSGVO-konform · Made in Germany</span>
+  </div>
+</footer>
+
+</body>
+</html>
