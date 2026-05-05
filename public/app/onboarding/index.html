@@ -1813,8 +1813,8 @@
 
   function goToDashboard() {
     markStepDone(5);
-    showToast('Willkommen im Dashboard!', 'success');
-    setTimeout(function() { window.location.href = '/app/dashboard'; }, 600);
+    // Direkter Sprung — kein Toast-Delay, der den User irritieren könnte
+    window.location.href = '/app/dashboard';
   }
 
   // ============ NAVIGATION ============
