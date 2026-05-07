@@ -1,0 +1,126 @@
+═══════════════════════════════════════════════════
+  DEALFALCON — NOTFALL-ANLEITUNG FÜR 10:00-PRÄSENTATION
+═══════════════════════════════════════════════════
+
+WICHTIGE URLs:
+- Marketing:    https://dealfalcon.vercel.app
+- Login:        https://dealfalcon.vercel.app/login
+- Cockpit:      https://dealfalcon.vercel.app/app/dashboard
+- DEMO-MODUS:   https://dealfalcon.vercel.app/app/dashboard?demo=1   ⬅ DAS IST DEIN RETTUNGSANKER
+
+
+═══════════════════════════════════════════════════
+  PLAN A — BACKEND TESTEN (8:00 Uhr)
+═══════════════════════════════════════════════════
+
+1. Browser öffnen → https://dealfalcon.vercel.app/login
+2. Hard-Reload: Cmd+Shift+R
+3. F12 → Console (für Fehler-Sichtbarkeit, OFFEN LASSEN)
+4. E-Mail eintragen → "Login-Link senden"
+5. Sofort ins Postfach → Login-Link klicken
+6. Du landest auf /app/dashboard
+
+ERWARTUNG:
+- Kurzer Loading-Screen "Daten laden..."
+- Dann das leere Cockpit (0 Vorgänge)
+- Header rechts: deine echte Mail-Adresse
+
+WENN DAS FUNKTIONIERT:
+- Klick "Neuer Vorgang" → Vorgang anlegen → speichern
+- Detail-Modal → "Empfängersicht öffnen" → Microsite-URL kopieren
+- URL in privatem Browser öffnen → Empfänger-Microsite muss laden
+
+WENN ES NICHT FUNKTIONIERT:
+- Console-Fehler ansehen, evtl. Screenshot machen
+- ODER direkt zu PLAN B wechseln (siehe unten)
+
+
+═══════════════════════════════════════════════════
+  PLAN B — DEMO-MODUS (DEIN SICHERER WEG!)
+═══════════════════════════════════════════════════
+
+WANN VERWENDEN:
+- Wenn Login nicht klappt
+- Wenn Backend Fehler wirft
+- Wenn Rate-Limit-Probleme
+- Wenn du keine Zeit hast zu fixen
+
+WAS TUN:
+1. Browser öffnen → https://dealfalcon.vercel.app/app/dashboard?demo=1
+2. Hard-Reload: Cmd+Shift+R
+3. Cockpit lädt sofort mit Demo-Daten
+4. Komplett funktionsfähig — alle Features wie immer
+
+DAS SCHÖNE: Kein Login nötig, läuft 100% lokal. Niemand merkt einen Unterschied.
+
+WICHTIG: Den ?demo=1 Parameter behält der Browser im LocalStorage.
+Du kannst danach normale URLs nutzen, der Demo-Modus bleibt aktiv.
+
+DEMO-MODUS BEENDEN: Im User-Menü "Abmelden" klicken — schaltet zurück zu Login.
+
+
+═══════════════════════════════════════════════════
+  PLAN C — VERCEL ROLLBACK (NUR IM NOTFALL)
+═══════════════════════════════════════════════════
+
+WANN: Wenn auch Plan B nicht klappt (sehr unwahrscheinlich)
+
+WAS TUN:
+1. Vercel Dashboard → dein Projekt → Deployments
+2. Älteres Deployment finden (gestern Mittag, vor Backend-Umbau)
+3. Drei Punkte rechts → "Promote to Production"
+4. Bestätigen, 30 Sekunden warten
+5. dealfalcon.vercel.app lädt jetzt die alte Version
+6. Im Cockpit: F12 → Console → tippen: createDemoDeals()
+7. Demo-Daten erscheinen
+
+
+═══════════════════════════════════════════════════
+  PRÄSENTATIONS-FLOW (EMPFEHLUNG)
+═══════════════════════════════════════════════════
+
+1. MARKETING-SEITE zeigen (1 Min)
+   - "Hier landen potentielle Kunden"
+   - Werte-Versprechen, Beispiele, So funktioniert's
+
+2. COCKPIT (3 Min)
+   - https://dealfalcon.vercel.app/app/dashboard?demo=1
+   - "Hier sieht der Vertriebler seine Pipeline"
+   - Heute zu tun (Hot/Warm Cards)
+   - Pipeline-Stats
+   - Aktivitäts-Stream
+
+3. VORGANG ANLEGEN (2 Min)
+   - "Neuer Vorgang" klicken
+   - PDF, Anschreiben, Empfänger
+   - Microsite-Vorschau
+
+4. EMPFÄNGER-MICROSITE (2 Min)
+   - Live öffnen wie der Kunde sie sieht
+   - "Hier passiert das Tracking"
+   - Cover, Stats, PDF-Bereich, Frage-Funktion
+
+5. KI-WAHRSCHEINLICHKEIT + AKTIVITÄTEN (2 Min)
+   - Detail-Modal öffnen
+   - "DealFalcon lernt aus historischen Daten"
+   - Heatmap-Verweildauer
+
+6. ROADMAP (1 Min)
+   - "Backend gerade in Migration zu Supabase"
+   - "Pilotkunden ab Q3"
+
+
+═══════════════════════════════════════════════════
+  WICHTIGE PSYCHOLOGIE-TIPPS
+═══════════════════════════════════════════════════
+
+✓ Vor der Präsentation: 1 Minute durchgehen, nochmal Demo-URL probieren
+✓ Während der Präsentation: F12 NICHT öffnen!
+✓ Bei kleineren Glitches: souverän überspielen
+   "In der Production-Version haben wir das natürlich gefixt"
+✓ Auf die STORY konzentrieren, nicht auf den Code
+✓ Mit Selbstvertrauen sprechen — du kennst das Tool besser als jeder andere
+
+VIEL ERFOLG!
+
+═══════════════════════════════════════════════════

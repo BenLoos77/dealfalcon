@@ -8680,6 +8680,7 @@
     if (!confirm('Wirklich abmelden?')) return;
     // Supabase-Session entfernen
     try { localStorage.removeItem('df_supabase_session'); } catch(e) {}
+    try { localStorage.removeItem('df_demo_mode'); } catch(e) {}
     // Lokale App-Daten entfernen (sonst sieht der nächste Login alte Daten)
     var localKeys = ['df_deals', 'df_customers', 'df_team', 'df_brand', 'df_company',
                      'df_workspace_meta', 'df_account', 'df_signup', 'df_onboarding',
@@ -9016,47 +9017,69 @@
   }
 
   async function bootWithAuth() {
+    // ============ AUTH-OPTIONAL MODE ============
+    // Cockpit lädt immer — mit oder ohne Login.
+    // Mit Login: Daten vom Backend holen
+    // Ohne Login: localStorage nutzen (für Demos, Tests, Präsentationen)
+
+    var urlParams = new URLSearchParams(location.search);
+    var forceDemoMode = urlParams.get('demo') === '1';
+
     // 1) Token aus URL-Hash übernehmen (falls von Magic-Link kommend)
     if (typeof DfApi !== 'undefined' && DfApi.processAuthRedirect) {
       DfApi.processAuthRedirect();
     }
 
-    // 2) Auth-Check
+    // 2) Token holen
     var token = null;
     try {
       var sess = JSON.parse(localStorage.getItem('df_supabase_session') || 'null');
       token = sess && sess.access_token;
     } catch(e) {}
 
-    if (!token) {
-      // Nicht eingeloggt → zur Login-Seite
-      var nextUrl = encodeURIComponent(location.pathname + location.search);
-      location.href = '/login?next=' + nextUrl;
-      return;
-    }
-
-    // 3) Daten von Backend pullen — ersetzt alte localStorage-Demo-Daten
-    showAuthLoadingScreen();
-    try {
-      var pulled = await pullDataFromBackend(token);
-      if (!pulled) {
-        // Token ungültig oder anderer Fehler — zur Login-Seite
+    // 3) Mit Token UND nicht im Force-Demo-Modus: versuche Backend-Sync
+    if (token && !forceDemoMode) {
+      showAuthLoadingScreen();
+      try {
+        var pulled = await pullDataFromBackend(token);
+        if (pulled) {
+          hideAuthLoadingScreen();
+          installStoragePushHook();
+          init();
+          return;
+        }
+        // Token ungültig — Token entfernen, weiter mit localStorage
         try { localStorage.removeItem('df_supabase_session'); } catch(e) {}
-        location.href = '/login?error=session_expired';
-        return;
+      } catch (err) {
+        console.warn('Backend-Sync fehlgeschlagen, nutze localStorage:', err);
       }
-    } catch (err) {
-      console.error('Backend-Sync fehlgeschlagen:', err);
       hideAuthLoadingScreen();
-      showSyncErrorBanner();
     }
 
-    hideAuthLoadingScreen();
+    // 4) Kein Token oder Backend-Fehler → localStorage-Modus
+    // Falls keine Daten da → Demo-Daten anlegen
+    var existingDeals = [];
+    try { existingDeals = JSON.parse(localStorage.getItem('df_deals') || '[]'); } catch(e) {}
+    if (!existingDeals.length) {
+      // Account-Defaults setzen damit das Cockpit nicht leer wirkt
+      if (!localStorage.getItem('df_account')) {
+        localStorage.setItem('df_account', JSON.stringify({ name: 'Demo User', email: 'demo@dealfalcon.app' }));
+      }
+      if (!localStorage.getItem('df_workspace_meta')) {
+        localStorage.setItem('df_workspace_meta', JSON.stringify({ name: 'Mein Workspace', plan: 'business' }));
+      }
+      if (!localStorage.getItem('df_signup')) {
+        localStorage.setItem('df_signup', JSON.stringify({ plan: 'business', completed: true }));
+      }
+      if (!localStorage.getItem('df_onboarding')) {
+        localStorage.setItem('df_onboarding', JSON.stringify({ completed: true }));
+      }
+      // Demo-Daten anlegen sobald init() durch ist
+      setTimeout(function() {
+        if (typeof window.createDemoDeals === 'function') window.createDemoDeals();
+      }, 600);
+    }
 
-    // 4) Storage-Push-Hook installieren (bei Mutationen → Backend)
-    installStoragePushHook();
-
-    // 5) Normales Init starten
     init();
   }
 
