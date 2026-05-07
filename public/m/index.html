@@ -360,7 +360,7 @@
 
   // ============ LOAD DATA ============
 
-  function init() {
+  async function init() {
     // URL-Params: ?d=DEAL_ID&r=RECIPIENT_ID
     var params = new URLSearchParams(window.location.search);
     dealId = params.get('d');
@@ -371,30 +371,101 @@
       return;
     }
 
-    var deals = loadJSON('df_deals', []);
-    deal = deals.find(function(d) { return d.id === dealId; });
-    if (!deal) {
-      renderEmpty('Vorgang nicht gefunden.');
-      return;
+    // 1) Versuch: Daten vom Backend laden (echte verschickte Microsites)
+    var loadedFromBackend = false;
+    try {
+      var url = '/api/microsite/' + encodeURIComponent(dealId) + (recipientId ? '?r=' + encodeURIComponent(recipientId) : '');
+      var res = await fetch(url);
+      if (res.ok) {
+        var data = await res.json();
+        if (data && data.deal) {
+          deal = serverDealToClient(data.deal);
+          recipient = data.recipient ? clientRecipient(data.recipient, deal) : null;
+          if (!recipient) {
+            recipient = (deal.recipients || []).find(function(r) { return r.role === 'primary'; }) || (deal.recipients || [])[0];
+          }
+          // Brand der Sender-Workspace setzen
+          if (data.deal.workspace) {
+            try {
+              localStorage.setItem('df_brand', JSON.stringify(data.deal.workspace.brand || {}));
+              localStorage.setItem('df_company', JSON.stringify(data.deal.workspace.company || { name: data.deal.workspace.name }));
+            } catch (e) {}
+          }
+          loadedFromBackend = true;
+        }
+      }
+    } catch (e) {
+      console.warn('Backend-Load fehlgeschlagen, nutze localStorage', e);
     }
 
-    // Empfänger bestimmen
-    if (recipientId) {
-      recipient = (deal.recipients || []).find(function(r) { return r.id === recipientId; });
+    // 2) Fallback: localStorage (für Demo-Vorgänge)
+    if (!loadedFromBackend) {
+      var deals = loadJSON('df_deals', []);
+      deal = deals.find(function(d) { return d.id === dealId; });
+      if (!deal) {
+        renderEmpty('Vorgang nicht gefunden.');
+        return;
+      }
+      // Empfänger bestimmen
+      if (recipientId) {
+        recipient = (deal.recipients || []).find(function(r) { return r.id === recipientId; });
+      }
+      if (!recipient) {
+        recipient = (deal.recipients || []).find(function(r) { return r.role === 'primary'; }) || (deal.recipients || [])[0];
+      }
     }
-    if (!recipient) {
-      // Hauptempfänger als Default
-      recipient = (deal.recipients || []).find(function(r) { return r.role === 'primary'; }) || (deal.recipients || [])[0];
-    }
+
     if (!recipient) {
       renderEmpty('Kein Empfänger für diesen Vorgang gefunden.');
       return;
     }
 
-    // Tracking: Microsite-Öffnung
+    // Tracking: Microsite-Öffnung (geht nur ans Backend wenn von dort geladen)
     trackActivity('microsite.opened', 'Microsite geöffnet', recipient.name + ' hat die Microsite aufgerufen');
 
     render();
+  }
+
+  // Server-Format → Client-Format konvertieren (für Microsite)
+  function serverDealToClient(d) {
+    return {
+      id: d.id,
+      dealNumber: d.deal_number,
+      title: d.title || '',
+      value: d.value || 0,
+      status: d.status,
+      customer: d.customer || '',
+      customerCompany: d.customer_company || '',
+      description: d.description || '',
+      delivery: d.delivery || '',
+      payment: d.payment || '',
+      validUntil: d.valid_until || '',
+      pdfFile: d.pdf_file,
+      pdfVersions: d.pdf_versions || [],
+      folders: d.folders || [],
+      videoFiles: d.video_files || [],
+      closedAt: d.closed_at ? new Date(d.closed_at).getTime() : null,
+      closeReason: d.close_reason,
+      sentAt: d.sent_at ? new Date(d.sent_at).getTime() : null,
+      recipients: (d.recipients || []).map(function(r) { return clientRecipient(r); }),
+      _fromBackend: true
+    };
+  }
+
+  function clientRecipient(r) {
+    return {
+      id: r.id,
+      name: r.name,
+      email: r.email,
+      company: r.company,
+      position: r.position,
+      role: r.role,
+      persona: r.persona,
+      forwardedBy: r.forwarded_by,
+      forwardComment: r.forward_comment,
+      addedAt: r.added_at ? new Date(r.added_at).getTime() : Date.now(),
+      activities: []
+    };
   }
 
   function renderEmpty(msg) {
@@ -511,6 +582,40 @@
 
   function trackActivity(type, label, detail, extra) {
     if (!deal || !recipient) return;
+
+    // Wenn der Deal vom Backend geladen wurde, schicken wir die Activity ans Backend
+    if (deal._fromBackend) {
+      var payload = {
+        deal_id: deal.id,
+        recipient_id: recipient.id,
+        type: type,
+        detail: detail || '',
+        metadata: extra || {}
+      };
+      // Fire-and-forget — wir warten nicht
+      fetch('/api/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(function(e) { console.warn('Activity-Tracking fehlgeschlagen', e); });
+
+      // Trotzdem ins lokale Deal-Objekt eintragen damit die Microsite live reagiert
+      if (!recipient.activities) recipient.activities = [];
+      recipient.activities.push({
+        id: genId('act'),
+        type: type,
+        label: label,
+        detail: detail || '',
+        simulatedAt: Date.now(),
+        userTriggered: true
+      });
+      if (type === 'deal.won') deal.status = 'won';
+      else if (type === 'deal.lost') deal.status = 'lost';
+      else if (type === 'microsite.opened' && deal.status === 'sent') deal.status = 'opened';
+      return;
+    }
+
+    // Localstorage-Fallback (Demo-Daten)
     var deals = loadJSON('df_deals', []);
     var freshDeal = deals.find(function(d) { return d.id === deal.id; });
     if (!freshDeal) return;

@@ -1,0 +1,15 @@
+{
+  "name": "dealfalcon",
+  "version": "1.0.0",
+  "description": "Sales-Microsites & Tracking",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
