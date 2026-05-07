@@ -1246,6 +1246,21 @@
   .ind-icon svg { display: block; }
 
 </style>
+
+<script>
+  // Auto-Redirect: Wenn Magic-Link-Token in URL → zu Dashboard
+  (function() {
+    if (window.location.hash && window.location.hash.indexOf('access_token=') !== -1) {
+      window.location.replace('/app/dashboard' + window.location.hash);
+    } else if (window.location.hash && window.location.hash.indexOf('error_code=') !== -1) {
+      // Fehler-Hash → zur Login-Seite mit Fehlermeldung
+      var errMatch = window.location.hash.match(/error_code=([^&]+)/);
+      var errCode = errMatch ? errMatch[1] : 'unknown';
+      window.location.replace('/login?error=' + encodeURIComponent(errCode));
+    }
+  })();
+</script>
+
 </head>
 <body>
 
@@ -1264,7 +1279,7 @@
       <li><a href="#workflow">So geht's</a></li>
       <li><a href="#stories">Beispiele</a></li>
       <li><a href="/pricing">Preise</a></li>
-      <li><a href="/signup" class="nav-cta-ghost">Jetzt starten</a></li>
+      <li><a href="/login" class="nav-cta-ghost">Anmelden</a></li>
       <li><a href="/demo" class="nav-cta">Live-Demo</a></li>
     </ul>
   </div>

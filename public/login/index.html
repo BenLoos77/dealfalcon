@@ -74,6 +74,16 @@
     var btn = document.getElementById('btn-submit');
     var msg = document.getElementById('message');
 
+    // Falls Fehler-Code aus Magic-Link-Redirect ankommt
+    var urlParams = new URLSearchParams(window.location.search);
+    var errCode = urlParams.get('error');
+    if (errCode) {
+      var errText = 'Etwas ist schiefgelaufen. Bitte fordern Sie einen neuen Login-Link an.';
+      if (errCode === 'otp_expired') errText = 'Der Login-Link ist abgelaufen oder wurde schon verwendet. Bitte fordern Sie einen neuen an.';
+      else if (errCode === 'access_denied') errText = 'Der Login-Link ist ungültig. Bitte fordern Sie einen neuen an.';
+      msg.innerHTML = '<div class="login-error">' + errText + '</div>';
+    }
+
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       var email = emailInput.value.trim();

@@ -1370,6 +1370,28 @@
   .docs-folder-action-btn.is-danger:hover { border-color: var(--red); color: var(--red); background: #fee2e2; }
 
 </style>
+
+<script>
+  // Magic-Link-Token aus URL-Hash übernehmen und in localStorage speichern
+  (function() {
+    if (!window.location.hash || window.location.hash.indexOf('access_token=') === -1) return;
+    var params = new URLSearchParams(window.location.hash.slice(1));
+    var accessToken = params.get('access_token');
+    var refreshToken = params.get('refresh_token');
+    var expiresIn = parseInt(params.get('expires_in') || '3600', 10);
+    if (!accessToken) return;
+    var session = {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expires_at: Math.floor(Date.now() / 1000) + expiresIn,
+      token_type: params.get('token_type') || 'bearer'
+    };
+    try { localStorage.setItem('df_supabase_session', JSON.stringify(session)); } catch(e) {}
+    // Hash entfernen damit URL sauber ist
+    history.replaceState(null, '', location.pathname + location.search);
+  })();
+</script>
+
 </head>
 <body>
 
@@ -2353,6 +2375,8 @@
 <!-- ============ NEW DEAL MODAL ============ -->
 <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
+<script src="/api/config"></script>
+<script src="/lib/df-api.js"></script>
 <script>
 (function() {
   'use strict';
@@ -8653,8 +8677,16 @@
   }
 
   function logout() {
-    if (!confirm('Wirklich abmelden? Ihre Daten bleiben erhalten — Sie können sich wieder einloggen.')) return;
-    window.location.href = '/';
+    if (!confirm('Wirklich abmelden?')) return;
+    // Supabase-Session entfernen
+    try { localStorage.removeItem('df_supabase_session'); } catch(e) {}
+    // Lokale App-Daten entfernen (sonst sieht der nächste Login alte Daten)
+    var localKeys = ['df_deals', 'df_customers', 'df_team', 'df_brand', 'df_company',
+                     'df_workspace_meta', 'df_account', 'df_signup', 'df_onboarding',
+                     'df_notifications', 'df_seenActivities', 'df_dismissedActions',
+                     'df_editorDraft', 'df_dealFilter', 'df_documents', 'df_trackConfig'];
+    localKeys.forEach(function(k) { try { localStorage.removeItem(k); } catch(e) {} });
+    window.location.href = '/login';
   }
 
   // ============ TOAST ============
@@ -8978,9 +9010,432 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', bootWithAuth);
   } else {
+    bootWithAuth();
+  }
+
+  async function bootWithAuth() {
+    // 1) Token aus URL-Hash übernehmen (falls von Magic-Link kommend)
+    if (typeof DfApi !== 'undefined' && DfApi.processAuthRedirect) {
+      DfApi.processAuthRedirect();
+    }
+
+    // 2) Auth-Check
+    var token = null;
+    try {
+      var sess = JSON.parse(localStorage.getItem('df_supabase_session') || 'null');
+      token = sess && sess.access_token;
+    } catch(e) {}
+
+    if (!token) {
+      // Nicht eingeloggt → zur Login-Seite
+      var nextUrl = encodeURIComponent(location.pathname + location.search);
+      location.href = '/login?next=' + nextUrl;
+      return;
+    }
+
+    // 3) Daten von Backend pullen — ersetzt alte localStorage-Demo-Daten
+    showAuthLoadingScreen();
+    try {
+      var pulled = await pullDataFromBackend(token);
+      if (!pulled) {
+        // Token ungültig oder anderer Fehler — zur Login-Seite
+        try { localStorage.removeItem('df_supabase_session'); } catch(e) {}
+        location.href = '/login?error=session_expired';
+        return;
+      }
+    } catch (err) {
+      console.error('Backend-Sync fehlgeschlagen:', err);
+      hideAuthLoadingScreen();
+      showSyncErrorBanner();
+    }
+
+    hideAuthLoadingScreen();
+
+    // 4) Storage-Push-Hook installieren (bei Mutationen → Backend)
+    installStoragePushHook();
+
+    // 5) Normales Init starten
     init();
+  }
+
+  function showAuthLoadingScreen() {
+    if (document.getElementById('df-auth-loading')) return;
+    var el = document.createElement('div');
+    el.id = 'df-auth-loading';
+    el.style.cssText = 'position:fixed;inset:0;background:white;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:var(--display);';
+    el.innerHTML = '<div style="text-align:center;"><div style="font-size:14px;color:#888;font-family:Geist Mono,monospace;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Daten laden…</div><div style="width:200px;height:3px;background:#f0f0f3;border-radius:2px;overflow:hidden;"><div style="width:40%;height:100%;background:#0a0a0a;animation:dfPulse 1.2s ease-in-out infinite;"></div></div></div><style>@keyframes dfPulse{0%,100%{transform:translateX(-50%);}50%{transform:translateX(150%);}}</style>';
+    document.body.appendChild(el);
+  }
+  function hideAuthLoadingScreen() {
+    var el = document.getElementById('df-auth-loading');
+    if (el) el.remove();
+  }
+  function showSyncErrorBanner() {
+    var el = document.createElement('div');
+    el.style.cssText = 'position:fixed;top:80px;right:24px;background:#fee2e2;border:1px solid #ef4444;color:#991b1b;padding:14px 18px;border-radius:10px;z-index:9999;max-width:380px;font-family:var(--display);font-size:13px;';
+    el.innerHTML = '<strong>Daten-Sync fehlgeschlagen</strong><br>Es wurden lokale Daten geladen. Beim nächsten Reload wird erneut versucht zu synchronisieren.';
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, 8000);
+  }
+
+  // ============ BACKEND PULL ============
+  async function pullDataFromBackend(token) {
+    var auth = { 'Authorization': 'Bearer ' + token };
+
+    // /api/auth/me — User + Workspace
+    var meRes = await fetch('/api/auth/me', { headers: auth });
+    if (!meRes.ok) return false;
+    var me = await meRes.json();
+
+    var workspace = me.workspace || {};
+    var profile = me.profile || {};
+
+    // Account
+    localStorage.setItem('df_account', JSON.stringify({
+      name: profile.name || 'Sie',
+      email: profile.email || me.user.email,
+      id: profile.id
+    }));
+
+    // Workspace + Brand + Company
+    localStorage.setItem('df_workspace_meta', JSON.stringify({
+      id: workspace.id,
+      name: workspace.name || 'Mein Workspace',
+      plan: workspace.plan || 'team'
+    }));
+    localStorage.setItem('df_brand', JSON.stringify(workspace.brand || {}));
+    localStorage.setItem('df_company', JSON.stringify(workspace.company || { name: workspace.name || 'Mein Workspace' }));
+
+    // Signup-Plan setzen damit das bestehende Frontend die Limits kennt
+    var signup = {};
+    try { signup = JSON.parse(localStorage.getItem('df_signup') || '{}'); } catch(e) {}
+    signup.plan = workspace.plan || 'team';
+    signup.email = profile.email || me.user.email;
+    signup.completed = true;
+    localStorage.setItem('df_signup', JSON.stringify(signup));
+
+    // Onboarding als komplett markieren
+    var onb = {};
+    try { onb = JSON.parse(localStorage.getItem('df_onboarding') || '{}'); } catch(e) {}
+    onb.completed = true;
+    localStorage.setItem('df_onboarding', JSON.stringify(onb));
+
+    // Team
+    var teamRes = await fetch('/api/team', { headers: auth });
+    if (teamRes.ok) {
+      var teamData = await teamRes.json();
+      var members = (teamData.members || []).map(function(m) {
+        return {
+          id: m.id,
+          name: m.name || 'Mitglied',
+          email: m.email,
+          role: m.role || 'vertrieb',
+          status: m.id === profile.id ? 'self' : (m.status === 'pending' ? 'pending' : 'active'),
+          vacationActive: m.vacation_active || false,
+          vacationFrom: m.vacation_from,
+          vacationTo: m.vacation_to,
+          vacationDelegateId: m.vacation_delegate_id
+        };
+      });
+      // Sicherstellen, dass der eigene User immer als 'self' drin ist
+      var hasSelf = members.some(function(m) { return m.id === profile.id; });
+      if (!hasSelf) {
+        members.unshift({
+          id: profile.id,
+          name: profile.name || 'Sie',
+          email: profile.email || me.user.email,
+          role: profile.role || 'admin',
+          status: 'self'
+        });
+      }
+      localStorage.setItem('df_team', JSON.stringify({ members: members }));
+    }
+
+    // Customers
+    var custRes = await fetch('/api/customers', { headers: auth });
+    if (custRes.ok) {
+      var custData = await custRes.json();
+      var customers = (custData.customers || []).map(function(c) {
+        return {
+          id: c.id,
+          customerNumber: c.customer_number,
+          companyName: c.company_name,
+          address: c.address,
+          comment: c.comment,
+          leadUserId: c.lead_user_id,
+          contacts: c.contacts || [],
+          createdAt: c.created_at ? new Date(c.created_at).getTime() : Date.now()
+        };
+      });
+      localStorage.setItem('df_customers', JSON.stringify(customers));
+    }
+
+    // Deals + Recipients + Activities
+    var dealRes = await fetch('/api/deals', { headers: auth });
+    if (dealRes.ok) {
+      var dealData = await dealRes.json();
+      var deals = (dealData.deals || []).map(function(d) {
+        var allActs = d.activities || [];
+        return {
+          id: d.id,
+          dealNumber: d.deal_number,
+          title: d.title || '',
+          value: d.value || 0,
+          status: d.status,
+          customer: d.customer || '',
+          customerCompany: d.customer_company || '',
+          customerId: d.customer_id,
+          description: d.description || '',
+          delivery: d.delivery || '',
+          payment: d.payment || '',
+          validUntil: d.valid_until || '',
+          pdfFile: d.pdf_file,
+          pdfVersions: d.pdf_versions || [],
+          folders: d.folders || [],
+          videoFiles: d.video_files || [],
+          closedAt: d.closed_at ? new Date(d.closed_at).getTime() : null,
+          closeReason: d.close_reason,
+          closeNote: d.close_note,
+          leadUserId: d.lead_user_id,
+          collaborators: d.collaborators || [],
+          leadHistory: d.lead_history || [],
+          tempDelegations: d.temp_delegations || [],
+          notes: d.notes || [],
+          teamMessages: d.team_messages || [],
+          sectionTimings: d.section_timings || {},
+          sentAt: d.sent_at ? new Date(d.sent_at).getTime() : null,
+          createdAt: d.created_at ? new Date(d.created_at).getTime() : Date.now(),
+          recipients: (d.recipients || []).map(function(r) {
+            var acts = allActs.filter(function(a) { return a.recipient_id === r.id; });
+            return {
+              id: r.id,
+              name: r.name,
+              email: r.email,
+              company: r.company || '',
+              position: r.position || '',
+              role: r.role || 'primary',
+              persona: r.persona || 'normal',
+              contactId: r.contact_id,
+              forwardedBy: r.forwarded_by,
+              forwardComment: r.forward_comment,
+              addedAt: r.added_at ? new Date(r.added_at).getTime() : Date.now(),
+              activities: acts.map(function(a) {
+                return {
+                  id: a.id,
+                  type: a.type,
+                  detail: a.detail,
+                  metadata: a.metadata || {},
+                  simulatedAt: a.simulated_at ? new Date(a.simulated_at).getTime() : Date.now()
+                };
+              })
+            };
+          })
+        };
+      });
+      localStorage.setItem('df_deals', JSON.stringify(deals));
+    }
+
+    return true;
+  }
+
+  // ============ BACKEND PUSH (auf Mutationen) ============
+  function installStoragePushHook() {
+    if (window._dfPushHookInstalled) return;
+    window._dfPushHookInstalled = true;
+
+    var origSetItem = localStorage.setItem.bind(localStorage);
+    var pushQueue = { workspace: false, deals: false, customers: false };
+    var pushTimer = null;
+
+    function schedulePush() {
+      if (pushTimer) clearTimeout(pushTimer);
+      pushTimer = setTimeout(flushPushQueue, 600);
+    }
+
+    async function flushPushQueue() {
+      pushTimer = null;
+      var token = getAuthToken();
+      if (!token) return;
+      var auth = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
+
+      try {
+        if (pushQueue.workspace) {
+          pushQueue.workspace = false;
+          var brand = JSON.parse(localStorage.getItem('df_brand') || '{}');
+          var company = JSON.parse(localStorage.getItem('df_company') || '{}');
+          var meta = JSON.parse(localStorage.getItem('df_workspace_meta') || '{}');
+          await fetch('/api/workspace', {
+            method: 'PATCH',
+            headers: auth,
+            body: JSON.stringify({ brand: brand, company: company, name: meta.name || company.name })
+          });
+        }
+
+        if (pushQueue.customers) {
+          pushQueue.customers = false;
+          await pushCustomers(auth);
+        }
+
+        if (pushQueue.deals) {
+          pushQueue.deals = false;
+          await pushDeals(auth);
+        }
+      } catch(e) {
+        console.warn('Push fehlgeschlagen:', e);
+      }
+    }
+
+    async function pushCustomers(auth) {
+      var customers = JSON.parse(localStorage.getItem('df_customers') || '[]');
+      var changed = false;
+      for (var i = 0; i < customers.length; i++) {
+        var c = customers[i];
+        if (!c._dirty && !c._isNew) continue;
+        var payload = {
+          company_name: c.companyName,
+          customer_number: c.customerNumber,
+          address: c.address,
+          comment: c.comment,
+          contacts: c.contacts,
+          lead_user_id: c.leadUserId
+        };
+        try {
+          if (c._isNew || isLocalId(c.id)) {
+            var resp = await fetch('/api/customers', { method: 'POST', headers: auth, body: JSON.stringify(payload) });
+            if (resp.ok) { var data = await resp.json(); c.id = data.customer.id; }
+          } else {
+            await fetch('/api/customers/' + c.id, { method: 'PATCH', headers: auth, body: JSON.stringify(payload) });
+          }
+        } catch(e) {}
+        delete c._isNew; delete c._dirty;
+        changed = true;
+      }
+      if (changed) origSetItem('df_customers', JSON.stringify(customers));
+    }
+
+    async function pushDeals(auth) {
+      var deals = JSON.parse(localStorage.getItem('df_deals') || '[]');
+      var changed = false;
+      for (var i = 0; i < deals.length; i++) {
+        var d = deals[i];
+        if (!d._dirty && !d._isNew) continue;
+        var payload = {
+          title: d.title,
+          value: d.value,
+          status: d.status,
+          customer: d.customer,
+          customer_company: d.customerCompany,
+          customer_id: !isLocalId(d.customerId) ? d.customerId : null,
+          description: d.description,
+          delivery: d.delivery,
+          payment: d.payment,
+          valid_until: d.validUntil,
+          pdf_file: d.pdfFile,
+          pdf_versions: d.pdfVersions,
+          folders: d.folders,
+          video_files: d.videoFiles,
+          closed_at: d.closedAt ? new Date(d.closedAt).toISOString() : null,
+          close_reason: d.closeReason,
+          close_note: d.closeNote,
+          lead_user_id: !isLocalId(d.leadUserId) ? d.leadUserId : null,
+          collaborators: d.collaborators,
+          lead_history: d.leadHistory,
+          temp_delegations: d.tempDelegations,
+          notes: d.notes,
+          team_messages: d.teamMessages,
+          section_timings: d.sectionTimings,
+          sent_at: d.sentAt ? new Date(d.sentAt).toISOString() : null
+        };
+        try {
+          if (d._isNew || isLocalId(d.id)) {
+            payload.deal_number = d.dealNumber;
+            var resp = await fetch('/api/deals', { method: 'POST', headers: auth, body: JSON.stringify(payload) });
+            if (resp.ok) {
+              var data = await resp.json();
+              d.id = data.deal.id;
+              // Recipients hochladen
+              for (var j = 0; j < (d.recipients || []).length; j++) {
+                var r = d.recipients[j];
+                if (!r.name || !r.email) continue;
+                var rResp = await fetch('/api/recipients', {
+                  method: 'POST', headers: auth,
+                  body: JSON.stringify({
+                    deal_id: d.id, name: r.name, email: r.email, company: r.company,
+                    position: r.position, role: r.role, persona: r.persona
+                  })
+                });
+                if (rResp.ok) { var rData = await rResp.json(); r.id = rData.recipient.id; }
+              }
+            }
+          } else {
+            await fetch('/api/deals/' + d.id, { method: 'PATCH', headers: auth, body: JSON.stringify(payload) });
+          }
+        } catch(e) { console.warn('Deal-Push:', e); }
+        delete d._isNew; delete d._dirty;
+        changed = true;
+      }
+      if (changed) origSetItem('df_deals', JSON.stringify(deals));
+    }
+
+    function isLocalId(id) {
+      // Backend-IDs sind UUIDs (36 Zeichen mit Bindestrichen). Lokale IDs sind kurz.
+      return !id || typeof id !== 'string' || id.length < 30;
+    }
+
+    function getAuthToken() {
+      try {
+        var s = JSON.parse(localStorage.getItem('df_supabase_session') || 'null');
+        return s && s.access_token;
+      } catch(e) { return null; }
+    }
+
+    // localStorage.setItem überschreiben
+    localStorage.setItem = function(key, value) {
+      origSetItem(key, value);
+      // Markiere mutierte Records als _dirty
+      if (key === 'df_brand' || key === 'df_company' || key === 'df_workspace_meta') {
+        pushQueue.workspace = true;
+        schedulePush();
+      } else if (key === 'df_deals') {
+        // Markiere alle Records als dirty die kein _backendId haben oder geändert wurden
+        // Vereinfacht: alle als dirty markieren, der Push prüft selbst
+        try {
+          var arr = JSON.parse(value);
+          if (Array.isArray(arr)) {
+            // Markiere neue (kurze IDs) als _isNew
+            arr.forEach(function(d) {
+              if (isLocalId(d.id) && !d._isNew) d._isNew = true;
+              d._dirty = true;
+            });
+            origSetItem(key, JSON.stringify(arr));
+          }
+        } catch(e) {}
+        pushQueue.deals = true;
+        schedulePush();
+      } else if (key === 'df_customers') {
+        try {
+          var arr = JSON.parse(value);
+          if (Array.isArray(arr)) {
+            arr.forEach(function(c) {
+              if (isLocalId(c.id) && !c._isNew) c._isNew = true;
+              c._dirty = true;
+            });
+            origSetItem(key, JSON.stringify(arr));
+          }
+        } catch(e) {}
+        pushQueue.customers = true;
+        schedulePush();
+      }
+    };
+
+    // Bei Page-Hide: pending Pushes flushen
+    document.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') flushPushQueue();
+    });
+
+    window._dfFlushPush = flushPushQueue;
   }
 })();
 </script>
