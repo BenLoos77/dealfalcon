@@ -823,17 +823,16 @@
 
   /* Microsite Container */
   .ms-shell { background: #f5f5f7; min-height: calc(100vh - 60px); padding: 0 0 60px; }
-  .ms-container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .ms-container { max-width: none; margin: 0; padding: 0 32px; }
 
   /* Vorschau-Banner (nur im Vorschau-Modus) */
-  .ms-preview-banner-wrap { padding: 16px 24px 0; max-width: 880px; margin: 0 auto; }
+  .ms-preview-banner-wrap { padding: 16px 32px 0; }
   .ms-preview-banner { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.45; }
   .ms-preview-banner svg { flex-shrink: 0; color: var(--gold-deep); }
   .ms-preview-banner strong { color: var(--gold-deep); font-weight: 700; }
 
   /* Cover-Hero (Vollbild in Brand-Farbe) */
-  .ms-cover { margin: 0 auto 24px; max-width: 880px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line-soft); box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-  @media (max-width: 880px) { .ms-cover { border-radius: 0; border-left: none; border-right: none; margin: 0 0 24px; max-width: none; } }
+  .ms-cover { margin: 0 0 24px; max-width: none; border-radius: 0; overflow: hidden; border: none; box-shadow: none; }
 
   .ms-cover-topbar { background: white; padding: 18px 56px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap; }
   .ms-cover-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
@@ -1628,7 +1627,7 @@
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Ersten Vorgang anlegen
           </button>
-          <div class="db-empty-secondary">oder zum Testen <a href="/demo">die Demo-Cockpit-Welt mit Beispieldaten ansehen</a></div>
+          <div class="db-empty-secondary">oder zum Testen <a href="/app/dashboard?demo=1">die Demo-Cockpit-Welt mit Beispieldaten ansehen</a></div>
         </div>
       </div>
 

@@ -109,29 +109,15 @@
     font-size: 13px;
     font-weight: 600 !important;
   }
-  .nav-cta-ghost {
-    border: 1px solid rgba(255,255,255,0.18);
-    color: white !important;
-    padding: 7px 16px;
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 500 !important;
-    transition: all 0.15s;
-  }
-  .nav-cta-ghost:hover {
-    border-color: rgba(255,255,255,0.4);
-    background: rgba(255,255,255,0.05);
-  }
 
   /* HERO */
   .hero {
     background: var(--black-deep);
     color: white;
-    padding: 120px 24px 100px;
-    text-align: center;
+    padding: 100px 24px 80px;
     position: relative;
     overflow: hidden;
-    min-height: 80vh;
+    min-height: 92vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,14 +126,43 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse at 30% 20%, rgba(245, 165, 36, 0.18), transparent 50%),
-      radial-gradient(ellipse at 70% 80%, rgba(245, 165, 36, 0.10), transparent 50%);
+      radial-gradient(ellipse at 30% 20%, rgba(245, 165, 36, 0.22), transparent 55%),
+      radial-gradient(ellipse at 78% 75%, rgba(245, 165, 36, 0.12), transparent 55%);
     pointer-events: none;
+  }
+  /* Subtle moving grain on top of gradient */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,165,36,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,165,36,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: 0 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    animation: heroGrid 40s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  @keyframes heroGrid {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 64px 64px, 64px 64px; }
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
   }
   .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 1100px;
+    text-align: center;
   }
   .hero-eyebrow {
     display: inline-flex;
@@ -178,40 +193,56 @@
   }
 
   .hero h1 {
-    font-size: clamp(48px, 8vw, 120px);
+    font-size: clamp(44px, 6.4vw, 104px);
     font-weight: 700;
     line-height: 0.98;
     letter-spacing: -0.045em;
     margin-bottom: 36px;
-    color: white;
+    color: #ffffff;
   }
-  .hero h1 .number {
-    color: var(--gold);
+  .hero h1 .lead {
+    display: block;
+    color: #ffffff;
+  }
+  .hero h1 .gold-word {
     display: inline-block;
+    color: var(--gold);
     position: relative;
   }
-  .hero h1 .number::after {
+  .hero h1 .gold-word::after {
     content: "";
     position: absolute;
-    inset: -8px -16px;
-    background: radial-gradient(ellipse, rgba(245, 165, 36, 0.25), transparent 70%);
+    inset: -10px -20px;
+    background: radial-gradient(ellipse, rgba(245, 165, 36, 0.28), transparent 70%);
     z-index: -1;
     pointer-events: none;
   }
-  .hero h1 .small {
-    font-size: 0.45em;
-    font-weight: 500;
-    color: rgba(255,255,255,0.7);
-    display: block;
-    margin-top: 12px;
+  .hero-promise {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 28px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .hero-promise .num {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
     letter-spacing: -0.02em;
+    text-transform: none;
+    white-space: nowrap;
   }
 
   .hero-sub {
-    font-size: clamp(18px, 2vw, 24px);
-    color: rgba(255,255,255,0.75);
-    max-width: 720px;
-    margin: 0 auto 48px;
+    font-size: clamp(18px, 1.55vw, 22px);
+    color: rgba(255,255,255,0.92);
+    max-width: 680px;
+    margin: 0 auto 40px;
     line-height: 1.45;
     letter-spacing: -0.01em;
     font-weight: 400;
@@ -221,7 +252,7 @@
     gap: 14px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .btn {
@@ -264,6 +295,750 @@
     font-size: 12px;
     color: rgba(255,255,255,0.4);
     letter-spacing: 0.04em;
+  }
+
+  /* HERO ANIMATION STAGE */
+  .hero-stage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 540px;
+    margin-left: auto;
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(245,165,36,0.10), transparent 60%),
+      linear-gradient(180deg, #131313 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    box-shadow:
+      0 40px 80px -30px rgba(0,0,0,0.7),
+      0 0 0 1px rgba(245,165,36,0.05) inset,
+      0 30px 100px -40px rgba(245,165,36,0.25);
+  }
+  /* Faint scan-grid inside the stage */
+  .hero-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+  /* Transparency scan line — slowly traverses the stage like an X-ray */
+  .hero-stage::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10%;
+    height: 60%;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(245,165,36,0) 30%,
+      rgba(245,165,36,0.08) 48%,
+      rgba(245,165,36,0.18) 50%,
+      rgba(245,165,36,0.08) 52%,
+      transparent 70%
+    );
+    pointer-events: none;
+    animation: scanLine 6s ease-in-out infinite;
+    z-index: 9;
+    mix-blend-mode: screen;
+  }
+  @keyframes scanLine {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateY(100%); opacity: 1; }
+    60% { opacity: 0; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+  /* Dim cockpit ghost layer behind microsite — visible "through" the glass */
+  .stage-ghost {
+    position: absolute;
+    top: 76px;
+    left: 4%;
+    right: 22%;
+    bottom: 30%;
+    border: 1px solid rgba(245,165,36,0.18);
+    border-radius: 14px;
+    padding: 14px;
+    overflow: hidden;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(245,165,36,0.04), rgba(0,0,0,0.2));
+    opacity: 0.7;
+    transform: rotate(-1.5deg);
+  }
+  .stage-ghost-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: rgba(245,165,36,0.6);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .stage-ghost-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stage-ghost-row {
+    height: 3px;
+    background: rgba(245,165,36,0.18);
+    border-radius: 2px;
+  }
+  .stage-ghost-row:nth-child(2) { width: 80%; background: rgba(245,165,36,0.10); }
+  .stage-ghost-row:nth-child(3) { width: 65%; background: rgba(245,165,36,0.14); }
+  .stage-ghost-row:nth-child(4) { width: 45%; background: rgba(245,165,36,0.08); }
+  .stage-ghost-row:nth-child(5) { width: 70%; background: rgba(245,165,36,0.12); }
+  .stage-ghost-bars {
+    margin-top: 12px;
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    height: 30px;
+  }
+  .stage-ghost-bar {
+    flex: 1;
+    background: linear-gradient(180deg, rgba(245,165,36,0.25), rgba(245,165,36,0.05));
+    border-radius: 1px 1px 0 0;
+    animation: ghostBar 3s ease-in-out infinite;
+  }
+  .stage-ghost-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
+  .stage-ghost-bar:nth-child(2) { height: 65%; animation-delay: 0.15s; }
+  .stage-ghost-bar:nth-child(3) { height: 80%; animation-delay: 0.3s; }
+  .stage-ghost-bar:nth-child(4) { height: 55%; animation-delay: 0.45s; }
+  .stage-ghost-bar:nth-child(5) { height: 90%; animation-delay: 0.6s; }
+  .stage-ghost-bar:nth-child(6) { height: 70%; animation-delay: 0.75s; }
+  .stage-ghost-bar:nth-child(7) { height: 45%; animation-delay: 0.9s; }
+  @keyframes ghostBar {
+    0%, 100% { transform: scaleY(0.85); opacity: 0.7; }
+    50% { transform: scaleY(1.05); opacity: 1; }
+  }
+
+  /* Stage status bar (top) */
+  .stage-bar {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .stage-bar .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px var(--gold);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .stage-bar .label-step {
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    transition: opacity 0.4s;
+  }
+  .stage-bar .timer {
+    margin-left: auto;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Microsite mock card — center stage */
+  .stage-microsite {
+    position: absolute;
+    top: 60px;
+    left: 16%;
+    right: 6%;
+    bottom: 32%;
+    background:
+      linear-gradient(180deg, rgba(26,26,26,0.94), rgba(14,14,14,0.94));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(245,165,36,0.28);
+    border-radius: 12px;
+    overflow: hidden;
+    transform: translateY(-8px) scale(0.92);
+    opacity: 0;
+    animation: msEnter 8s ease-in-out infinite;
+    box-shadow:
+      0 20px 50px -20px rgba(0,0,0,0.8),
+      0 0 0 1px rgba(255,255,255,0.04) inset;
+    z-index: 2;
+  }
+  @keyframes msEnter {
+    0%, 5% { opacity: 0; transform: translateY(-8px) scale(0.92); }
+    12%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+    99%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+  }
+  .ms-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.4);
+  }
+  .ms-header .url {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    margin-left: 6px;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .ms-header .light {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .ms-header .light:nth-child(2) { background: rgba(255,255,255,0.22); }
+  .ms-header .light:nth-child(3) { background: rgba(245,165,36,0.5); }
+
+  .ms-body {
+    padding: 14px;
+    position: relative;
+    height: calc(100% - 32px);
+  }
+  .ms-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .ms-sub {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .ms-line {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.10);
+    margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ms-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: msRead 8s ease-in-out infinite;
+  }
+  .ms-line:nth-child(3) { width: 92%; }
+  .ms-line:nth-child(3)::after { animation-delay: 0.6s; }
+  .ms-line:nth-child(4) { width: 78%; }
+  .ms-line:nth-child(4)::after { animation-delay: 1.0s; }
+  .ms-line:nth-child(5) { width: 88%; }
+  .ms-line:nth-child(5)::after { animation-delay: 1.4s; }
+  .ms-line:nth-child(6) { width: 65%; }
+  .ms-line:nth-child(6)::after { animation-delay: 1.8s; }
+  @keyframes msRead {
+    0%, 12% { transform: scaleX(0); }
+    50%, 88% { transform: scaleX(1); }
+    96%, 100% { transform: scaleX(1); opacity: 0; }
+  }
+
+  .ms-price-row {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255,255,255,0.10);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .ms-price-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .ms-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .ms-section { margin-top: 14px; }
+  .ms-sub-small {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .ms-block-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  .ms-block {
+    height: 18px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .ms-block::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(245,165,36,0.18), transparent);
+    transform: translateX(-100%);
+    animation: msShimmer 2.4s ease-in-out infinite;
+  }
+  .ms-block:nth-child(2)::after { animation-delay: 0.4s; }
+  .ms-block:nth-child(3)::after { animation-delay: 0.8s; }
+  .ms-block:nth-child(4)::after { animation-delay: 1.2s; }
+  @keyframes msShimmer {
+    0%, 80% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .ms-cta-mock {
+    margin-top: 10px;
+    padding: 7px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  /* Cursor that wanders across the microsite */
+  .stage-cursor {
+    position: absolute;
+    top: 60px;
+    left: 16%;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    z-index: 6;
+    opacity: 0;
+    animation: cursorPath 8s ease-in-out infinite;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(245,165,36,0.5));
+  }
+  @keyframes cursorPath {
+    0%, 14% { opacity: 0; transform: translate(40px, 60px); }
+    20% { opacity: 1; transform: translate(20px, 80px); }
+    35% { opacity: 1; transform: translate(180px, 100px); }
+    52% { opacity: 1; transform: translate(80px, 130px); }
+    70% { opacity: 1; transform: translate(160px, 160px); }
+    82% { opacity: 1; transform: translate(120px, 200px); }
+    90%, 100% { opacity: 0; transform: translate(120px, 220px); }
+  }
+
+  /* AI recommendation bubble */
+  .stage-ai {
+    position: absolute;
+    top: 13%;
+    right: -2%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    color: var(--black);
+    padding: 9px 12px;
+    border-radius: 12px 12px 12px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.3;
+    max-width: 150px;
+    z-index: 7;
+    opacity: 0;
+    transform: translate(20px, -10px) scale(0.85);
+    animation: aiPop 8s ease-in-out infinite;
+    box-shadow: 0 12px 30px -8px rgba(245,165,36,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+    letter-spacing: -0.01em;
+  }
+  .stage-ai::before {
+    content: "✦";
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+  .stage-ai strong { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-bottom: 2px; }
+  @keyframes aiPop {
+    0%, 35% { opacity: 0; transform: translate(20px, -10px) scale(0.85); }
+    42%, 95% { opacity: 1; transform: translate(0, 0) scale(1); }
+    99%, 100% { opacity: 0; transform: translate(-10px, 8px) scale(0.9); }
+  }
+
+  /* Live activity feed (bottom) */
+  .stage-feed {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    height: 30%;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(245,165,36,0.12);
+    border-radius: 10px;
+    padding: 10px 12px;
+    backdrop-filter: blur(6px);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .stage-feed-title {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stage-feed-title::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .feed-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.7);
+    opacity: 0;
+    transform: translateY(8px);
+    animation: feedRow 8s ease-in-out infinite;
+    letter-spacing: 0.02em;
+  }
+  .feed-row .time {
+    color: rgba(255,255,255,0.35);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .feed-row .tag {
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .feed-row .text {
+    color: rgba(255,255,255,0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .feed-row.win .text { color: #4ade80; font-weight: 600; }
+  .feed-row.win .tag { color: #4ade80; }
+  .feed-row:nth-child(2) { animation-delay: 0.4s; }
+  .feed-row:nth-child(3) { animation-delay: 1.6s; }
+  .feed-row:nth-child(4) { animation-delay: 3.0s; }
+  .feed-row:nth-child(5) { animation-delay: 4.6s; }
+  @keyframes feedRow {
+    0%, 4% { opacity: 0; transform: translateY(8px); }
+    12%, 95% { opacity: 1; transform: translateY(0); }
+    99%, 100% { opacity: 0; transform: translateY(0); }
+  }
+
+  /* Pixel falcon flying in (top-left corner trace) */
+  .stage-falcon {
+    position: absolute;
+    top: 28px;
+    left: 18px;
+    width: 22px;
+    height: 22px;
+    z-index: 8;
+    opacity: 0;
+    animation: falconFly 8s ease-in-out infinite;
+  }
+  @keyframes falconFly {
+    0% { opacity: 0; transform: translate(-30px, 20px) rotate(-15deg) scale(0.8); }
+    8% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    14%, 95% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    99%, 100% { opacity: 0; transform: translate(0, 0) rotate(0) scale(1); }
+  }
+  .falcon-trail {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 30%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    z-index: 7;
+    opacity: 0;
+    animation: trailSwoosh 8s ease-in-out infinite;
+    transform-origin: right center;
+  }
+  @keyframes trailSwoosh {
+    0%, 2% { opacity: 0; transform: scaleX(0); }
+    8% { opacity: 0.8; transform: scaleX(1); }
+    16% { opacity: 0; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
+  }
+
+  /* Win flash (final beat of the loop) */
+  .stage-win {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(74,222,128,0.18), transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    animation: winFlash 8s ease-in-out infinite;
+    z-index: 3;
+  }
+  @keyframes winFlash {
+    0%, 80% { opacity: 0; }
+    87%, 92% { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  /* Reduced motion respect */
+  @media (prefers-reduced-motion: reduce) {
+    .hero::before,
+    .stage-microsite,
+    .stage-cursor,
+    .stage-ai,
+    .stage-falcon,
+    .falcon-trail,
+    .stage-win,
+    .feed-row,
+    .ms-line::after,
+    .stage-bar .dot,
+    .stage-feed-title::before {
+      animation: none !important;
+    }
+    .stage-microsite, .stage-ai, .stage-falcon, .feed-row { opacity: 1; transform: none; }
+    .ms-line::after { transform: scaleX(1); }
+  }
+
+  /* FUNNEL — wo Dealfalcon im Sales-Prozess sitzt */
+  .funnel-section {
+    background: var(--paper);
+    color: var(--ink-strong);
+    padding: 140px 0 120px;
+  }
+  .funnel-section .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  .funnel-section .section-eyebrow { color: var(--gold-deep); }
+  .funnel-section h2 {
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--ink-strong);
+  }
+  .funnel-section h2 .accent { color: var(--gold); }
+  .funnel-section .section-sub {
+    font-size: 18px;
+    color: var(--ink-mid);
+    max-width: 640px;
+    margin: 0 auto 64px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* The funnel itself */
+  .funnel {
+    position: relative;
+    margin: 0 auto;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .funnel-step {
+    position: relative;
+    padding: 22px 36px;
+    text-align: center;
+    background: white;
+    border: 1px solid rgba(10,10,10,0.08);
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 130px 44px 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    text-align: left;
+  }
+  /* Each level is narrower than the one above — funnel shape */
+  .funnel-step:nth-child(1) { width: 100%; align-self: center; }
+  .funnel-step:nth-child(2) { width: 92%; align-self: center; }
+  .funnel-step:nth-child(3) { width: 84%; align-self: center; }
+  .funnel-step:nth-child(4) { width: 76%; align-self: center; }
+  .funnel-step:nth-child(5) { width: 68%; align-self: center; }
+
+  .funnel-step .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+  }
+  .funnel-step .icon {
+    width: 32px;
+    height: 32px;
+    color: var(--ink-mid);
+    opacity: 0.7;
+    justify-self: center;
+  }
+  .funnel-step h3 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--ink-strong);
+    line-height: 1.25;
+  }
+  .funnel-step .tools {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-align: right;
+  }
+  /* Vertical arrow between steps */
+  .funnel-step::after {
+    content: "↓";
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(10,10,10,0.18);
+    font-size: 14px;
+    font-family: var(--mono);
+    pointer-events: none;
+    z-index: 2;
+    background: var(--paper);
+    width: 22px;
+    text-align: center;
+    line-height: 1;
+  }
+  .funnel-step:last-child::after { display: none; }
+
+  /* Dealfalcon highlight — golden trapez stripe */
+  .funnel-step.df {
+    background: linear-gradient(135deg, rgba(245,165,36,0.12), rgba(245,165,36,0.04));
+    border: 1.5px solid rgba(245,165,36,0.5);
+    box-shadow:
+      0 20px 50px -20px rgba(245,165,36,0.4),
+      0 0 0 1px rgba(245,165,36,0.15) inset;
+    padding: 32px 36px;
+    margin: 12px 0;
+    z-index: 3;
+  }
+  .funnel-step.df::after {
+    color: rgba(245,165,36,0.6);
+    background: var(--paper);
+  }
+  .funnel-step.df .num {
+    color: var(--gold-deep);
+    font-weight: 700;
+  }
+  .funnel-step.df .icon { color: var(--gold); opacity: 1; }
+  .funnel-step.df h3 { color: var(--ink-strong); font-size: 18px; }
+  .funnel-step.df .tools {
+    color: var(--gold-deep);
+    font-weight: 700;
+  }
+  /* "Hier ist Dealfalcon" pin */
+  .funnel-pin {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink-strong);
+    color: white;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px -6px rgba(0,0,0,0.3);
+    z-index: 4;
+  }
+  .funnel-pin::before {
+    content: "●";
+    color: var(--gold);
+    margin-right: 6px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  /* Pin-Verbindung zur df-Box */
+  .funnel-pin::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--ink-strong);
+  }
+
+  /* Bottom: Description of what Dealfalcon does at this phase */
+  .funnel-detail {
+    margin-top: 56px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .funnel-detail-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gold-deep);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .funnel-detail h3 {
+    font-size: clamp(24px, 2.8vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink-strong);
+    margin-bottom: 16px;
+  }
+  .funnel-detail h3 .accent { color: var(--gold); }
+  .funnel-detail p {
+    font-size: 17px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    max-width: 620px;
+    margin: 0 auto;
   }
 
   /* PROBLEM */
@@ -345,7 +1120,7 @@
     line-height: 1.55;
     letter-spacing: -0.005em;
   }
-  .scene-step.problem h3 { color: #ff8866; }
+  .scene-step.problem h3 { color: var(--gold-deep); }
 
   /* SOLUTION */
   .solution-section {
@@ -371,6 +1146,66 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Split layout: benefits left, animated stage right */
+  .solution-split {
+    margin-top: 96px;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 80px;
+    align-items: center;
+  }
+  .solution-benefits {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .benefit {
+    position: relative;
+    padding-left: 60px;
+  }
+  .benefit-num {
+    position: absolute;
+    left: 0;
+    top: -4px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245,165,36,0.05);
+  }
+  .benefit h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink-strong);
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .benefit p {
+    font-size: 16px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    margin: 0;
+  }
+  /* Stage inside solution section (light bg) — flip the box-shadow tone */
+  .solution-section .hero-stage {
+    margin: 0 auto;
+    max-width: 520px;
   }
 
   /* COCKPIT-DEMO */
@@ -837,14 +1672,15 @@
     gap: 48px;
     align-items: start;
   }
-  .wf-step:nth-child(even) {
+  /* Zigzag for the recurring 7 steps — setup step is excluded via :not() */
+  .wf-step:not(.wf-setup):nth-child(odd) {
     grid-template-columns: 1fr 200px;
   }
-  .wf-step:nth-child(even) .wf-num {
+  .wf-step:not(.wf-setup):nth-child(odd) .wf-num {
     order: 2;
     text-align: right;
   }
-  .wf-step:nth-child(even) .wf-content {
+  .wf-step:not(.wf-setup):nth-child(odd) .wf-content {
     order: 1;
     text-align: right;
   }
@@ -875,7 +1711,7 @@
     letter-spacing: -0.005em;
     max-width: 640px;
   }
-  .wf-step:nth-child(even) .wf-content p {
+  .wf-step:not(.wf-setup):nth-child(odd) .wf-content p {
     margin-left: auto;
   }
   .wf-tag {
@@ -897,7 +1733,7 @@
     margin-left: -28px;
     border-radius: 0 16px 16px 0;
   }
-  .wf-step:nth-child(even).wf-highlight .wf-content {
+  .wf-step:not(.wf-setup):nth-child(odd).wf-highlight .wf-content {
     border-left: none;
     border-right: 3px solid var(--gold);
     margin-left: 0;
@@ -908,6 +1744,48 @@
   .wf-step.wf-highlight .wf-tag {
     background: rgba(245,165,36,0.12);
     color: var(--gold-deep);
+  }
+
+  /* Setup step (00) — different from the recurring 7 */
+  .wf-step.wf-setup {
+    grid-template-columns: 200px 1fr !important;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, rgba(10,10,10,0.03), transparent 60%);
+    border: 1.5px dashed rgba(10,10,10,0.18);
+    border-radius: 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .wf-step.wf-setup::before {
+    content: "Einmal-Setup";
+    position: absolute;
+    top: -12px;
+    left: 32px;
+    background: var(--paper);
+    color: var(--ink-mid);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+  }
+  .wf-step.wf-setup .wf-num {
+    background: linear-gradient(135deg, #1a1a1a, #404040);
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0.85;
+  }
+  .wf-step.wf-setup .wf-content {
+    order: initial !important;
+    text-align: left !important;
+  }
+  .wf-step.wf-setup .wf-content p {
+    margin-left: 0 !important;
+  }
+  .wf-step.wf-setup .wf-tag {
+    background: rgba(10,10,10,0.06);
+    color: var(--ink-strong);
   }
 
   /* VALUE */
@@ -1187,18 +2065,41 @@
   /* RESPONSIVE */
   @media (max-width: 920px) {
     .nav-links { display: none; }
-    .hero { min-height: 70vh; padding: 80px 24px 60px; }
+    .hero { min-height: auto; padding: 80px 24px 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-content { text-align: center; }
+    .hero-sub { margin-left: auto; margin-right: auto; }
+    .hero-cta { justify-content: center; }
+    .hero-promise { justify-content: center; flex-wrap: nowrap; font-size: 11px; max-width: 320px; margin-left: auto; margin-right: auto; text-align: left; }
+    .hero-promise .num { font-size: 18px; flex-shrink: 0; }
+    .hero-stage { margin: 0 auto; max-width: 420px; }
+    .stage-ai { font-size: 10px; max-width: 130px; padding: 7px 10px; right: 2%; top: 14%; }
+    .funnel { max-width: 100%; }
+    .funnel-step,
+    .funnel-step:nth-child(1),
+    .funnel-step:nth-child(2),
+    .funnel-step:nth-child(3),
+    .funnel-step:nth-child(4),
+    .funnel-step:nth-child(5) { width: 100%; grid-template-columns: 1fr; text-align: center; gap: 12px; padding: 20px 16px; }
+    .funnel-step .icon { margin: 0 auto; }
+    .funnel-step .tools { text-align: center; }
+    .funnel-step::after { bottom: -12px; }
+    .funnel-step.df { padding: 28px 16px; }
+    .funnel-pin { top: -16px; }
     .problem-scene { grid-template-columns: 1fr; }
     .scene-step { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .scene-step:last-child { border-bottom: none; }
     .cockpit-grid { grid-template-columns: 1fr; }
+    .solution-split { grid-template-columns: 1fr; gap: 56px; }
+    .solution-benefits { gap: 32px; }
     .story-grid { grid-template-columns: 1fr; gap: 48px; }
     .story-mock { transform: none !important; }
     .story-stats { grid-template-columns: 1fr; gap: 16px; }
-    .wf-step, .wf-step:nth-child(even) { grid-template-columns: 80px 1fr; gap: 24px; }
-    .wf-step:nth-child(even) .wf-num,
-    .wf-step:nth-child(even) .wf-content { order: initial; text-align: left; }
-    .wf-step:nth-child(even) .wf-content p { margin-left: 0; }
+    .wf-step, .wf-step:not(.wf-setup):nth-child(odd) { grid-template-columns: 80px 1fr !important; gap: 24px; }
+    .wf-step.wf-setup { grid-template-columns: 80px 1fr !important; padding: 24px 16px; }
+    .wf-step:not(.wf-setup):nth-child(odd) .wf-num,
+    .wf-step:not(.wf-setup):nth-child(odd) .wf-content { order: initial; text-align: left; }
+    .wf-step:not(.wf-setup):nth-child(odd) .wf-content p { margin-left: 0; }
     .wf-num { font-size: 56px; }
     .wf-content h3 { font-size: 22px; }
     .wf-content p { font-size: 15px; }
@@ -1246,21 +2147,6 @@
   .ind-icon svg { display: block; }
 
 </style>
-
-<script>
-  // Auto-Redirect: Wenn Magic-Link-Token in URL → zu Dashboard
-  (function() {
-    if (window.location.hash && window.location.hash.indexOf('access_token=') !== -1) {
-      window.location.replace('/app/dashboard' + window.location.hash);
-    } else if (window.location.hash && window.location.hash.indexOf('error_code=') !== -1) {
-      // Fehler-Hash → zur Login-Seite mit Fehlermeldung
-      var errMatch = window.location.hash.match(/error_code=([^&]+)/);
-      var errCode = errMatch ? errMatch[1] : 'unknown';
-      window.location.replace('/login?error=' + encodeURIComponent(errCode));
-    }
-  })();
-</script>
-
 </head>
 <body>
 
@@ -1279,31 +2165,108 @@
       <li><a href="#workflow">So geht's</a></li>
       <li><a href="#stories">Beispiele</a></li>
       <li><a href="/pricing">Preise</a></li>
-      <li><a href="/login" class="nav-cta-ghost">Anmelden</a></li>
-      <li><a href="/app/dashboard" class="nav-cta">Zur App</a></li>
+      <li><a href="/app/dashboard?demo=1" class="nav-cta">Live-Demo</a></li>
     </ul>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-bg-gradient"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <span class="pulse"></span>
-      Vertriebs-Cockpit für erklärungsbedürftige Leistungen
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="pulse"></span>
+        Ihr digitaler Verkaufsraum
+      </div>
+      <h1>
+        <span class="lead"><span class="gold-word">50 %</span> mehr Abschlüsse</span>
+        <span class="lead">durch Transparenz</span>
+        <span class="lead">in der Entscheidungsphase.</span>
+      </h1>
+      <p class="hero-sub">
+        Statt Funkstille nach dem Angebot sehen Sie live, was beim Kunden passiert. Damit Ihr Vertrieb anruft, wenn das Interesse heiß ist — nicht drei Tage zu spät.
+      </p>
+      <div class="hero-cta">
+        <a href="/app/dashboard?demo=1" class="btn btn-gold">Live-Demo ansehen</a>
+        <a href="#problem" class="btn btn-ghost">So funktioniert's</a>
+      </div>
+      <div class="hero-meta">Server in der EU · Made in Germany</div>
     </div>
-    <h1>
-      <span class="number">+50 %</span>
-      <span class="small">höhere Abschlusswahrscheinlichkeit<br>durch Transparenz nach dem Versand.</span>
-    </h1>
-    <p class="hero-sub">
-      Sie senden Ihr Angebot — und sehen live, was beim Kunden passiert. Wer liest. Wo er verweilt. Wann der richtige Moment für den Anruf ist. Schluss mit Funkstille nach dem PDF-Versand.
-    </p>
-    <div class="hero-cta">
-      <a href="/demo" class="btn btn-gold">Live-Demo ansehen</a>
-      <a href="#problem" class="btn btn-ghost">So funktioniert's</a>
+  </div>
+</section>
+
+<!-- FUNNEL — Wo sitzt Dealfalcon im Sales-Prozess? -->
+<section class="funnel-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-eyebrow">Wo sitzt Dealfalcon?</div>
+      <h2>Genau dort, wo Aufträge<br>wirklich <span class="accent">entschieden</span> werden.</h2>
+      <p class="section-sub">
+        Vier Phasen Ihres Vertriebsprozesses haben längst Tools. Die wichtigste hat keine.
+      </p>
     </div>
-    <div class="hero-meta">Server in Deutschland · DSGVO-konform · Made in Germany</div>
+
+    <div class="funnel">
+
+      <div class="funnel-step">
+        <span class="num">01 · Akquise</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.5" y2="16.5"/>
+        </svg>
+        <h3>Leads finden</h3>
+        <div class="tools">Empfehlungen<br>Messen, LinkedIn</div>
+      </div>
+
+      <div class="funnel-step">
+        <span class="num">02 · Qualifizierung</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        <h3>Bedarf klären</h3>
+        <div class="tools">Telefon, Termin<br>Besichtigung</div>
+      </div>
+
+      <div class="funnel-step">
+        <span class="num">03 · Angebot</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <h3>PDF erstellen</h3>
+        <div class="tools">ERP, Word<br>InDesign</div>
+      </div>
+
+      <!-- Das ist die Dealfalcon-Phase -->
+      <div class="funnel-step df">
+        <div class="funnel-pin">Hier ist Dealfalcon</div>
+        <span class="num">04 · Entscheidung</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <h3>Kunde liest, prüft,<br>entscheidet</h3>
+        <div class="tools">Bisher: Funkstille<br>Mit Dealfalcon: Sicht</div>
+      </div>
+
+      <div class="funnel-step">
+        <span class="num">05 · Abschluss</span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <h3>Auftrag bestätigen</h3>
+        <div class="tools">ERP, Buchhaltung<br>Unterschrift</div>
+      </div>
+
+    </div>
+
+    <div class="funnel-detail">
+      <div class="funnel-detail-eyebrow">Die Entscheidungsphase</div>
+      <h3>Hier werden Aufträge gewonnen oder verloren — und genau hier sind die meisten Verkäufer <span class="accent">blind.</span></h3>
+      <p>
+        Zwischen „Angebot raus" und „Auftrag erteilt" liegen die kritischsten Tage Ihres Vertriebs. Wer da nicht sieht, was beim Kunden passiert, ruft zu spät an — oder gar nicht. Dealfalcon ist genau für diese Phase gebaut.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1343,89 +2306,131 @@
     <div class="section-eyebrow">Nachher · mit Dealfalcon</div>
     <h2>Sie wissen <span class="accent">alles.</span><br>In Echtzeit.</h2>
     <p class="section-sub" style="color: var(--ink-mid); margin-top: 20px;">
-      Ihr Angebot ist eine Microsite. Ihr Live-Cockpit zeigt Ihnen jeden Klick, jede Verweildauer, jede Frage. Sie greifen ein, wenn der Moment es verlangt — nicht aus Bauchgefühl.
+      Ihr Angebot wird zum digitalen Verkaufsraum. Ihr Live-Cockpit zeigt Ihnen jeden Klick, jede Verweildauer, jede Frage. Sie greifen ein, wenn der Moment es verlangt — nicht aus Bauchgefühl.
     </p>
   </div>
 
-  <div class="cockpit-demo">
-    <div class="cockpit-frame">
-      <div class="cockpit-bar">
-        <div class="cockpit-dots"><span></span><span></span><span></span></div>
-        <div class="cockpit-url">cockpit.dealfalcon.app/2026-0428</div>
+  <div class="solution-split">
+    <div class="solution-benefits">
+      <div class="benefit">
+        <div class="benefit-num">01</div>
+        <h3>Live-Tracking statt Funkstille</h3>
+        <p>Sehen Sie in Echtzeit, wer Ihr Angebot öffnet, welche Sektion ihn beschäftigt, welche Datei er herunterlädt. Aus Bauchgefühl wird Wissen.</p>
       </div>
-      <div class="cockpit-content">
-        <div class="cockpit-grid">
-          <div class="cockpit-side">
-            <h3>Vorgang aktiv</h3>
-            <div class="deal-stats">
-              <div class="deal-stats-customer">Müller GmbH · Vorgang 2026-0428</div>
-              <div class="deal-stats-amount">192.900 €</div>
-              <div class="deal-stats-label">netto · v3 publiziert</div>
-              <div class="deal-quick-stats">
-                <div class="deal-quick-stat">
-                  <strong>3</strong>
-                  <small>Empfänger aktiv</small>
-                </div>
-                <div class="deal-quick-stat">
-                  <strong>14 m</strong>
-                  <small>Lesezeit</small>
-                </div>
-              </div>
-            </div>
+      <div class="benefit">
+        <div class="benefit-num">02</div>
+        <h3>KI empfiehlt den richtigen Moment</h3>
+        <p>Wenn der Kunde dreimal auf die Preis-Seite klickt oder das Angebot intern weiterleitet, schlägt die KI Alarm: jetzt anrufen.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-num">03</div>
+        <h3>Alle Versionen an einem Ort</h3>
+        <p>Jede Korrektur, jede Anpassung als neue Version — übersichtlich gestapelt. Sie sehen, welche Variante der Kunde gerade liest. Er sieht immer den aktuellsten Stand. Keine PDFs mehr, die durcheinander geraten.</p>
+      </div>
+    </div>
 
-            <div class="ai-suggestion">
-              <div class="ai-suggestion-eyebrow">
-                <span class="ai-suggestion-label">◆ KI-Empfehlung</span>
-                <span class="ai-conf">87 %</span>
-              </div>
-              <h4>Jetzt anrufen — heisses Signal.</h4>
-              <p>Markus Berger hat in 2h dreimal die Skizze geöffnet. Klassisches Pre-Decision-Verhalten.</p>
+    <!-- Animated Hero Stage moved here from Hero -->
+    <div class="hero-stage" aria-hidden="true">
+      <div class="stage-bar">
+        <span class="dot"></span>
+        <span class="label-step" id="stageStep">Angebot versendet</span>
+        <span class="timer" id="stageTimer">00:00</span>
+      </div>
+
+      <svg class="stage-falcon" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
+        <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
+        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+      </svg>
+      <div class="falcon-trail"></div>
+
+      <div class="stage-ghost">
+        <div class="stage-ghost-label">Live-Tracking</div>
+        <div class="stage-ghost-rows">
+          <div class="stage-ghost-row"></div>
+          <div class="stage-ghost-row"></div>
+          <div class="stage-ghost-row"></div>
+          <div class="stage-ghost-row"></div>
+          <div class="stage-ghost-row"></div>
+        </div>
+        <div class="stage-ghost-bars">
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+          <div class="stage-ghost-bar"></div>
+        </div>
+      </div>
+
+      <div class="stage-microsite">
+        <div class="ms-header">
+          <span class="light"></span>
+          <span class="light"></span>
+          <span class="light"></span>
+          <span class="url">dealfalcon.io/a/2026-0428</span>
+        </div>
+        <div class="ms-body">
+          <div class="ms-sub">Ihr Angebot</div>
+          <div class="ms-title">Ihr individuelles Konzept</div>
+          <div class="ms-line"></div>
+          <div class="ms-line"></div>
+          <div class="ms-line"></div>
+          <div class="ms-line"></div>
+          <div class="ms-price-row">
+            <span class="ms-price-label">Investition</span>
+            <span class="ms-price">auf Anfrage</span>
+          </div>
+          <div class="ms-section">
+            <div class="ms-sub-small">Leistungen</div>
+            <div class="ms-block-grid">
+              <div class="ms-block"></div>
+              <div class="ms-block"></div>
+              <div class="ms-block"></div>
+              <div class="ms-block"></div>
             </div>
           </div>
-
-          <div class="cockpit-side">
-            <h3>Live-Aktivität</h3>
-            <div class="live-feed-card">
-              <div class="live-feed-header">
-                <span class="live-dot">LIVE</span>
-                <span>letzte 24h</span>
-              </div>
-              <div class="feed-item new">
-                <div class="feed-icon eye"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 24c4-8 11-12 20-12s16 4 20 12c-4 8-11 12-20 12S8 32 4 24z"/><circle cx="24" cy="24" r="6" fill="#f5a524" stroke="none"/></svg></div>
-                <div class="feed-info">
-                  <strong>Markus Berger schaut Skizze · 3. Mal</strong>
-                  <small>4 Min · IP-Verlauf identisch</small>
-                </div>
-                <span class="feed-time">jetzt</span>
-              </div>
-              <div class="feed-item">
-                <div class="feed-icon click"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10l6 22 5-9 9-5z"/><line x1="24" y1="24" x2="36" y2="36"/><circle cx="36" cy="36" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
-                <div class="feed-info">
-                  <strong>Datenblatt PBT15 geöffnet</strong>
-                  <small>von Sabine Kraus · Einkauf</small>
-                </div>
-                <span class="feed-time">vor 2h</span>
-              </div>
-              <div class="feed-item">
-                <div class="feed-icon download"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="24" y1="6" x2="24" y2="30"/><polyline points="14,22 24,32 34,22"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="32" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
-                <div class="feed-info">
-                  <strong>Original-PDF heruntergeladen</strong>
-                  <small>von Thomas Müller · Geschäftsführung</small>
-                </div>
-                <span class="feed-time">vor 5h</span>
-              </div>
-              <div class="feed-item">
-                <div class="feed-icon eye"><svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polygon points="20,16 32,24 20,32" fill="#f5a524" stroke="none"/></svg></div>
-                <div class="feed-info">
-                  <strong>Erklärvideo zu Position 02 angesehen</strong>
-                  <small>2:14 von 2:32 Min · Markus Berger</small>
-                </div>
-                <span class="feed-time">vor 1d</span>
-              </div>
-            </div>
+          <div class="ms-cta-mock">
+            <span>Angebot annehmen</span>
           </div>
         </div>
       </div>
+
+      <svg class="stage-cursor" viewBox="0 0 14 14">
+        <path d="M2 1 L2 11 L5 8 L7 12 L9 11 L7 7 L11 7 Z" fill="#f5a524" stroke="#0a0a0a" stroke-width="0.8" stroke-linejoin="round"/>
+      </svg>
+
+      <div class="stage-ai">
+        <strong>KI-Empfehlung</strong>
+        Kunde liest seit 4:32 — jetzt anrufen.
+      </div>
+
+      <div class="stage-feed">
+        <div class="stage-feed-title">Live-Aktivität</div>
+        <div class="feed-row">
+          <span class="time">14:02</span>
+          <span class="tag">→</span>
+          <span class="text">Angebot versendet</span>
+        </div>
+        <div class="feed-row">
+          <span class="time">14:18</span>
+          <span class="tag">●</span>
+          <span class="text">Geöffnet · Hauptseite</span>
+        </div>
+        <div class="feed-row">
+          <span class="time">14:22</span>
+          <span class="tag">●</span>
+          <span class="text">Preis-Sektion · 1:42 min</span>
+        </div>
+        <div class="feed-row win">
+          <span class="time">14:31</span>
+          <span class="tag">✓</span>
+          <span class="text">Deal gewonnen</span>
+        </div>
+      </div>
+
+      <div class="stage-win"></div>
     </div>
   </div>
 </section>
@@ -1550,7 +2555,7 @@
   <div class="container-narrow">
     <div style="text-align: center;">
       <div class="section-eyebrow">So geht's</div>
-      <h2 class="section-title">Sieben Schritte<br>vom PDF zum Abschluss.</h2>
+      <h2 class="section-title">Einmal einrichten.<br>Dann sieben Schritte<br>zum Abschluss.</h2>
       <p class="section-sub">
         Sie arbeiten weiter mit Ihrem ERP, Word oder Buchhaltungs-Tool. Dealfalcon greift dort ein, wo das PDF normalerweise als E-Mail-Anhang verschickt würde.
       </p>
@@ -1558,6 +2563,15 @@
   </div>
 
   <div class="workflow-steps">
+    <div class="wf-step wf-setup">
+      <div class="wf-num">00</div>
+      <div class="wf-content">
+        <h3>Einmalig einrichten.</h3>
+        <p>Unternehmensdaten, Logo und Corporate Design einpflegen. Nutzer anlegen. Ihre Mediathek befüllen — Datenblätter, Produktvideos, Referenzfotos, Anleitungen. Was später in jedem Angebot in Sekunden zur Verfügung steht, legen Sie hier einmal ab.</p>
+        <span class="wf-tag">~15 Minuten · einmalig</span>
+      </div>
+    </div>
+
     <div class="wf-step">
       <div class="wf-num">01</div>
       <div class="wf-content">
@@ -1691,8 +2705,8 @@
     </div>
     <div class="adv-card">
       <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6l16 6v10c0 10-7 18-16 22-9-4-16-12-16-22V12z"/><polyline points="16,24 22,30 32,18"/><circle cx="32" cy="18" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
-      <h3>Server in Deutschland.</h3>
-      <p>Alle Daten bleiben in der EU. Auftragsverarbeitungsvertrag automatisch. DSGVO-konform von der ersten Sekunde — Voraussetzung für seriöse Geschäftsbeziehungen im DACH-Raum.</p>
+      <h3>Server in der EU.</h3>
+      <p>Alle Daten bleiben in europäischen Rechenzentren. Frankfurt-Region. Datenschutz hat für uns höchste Priorität — Voraussetzung für seriöse Geschäftsbeziehungen im DACH-Raum.</p>
     </div>
   </div>
 </section>
@@ -1700,9 +2714,9 @@
 <section class="industry-section">
   <div class="container">
     <div class="section-eyebrow">Für wen?</div>
-    <h2 class="section-title">Für alle, die erklärungsbedürftige<br>Leistungen verkaufen.</h2>
+    <h2 class="section-title">Für alle, die <span class="accent">beratungsintensive</span><br>Produkte und Leistungen verkaufen.</h2>
     <p class="section-sub" style="color: var(--ink-mid); margin-top: 20px;">
-      Egal ob B2B oder B2C — überall dort, wo das Angebot mehr ist als ein Preis.
+      B2B oder B2C — überall dort, wo zwischen Angebot und Auftrag mehr passiert als nur eine Unterschrift.
     </p>
   </div>
 
@@ -1710,32 +2724,42 @@
     <div class="ind-card">
       <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v6M24 38v6M44 24h-6M10 24H4M37 11l-4 4M15 33l-4 4M37 37l-4-4M15 15l-4-4"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
       <strong>Maschinen- &amp; Anlagenbau</strong>
-      <small>Sondermaschinen, Anlagen, Werkzeugbau, Sondermaschinenbau</small>
+      <small>Sondermaschinen, Anlagen, Werkzeugbau</small>
     </div>
     <div class="ind-card">
       <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6c-5 0-9 4-9 9 0 2 1 4 2 5L8 35c-2 2-2 5 0 7s5 2 7 0l15-15c1 1 3 2 5 2 5 0 9-4 9-9 0-2-1-3-2-5l-5 5-5-5 5-5c-2-1-3-2-5-2z"/><circle cx="11" cy="37" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
       <strong>Handwerk &amp; Bau</strong>
-      <small>SHK, Elektro, Tischler, Dachdecker, Generalunternehmer</small>
+      <small>SHK, Elektro, Tischler, Dachdecker</small>
     </div>
     <div class="ind-card">
       <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="10"/><line x1="24" y1="38" x2="24" y2="44"/><line x1="4" y1="24" x2="10" y2="24"/><line x1="38" y1="24" x2="44" y2="24"/><line x1="10" y1="10" x2="14" y2="14"/><line x1="34" y1="34" x2="38" y2="38"/><line x1="10" y1="38" x2="14" y2="34"/><line x1="34" y1="14" x2="38" y2="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
       <strong>Energie &amp; Photovoltaik</strong>
-      <small>PV-Anlagen, Wärmepumpen, Energieberatung, E-Mobilität</small>
+      <small>PV-Anlagen, Wärmepumpen, E-Mobilität</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30l4-12a4 4 0 0 1 4-3h20a4 4 0 0 1 4 3l4 12"/><path d="M4 30h40v8a2 2 0 0 1-2 2h-4v-4H10v4H6a2 2 0 0 1-2-2v-8z"/><circle cx="12" cy="34" r="2.5" fill="#f5a524" stroke="none"/><circle cx="36" cy="34" r="2.5" fill="currentColor" stroke="none"/></svg></div>
+      <strong>KfZ-Handel</strong>
+      <small>Autohäuser, Nutzfahrzeuge, Wohnmobile, E-Mobilität</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="32" rx="2"/><line x1="6" y1="20" x2="42" y2="20"/><line x1="24" y1="8" x2="24" y2="40"/><circle cx="15" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="33" cy="14" r="1.5" fill="#f5a524" stroke="none"/><rect x="11" y="26" width="8" height="10" rx="1"/><rect x="29" y="26" width="8" height="10" rx="1"/></svg></div>
+      <strong>Küchen &amp; Möbel</strong>
+      <small>Einbauküchen, Möbelhäuser, Innenausstattung</small>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2"/><circle cx="24" cy="28" r="9"/><circle cx="24" cy="28" r="5" fill="#f5a524" stroke="none"/><line x1="14" y1="10" x2="22" y2="10"/><circle cx="32" cy="11" r="1" fill="currentColor" stroke="none"/></svg></div>
+      <strong>Elektrogeräte &amp; Weiße Ware</strong>
+      <small>Waschmaschinen, Großgeräte, Smart Home</small>
     </div>
     <div class="ind-card">
       <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="24,4 30,18 44,20 34,30 36,44 24,37 12,44 14,30 4,20 18,18"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
       <strong>Agenturen &amp; Beratung</strong>
-      <small>Werbe-, Web- und PR-Agenturen, Strategie- und Unternehmensberatung</small>
-    </div>
-    <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="30" width="40" height="10" rx="1"/><line x1="10" y1="30" x2="10" y2="36"/><line x1="16" y1="30" x2="16" y2="34"/><line x1="22" y1="30" x2="22" y2="36"/><line x1="28" y1="30" x2="28" y2="34"/><line x1="34" y1="30" x2="34" y2="36"/><line x1="40" y1="30" x2="40" y2="34"/><circle cx="40" cy="30" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
-      <strong>Architekten &amp; Planer</strong>
-      <small>Architekturbüros, Innenarchitekten, Garten- und Landschaftsbau</small>
+      <small>Werbe-, Web-, PR-Agenturen, Beratungen</small>
     </div>
     <div class="ind-card">
       <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6 6 6-12 6 8 6-8 6 12 6-6-2 22H8z"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="22" r="3" fill="#f5a524" stroke="none"/></svg></div>
       <strong>Hochpreisige Dienstleistung</strong>
-      <small>Hochzeiten, Eventproduktion, Immobilienmakler, IT-Dienstleister</small>
+      <small>Hochzeiten, Events, Immobilien, IT-Projekte</small>
     </div>
   </div>
 </section>
@@ -1747,7 +2771,7 @@
       Eine Live-Demo mit echten Vorgängen. Sie testen das Cockpit, die Microsite und die KI-Empfehlung — direkt im Browser, ohne Anmeldung.
     </p>
     <div class="cta-buttons">
-      <a href="/demo" class="btn btn-gold">Live-Demo ansehen</a>
+      <a href="/app/dashboard?demo=1" class="btn btn-gold">Live-Demo ansehen</a>
       <a href="/pricing" class="btn btn-ghost">Preise ansehen</a>
     </div>
   </div>
@@ -1776,7 +2800,7 @@
           <li><a href="#workflow">So geht's</a></li>
           <li><a href="#stories">Beispiele</a></li>
           <li><a href="/pricing">Preise</a></li>
-          <li><a href="/demo">Live-Demo</a></li>
+          <li><a href="/app/dashboard?demo=1">Live-Demo</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1799,9 +2823,64 @@
   </div>
   <div class="footer-bottom">
     <span>© 2026 Dealfalcon</span>
-    <span>Server in Deutschland · DSGVO-konform · Made in Germany</span>
+    <span>Server in der EU · Made in Germany</span>
   </div>
 </footer>
 
+<script>
+  // Hero stage: sync the status label & timer with the 8s CSS animation loop
+  (function () {
+    var stepEl = document.getElementById('stageStep');
+    var timerEl = document.getElementById('stageTimer');
+    if (!stepEl || !timerEl) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      stepEl.textContent = 'Live-Tracking';
+      timerEl.textContent = '04:32';
+      return;
+    }
+    // Beats keyed to the 8000ms CSS loop (in ms)
+    var beats = [
+      { t:    0, label: 'Angebot versendet' },
+      { t: 1100, label: 'Geöffnet vom Kunden' },
+      { t: 2400, label: 'Liest Preis-Sektion' },
+      { t: 3400, label: 'KI-Empfehlung aktiv' },
+      { t: 5200, label: 'Anruf empfohlen' },
+      { t: 6800, label: 'Deal gewonnen ✓' }
+    ];
+    var loop = 8000;
+    var start = performance.now();
+    var lastIdx = -1;
+
+    function fmt(ms) {
+      // Map loop progress to a "running" timer 00:00 → 04:32, then reset
+      var p = (ms % loop) / loop;
+      var totalSec = Math.floor(p * 272); // 4:32 = 272s
+      var m = Math.floor(totalSec / 60);
+      var s = totalSec % 60;
+      return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function tick(now) {
+      var elapsed = now - start;
+      var phase = elapsed % loop;
+      // Find the active beat
+      var idx = 0;
+      for (var i = 0; i < beats.length; i++) {
+        if (phase >= beats[i].t) idx = i;
+      }
+      if (idx !== lastIdx) {
+        stepEl.style.opacity = '0';
+        setTimeout(function () {
+          stepEl.textContent = beats[idx].label;
+          stepEl.style.opacity = '1';
+        }, 150);
+        lastIdx = idx;
+      }
+      timerEl.textContent = fmt(elapsed);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+</script>
 </body>
 </html>
