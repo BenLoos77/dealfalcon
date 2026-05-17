@@ -10,13 +10,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --black-soft: #161616;
-    --black-deep: #050505;
-    --gold: #f5a524;
-    --gold-deep: #c97a14;
-    --gold-light: #fbbf24;
+    /* === DEALFALCON V2 — MARINE + BMW-M === */
+    /* Marine als Hauptdunkelfarbe (statt Schwarz) */
+    --black: #00253A;
+    --black-soft: #1a3a4f;
+    --black-deep: #001A2A;
 
+    /* Brand-Akzente — Gold-Variablen behalten Namen, aber neue Werte */
+    --gold: #F11A22;
+    --gold-deep: #C41419;
+    --gold-light: #FF3F46;
+
+    /* Sekundär-Akzent (Hellblau für Info) */
+    --info-blue: #008AC9;
+    --info-blue-light: #4DB1DC;
+    --info-blue-deep: #006FA1;
+
+    /* Premium-Akzent (Violett) */
+    --premium-violet: #4A2D8F;
+    --premium-violet-glow: #6B3FBF;
+
+    /* Text — Schwarz für beste Lesbarkeit auf Weiß */
     --ink: #0a0a0a;
     --ink-strong: #1d1d1f;
     --ink-mid: #424245;
@@ -33,7 +47,7 @@
     --mono: 'Geist Mono', 'SF Mono', monospace;
 
     --green: #16a34a;
-    --red: #dc2626;
+    --red: #F11A22;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -112,7 +126,7 @@
 
   /* HERO */
   .hero {
-    background: var(--black-deep);
+    background: #00253A;
     color: white;
     padding: 100px 24px 80px;
     position: relative;
@@ -122,29 +136,74 @@
     align-items: center;
     justify-content: center;
   }
+  /* Aurora-Animation: sanft fließende Lichtblobs */
   .hero-bg-gradient {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(245, 165, 36, 0.22), transparent 55%),
-      radial-gradient(ellipse at 78% 75%, rgba(245, 165, 36, 0.12), transparent 55%);
+    overflow: hidden;
     pointer-events: none;
   }
-  /* Subtle moving grain on top of gradient */
+  .hero-bg-gradient::before,
+  .hero-bg-gradient::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    mix-blend-mode: screen;
+  }
+  .hero-bg-gradient::before {
+    width: 600px; height: 600px;
+    background: #4DB1DC;
+    top: -100px; left: -100px;
+    opacity: 0.5;
+    animation: blob1 18s ease-in-out infinite;
+  }
+  .hero-bg-gradient::after {
+    width: 500px; height: 500px;
+    background: #6B3FBF;
+    bottom: -100px; right: -50px;
+    opacity: 0.45;
+    animation: blob2 22s ease-in-out infinite;
+  }
+  .hero .aurora-extra {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: #F11A22;
+    border-radius: 50%;
+    filter: blur(100px);
+    bottom: 20%; left: 40%;
+    opacity: 0.25;
+    mix-blend-mode: screen;
+    animation: blob3 25s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes blob1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(200px, 150px) scale(1.2); }
+    66% { transform: translate(-100px, 250px) scale(0.9); }
+  }
+  @keyframes blob2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-150px, 100px) scale(1.3); }
+  }
+  @keyframes blob3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, -150px) scale(1.1); }
+  }
+  /* Alte Grid-Animation entfernt — Aurora ersetzt sie */
   .hero::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(245,165,36,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245,165,36,0.04) 1px, transparent 1px);
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 64px 64px;
-    background-position: 0 0;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
     animation: heroGrid 40s linear infinite;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.4;
   }
   @keyframes heroGrid {
     from { background-position: 0 0, 0 0; }
@@ -168,8 +227,8 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: rgba(245, 165, 36, 0.10);
-    border: 1px solid rgba(245, 165, 36, 0.3);
+    background: rgba(241, 26, 34, 0.10);
+    border: 1px solid rgba(241, 26, 34, 0.3);
     padding: 8px 18px;
     border-radius: 100px;
     font-family: var(--mono);
@@ -213,7 +272,7 @@
     content: "";
     position: absolute;
     inset: -10px -20px;
-    background: radial-gradient(ellipse, rgba(245, 165, 36, 0.28), transparent 70%);
+    background: radial-gradient(ellipse, rgba(241, 26, 34, 0.28), transparent 70%);
     z-index: -1;
     pointer-events: none;
   }
@@ -277,7 +336,7 @@
   }
   .btn-gold:hover {
     background: var(--gold-light);
-    box-shadow: 0 12px 32px rgba(245, 165, 36, 0.4);
+    box-shadow: 0 12px 32px rgba(241, 26, 34, 0.4);
     transform: translateY(-1px);
   }
   .btn-ghost {
@@ -306,14 +365,14 @@
     margin-left: auto;
     border-radius: 24px;
     background:
-      radial-gradient(ellipse at 70% 30%, rgba(245,165,36,0.10), transparent 60%),
-      linear-gradient(180deg, #131313 0%, #0a0a0a 100%);
+      radial-gradient(ellipse at 70% 30%, rgba(241, 26, 34,0.10), transparent 60%),
+      linear-gradient(180deg, #1a3a4f 0%, #00253A 100%);
     border: 1px solid rgba(255,255,255,0.06);
     overflow: hidden;
     box-shadow:
       0 40px 80px -30px rgba(0,0,0,0.7),
-      0 0 0 1px rgba(245,165,36,0.05) inset,
-      0 30px 100px -40px rgba(245,165,36,0.25);
+      0 0 0 1px rgba(241, 26, 34,0.05) inset,
+      0 30px 100px -40px rgba(241, 26, 34,0.25);
   }
   /* Faint scan-grid inside the stage */
   .hero-stage::before {
@@ -337,10 +396,10 @@
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(245,165,36,0) 30%,
-      rgba(245,165,36,0.08) 48%,
-      rgba(245,165,36,0.18) 50%,
-      rgba(245,165,36,0.08) 52%,
+      rgba(241, 26, 34,0) 30%,
+      rgba(241, 26, 34,0.08) 48%,
+      rgba(241, 26, 34,0.18) 50%,
+      rgba(241, 26, 34,0.08) 52%,
       transparent 70%
     );
     pointer-events: none;
@@ -362,19 +421,19 @@
     left: 4%;
     right: 22%;
     bottom: 30%;
-    border: 1px solid rgba(245,165,36,0.18);
+    border: 1px solid rgba(241, 26, 34,0.18);
     border-radius: 14px;
     padding: 14px;
     overflow: hidden;
     z-index: 1;
-    background: linear-gradient(180deg, rgba(245,165,36,0.04), rgba(0,0,0,0.2));
+    background: linear-gradient(180deg, rgba(241, 26, 34,0.04), rgba(0,0,0,0.2));
     opacity: 0.7;
     transform: rotate(-1.5deg);
   }
   .stage-ghost-label {
     font-family: var(--mono);
     font-size: 8px;
-    color: rgba(245,165,36,0.6);
+    color: rgba(241, 26, 34,0.6);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-weight: 700;
@@ -387,13 +446,13 @@
   }
   .stage-ghost-row {
     height: 3px;
-    background: rgba(245,165,36,0.18);
+    background: rgba(241, 26, 34,0.18);
     border-radius: 2px;
   }
-  .stage-ghost-row:nth-child(2) { width: 80%; background: rgba(245,165,36,0.10); }
-  .stage-ghost-row:nth-child(3) { width: 65%; background: rgba(245,165,36,0.14); }
-  .stage-ghost-row:nth-child(4) { width: 45%; background: rgba(245,165,36,0.08); }
-  .stage-ghost-row:nth-child(5) { width: 70%; background: rgba(245,165,36,0.12); }
+  .stage-ghost-row:nth-child(2) { width: 80%; background: rgba(241, 26, 34,0.10); }
+  .stage-ghost-row:nth-child(3) { width: 65%; background: rgba(241, 26, 34,0.14); }
+  .stage-ghost-row:nth-child(4) { width: 45%; background: rgba(241, 26, 34,0.08); }
+  .stage-ghost-row:nth-child(5) { width: 70%; background: rgba(241, 26, 34,0.12); }
   .stage-ghost-bars {
     margin-top: 12px;
     display: flex;
@@ -403,7 +462,7 @@
   }
   .stage-ghost-bar {
     flex: 1;
-    background: linear-gradient(180deg, rgba(245,165,36,0.25), rgba(245,165,36,0.05));
+    background: linear-gradient(180deg, rgba(241, 26, 34,0.25), rgba(241, 26, 34,0.05));
     border-radius: 1px 1px 0 0;
     animation: ghostBar 3s ease-in-out infinite;
   }
@@ -465,7 +524,7 @@
       linear-gradient(180deg, rgba(26,26,26,0.94), rgba(14,14,14,0.94));
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(245,165,36,0.28);
+    border: 1px solid rgba(241, 26, 34,0.28);
     border-radius: 12px;
     overflow: hidden;
     transform: translateY(-8px) scale(0.92);
@@ -506,7 +565,7 @@
     background: rgba(255,255,255,0.15);
   }
   .ms-header .light:nth-child(2) { background: rgba(255,255,255,0.22); }
-  .ms-header .light:nth-child(3) { background: rgba(245,165,36,0.5); }
+  .ms-header .light:nth-child(3) { background: rgba(241, 26, 34,0.5); }
 
   .ms-body {
     padding: 14px;
@@ -607,7 +666,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(245,165,36,0.18), transparent);
+    background: linear-gradient(90deg, transparent, rgba(241, 26, 34,0.18), transparent);
     transform: translateX(-100%);
     animation: msShimmer 2.4s ease-in-out infinite;
   }
@@ -641,7 +700,7 @@
     z-index: 6;
     opacity: 0;
     animation: cursorPath 8s ease-in-out infinite;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(245,165,36,0.5));
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(241, 26, 34,0.5));
   }
   @keyframes cursorPath {
     0%, 14% { opacity: 0; transform: translate(40px, 60px); }
@@ -670,7 +729,7 @@
     opacity: 0;
     transform: translate(20px, -10px) scale(0.85);
     animation: aiPop 8s ease-in-out infinite;
-    box-shadow: 0 12px 30px -8px rgba(245,165,36,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+    box-shadow: 0 12px 30px -8px rgba(241, 26, 34,0.5), 0 0 0 1px rgba(255,255,255,0.1);
     letter-spacing: -0.01em;
   }
   .stage-ai::before {
@@ -694,7 +753,7 @@
     bottom: 14px;
     height: 30%;
     background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(245,165,36,0.12);
+    border: 1px solid rgba(241, 26, 34,0.12);
     border-radius: 10px;
     padding: 10px 12px;
     backdrop-filter: blur(6px);
@@ -945,17 +1004,17 @@
 
   /* Dealfalcon highlight — golden trapez stripe */
   .funnel-step.df {
-    background: linear-gradient(135deg, rgba(245,165,36,0.12), rgba(245,165,36,0.04));
-    border: 1.5px solid rgba(245,165,36,0.5);
+    background: linear-gradient(135deg, rgba(241, 26, 34,0.12), rgba(241, 26, 34,0.04));
+    border: 1.5px solid rgba(241, 26, 34,0.5);
     box-shadow:
-      0 20px 50px -20px rgba(245,165,36,0.4),
-      0 0 0 1px rgba(245,165,36,0.15) inset;
+      0 20px 50px -20px rgba(241, 26, 34,0.4),
+      0 0 0 1px rgba(241, 26, 34,0.15) inset;
     padding: 32px 36px;
     margin: 12px 0;
     z-index: 3;
   }
   .funnel-step.df::after {
-    color: rgba(245,165,36,0.6);
+    color: rgba(241, 26, 34,0.6);
     background: var(--paper);
   }
   .funnel-step.df .num {
@@ -1186,7 +1245,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(245,165,36,0.05);
+    background: rgba(241, 26, 34,0.05);
   }
   .benefit h3 {
     font-size: 22px;
@@ -1269,7 +1328,7 @@
     margin-bottom: 20px;
   }
   .deal-stats {
-    background: linear-gradient(135deg, var(--black), #1a1a1a);
+    background: linear-gradient(135deg, var(--black), #1a3a4f);
     color: white;
     padding: 24px;
     border-radius: 16px;
@@ -1359,7 +1418,7 @@
   }
   .feed-item:last-child { border-bottom: none; }
   .feed-item.new {
-    background: linear-gradient(90deg, rgba(245, 165, 36, 0.08), transparent);
+    background: linear-gradient(90deg, rgba(241, 26, 34, 0.08), transparent);
   }
   .feed-icon {
     width: 36px;
@@ -1395,12 +1454,12 @@
   }
 
   .ai-suggestion {
-    background: linear-gradient(135deg, var(--black), #1a1a1a);
+    background: linear-gradient(135deg, var(--black), #1a3a4f);
     color: white;
     padding: 24px;
     border-radius: 16px;
     margin-top: 20px;
-    border: 1px solid rgba(245, 165, 36, 0.2);
+    border: 1px solid rgba(241, 26, 34, 0.2);
   }
   .ai-suggestion-eyebrow {
     display: flex;
@@ -1419,7 +1478,7 @@
   .ai-conf {
     font-family: var(--mono);
     font-size: 10px;
-    background: rgba(245, 165, 36, 0.15);
+    background: rgba(241, 26, 34, 0.15);
     color: var(--gold);
     padding: 3px 8px;
     border-radius: 100px;
@@ -1452,11 +1511,11 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at top right, rgba(245, 165, 36, 0.08), transparent 60%);
+    background: radial-gradient(ellipse at top right, rgba(241, 26, 34, 0.08), transparent 60%);
     pointer-events: none;
   }
   .story-section.alt::before {
-    background: radial-gradient(ellipse at bottom left, rgba(245, 165, 36, 0.08), transparent 60%);
+    background: radial-gradient(ellipse at bottom left, rgba(241, 26, 34, 0.08), transparent 60%);
   }
 
   .story-grid {
@@ -1727,7 +1786,7 @@
     font-weight: 600;
   }
   .wf-step.wf-highlight .wf-content {
-    background: linear-gradient(135deg, rgba(245,165,36,0.06), transparent 60%);
+    background: linear-gradient(135deg, rgba(241, 26, 34,0.06), transparent 60%);
     border-left: 3px solid var(--gold);
     padding: 24px 28px;
     margin-left: -28px;
@@ -1739,10 +1798,10 @@
     margin-left: 0;
     margin-right: -28px;
     border-radius: 16px 0 0 16px;
-    background: linear-gradient(225deg, rgba(245,165,36,0.06), transparent 60%);
+    background: linear-gradient(225deg, rgba(241, 26, 34,0.06), transparent 60%);
   }
   .wf-step.wf-highlight .wf-tag {
-    background: rgba(245,165,36,0.12);
+    background: rgba(241, 26, 34,0.12);
     color: var(--gold-deep);
   }
 
@@ -1771,7 +1830,7 @@
     padding: 4px 12px;
   }
   .wf-step.wf-setup .wf-num {
-    background: linear-gradient(135deg, #1a1a1a, #404040);
+    background: linear-gradient(135deg, #1a3a4f, #4a6a7f);
     -webkit-background-clip: text;
     background-clip: text;
     opacity: 0.85;
@@ -1818,7 +1877,7 @@
   .value-card:hover {
     border-color: var(--gold);
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(245, 165, 36, 0.15);
+    box-shadow: 0 20px 40px rgba(241, 26, 34, 0.15);
   }
   .value-stat {
     font-size: 72px;
@@ -1927,7 +1986,7 @@
   }
   .ind-card:hover {
     border-color: var(--gold);
-    box-shadow: 0 8px 24px rgba(245, 165, 36, 0.12);
+    box-shadow: 0 8px 24px rgba(241, 26, 34, 0.12);
     transform: translateY(-2px);
   }
   .ind-icon {
@@ -1972,7 +2031,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, rgba(245, 165, 36, 0.15), transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(241, 26, 34, 0.15), transparent 70%);
   }
   .cta-content {
     position: relative;
@@ -2156,7 +2215,7 @@
       <svg class="logo-icon" viewBox="0 0 90 90">
         <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
         <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
-        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+        <rect x="75" y="51" width="3" height="3" fill="#F11A22"/>
       </svg>
       <span class="logo-text">dealfalcon</span>
     </a>
@@ -2172,6 +2231,7 @@
 
 <section class="hero">
   <div class="hero-bg-gradient"></div>
+  <div class="aurora-extra"></div>
   <div class="hero-grid">
     <div class="hero-content">
       <div class="hero-eyebrow">
@@ -2282,19 +2342,19 @@
   <div class="problem-scene">
     <div class="scene-step problem">
       <div class="scene-time">Tag 1 · 14:30 Uhr</div>
-      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="12" width="36" height="24" rx="2"/><polyline points="6,14 24,28 42,14"/><circle cx="38" cy="16" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="12" width="36" height="24" rx="2"/><polyline points="6,14 24,28 42,14"/><circle cx="38" cy="16" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Mail ist raus.</h3>
       <p>Angebots-PDF im Anhang. Persönliche Anrede. Sie haben drei Stunden daran gearbeitet. Sie drücken Senden.</p>
     </div>
     <div class="scene-step problem">
       <div class="scene-time">Tag 4 · irgendwann</div>
-      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14c1-3 3-5 6-5h8c3 0 5 2 6 5 3 1 5 3 5 6s-2 5-5 6H14c-3-1-5-3-5-6s2-5 5-6z"/><line x1="20" y1="32" x2="20" y2="40"/><line x1="28" y1="32" x2="28" y2="40"/><circle cx="24" cy="38" r="2" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14c1-3 3-5 6-5h8c3 0 5 2 6 5 3 1 5 3 5 6s-2 5-5 6H14c-3-1-5-3-5-6s2-5 5-6z"/><line x1="20" y1="32" x2="20" y2="40"/><line x1="28" y1="32" x2="28" y2="40"/><circle cx="24" cy="38" r="2" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Kein Wort vom Kunden.</h3>
       <p>Wurde es überhaupt geöffnet? Liegt es im Spam? Hat ein Kollege es weitergeleitet? Sie wissen es nicht. Sie warten.</p>
     </div>
     <div class="scene-step problem">
       <div class="scene-time">Tag 11 · zu spät</div>
-      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8c0-1 1-2 2-2h6c1 0 2 1 2 2l1 7c0 1 0 2-1 3l-3 3c2 5 6 9 11 11l3-3c1-1 2-1 3-1l7 1c1 0 2 1 2 2v6c0 1-1 2-2 2C18 38 10 30 10 8z"/><circle cx="38" cy="10" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="scene-icon-big"><svg viewBox="0 0 48 48" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8c0-1 1-2 2-2h6c1 0 2 1 2 2l1 7c0 1 0 2-1 3l-3 3c2 5 6 9 11 11l3-3c1-1 2-1 3-1l7 1c1 0 2 1 2 2v6c0 1-1 2-2 2C18 38 10 30 10 8z"/><circle cx="38" cy="10" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Nachfass-Anruf — Absage.</h3>
       <p>„Wir haben uns für einen Wettbewerber entschieden." Sie hatten den Auftrag fast in der Tasche. Sie hatten nur den falschen Moment für Ihren Anruf.</p>
     </div>
@@ -2340,7 +2400,7 @@
       <svg class="stage-falcon" viewBox="0 0 90 90">
         <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
         <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
-        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+        <rect x="75" y="51" width="3" height="3" fill="#F11A22"/>
       </svg>
       <div class="falcon-trail"></div>
 
@@ -2398,7 +2458,7 @@
       </div>
 
       <svg class="stage-cursor" viewBox="0 0 14 14">
-        <path d="M2 1 L2 11 L5 8 L7 12 L9 11 L7 7 L11 7 Z" fill="#f5a524" stroke="#0a0a0a" stroke-width="0.8" stroke-linejoin="round"/>
+        <path d="M2 1 L2 11 L5 8 L7 12 L9 11 L7 7 L11 7 Z" fill="#F11A22" stroke="#0a0a0a" stroke-width="0.8" stroke-linejoin="round"/>
       </svg>
 
       <div class="stage-ai">
@@ -2679,32 +2739,32 @@
 
   <div class="adv-grid">
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="8" x2="8" y2="40"/><line x1="12" y1="8" x2="12" y2="40"/><rect x="16" y="10" width="4" height="30"/><rect x="22" y="8" width="4" height="32"/><rect x="30" y="14" width="6" height="26" transform="rotate(-8 33 27)"/><circle cx="33" cy="14" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="8" x2="8" y2="40"/><line x1="12" y1="8" x2="12" y2="40"/><rect x="16" y="10" width="4" height="30"/><rect x="22" y="8" width="4" height="32"/><rect x="30" y="14" width="6" height="26" transform="rotate(-8 33 27)"/><circle cx="33" cy="14" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Tenant-Bibliothek für alle.</h3>
       <p>Datenblätter, Bilder, Videos — einmal von einem Kollegen gepflegt, sofort von allen im Vertrieb nutzbar. Kein Duplizieren, kein Suchen, kein veraltetes Material in Umlauf.</p>
     </div>
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="14" rx="1"/><rect x="26" y="8" width="14" height="14" rx="1"/><rect x="8" y="26" width="14" height="14" rx="1"/><rect x="26" y="26" width="14" height="14" rx="1" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="14" rx="1"/><rect x="26" y="8" width="14" height="14" rx="1"/><rect x="8" y="26" width="14" height="14" rx="1"/><rect x="26" y="26" width="14" height="14" rx="1" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Komplettes Brand-Kit.</h3>
       <p>Vier Markenfarben mit WCAG-Kontrast-Check, Typografie, eigene Domain. Die Microsite wirkt wie eine Erweiterung Ihrer Webseite — nicht wie ein eingebettetes Tool.</p>
     </div>
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="16" r="4"/><path d="M6 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="4"/><path d="M26 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="3" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="16" r="4"/><path d="M6 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="4"/><path d="M26 32c0-4 4-7 8-7s8 3 8 7"/><circle cx="34" cy="16" r="3" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Kollegen mit einbinden.</h3>
       <p>Konstrukteur, Vertriebsleiter, After-Sales — alle Beteiligten werden bei Aktivität benachrichtigt und sehen den Vorgang. Ohne dass jemand davon im Empfängerkreis erscheint.</p>
     </div>
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polyline points="14,24 21,31 34,18"/><circle cx="34" cy="18" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polyline points="14,24 21,31 34,18"/><circle cx="34" cy="18" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Lücken-Check vor Versand.</h3>
       <p>Sie speichern als Entwurf, Dealfalcon zeigt Ihnen, was noch fehlt — PDF, Empfänger, Eckdaten. Versendet wird erst, wenn alle Pflichtfelder stehen. Kein verfrühter Klick.</p>
     </div>
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="3"/><circle cx="18" cy="20" r="2"/><circle cx="30" cy="20" r="2"/><line x1="16" y1="30" x2="32" y2="30"/><circle cx="24" cy="6" r="2.5" fill="#f5a524" stroke="none"/><line x1="24" y1="8" x2="24" y2="10" stroke="currentColor"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="3"/><circle cx="18" cy="20" r="2"/><circle cx="30" cy="20" r="2"/><line x1="16" y1="30" x2="32" y2="30"/><circle cx="24" cy="6" r="2.5" fill="#F11A22" stroke="none"/><line x1="24" y1="8" x2="24" y2="10" stroke="currentColor"/></svg></div>
       <h3>KI mit Industrie-Kontext.</h3>
       <p>„Der Konstrukteur schaut zum dritten Mal die Skizze an — jetzt ist der Moment für den Anruf." Die KI versteht echtes Verkaufsverhalten und gibt Ihnen handfeste Empfehlungen, nicht generische Tipps.</p>
     </div>
     <div class="adv-card">
-      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6l16 6v10c0 10-7 18-16 22-9-4-16-12-16-22V12z"/><polyline points="16,24 22,30 32,18"/><circle cx="32" cy="18" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="adv-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6l16 6v10c0 10-7 18-16 22-9-4-16-12-16-22V12z"/><polyline points="16,24 22,30 32,18"/><circle cx="32" cy="18" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <h3>Server in der EU.</h3>
       <p>Alle Daten bleiben in europäischen Rechenzentren. Frankfurt-Region. Datenschutz hat für uns höchste Priorität — Voraussetzung für seriöse Geschäftsbeziehungen im DACH-Raum.</p>
     </div>
@@ -2722,42 +2782,42 @@
 
   <div class="industry-grid">
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v6M24 38v6M44 24h-6M10 24H4M37 11l-4 4M15 33l-4 4M37 37l-4-4M15 15l-4-4"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v6M24 38v6M44 24h-6M10 24H4M37 11l-4 4M15 33l-4 4M37 37l-4-4M15 15l-4-4"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4" fill="#F11A22" stroke="none"/></svg></div>
       <strong>Maschinen- &amp; Anlagenbau</strong>
       <small>Sondermaschinen, Anlagen, Werkzeugbau</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6c-5 0-9 4-9 9 0 2 1 4 2 5L8 35c-2 2-2 5 0 7s5 2 7 0l15-15c1 1 3 2 5 2 5 0 9-4 9-9 0-2-1-3-2-5l-5 5-5-5 5-5c-2-1-3-2-5-2z"/><circle cx="11" cy="37" r="2.5" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 6c-5 0-9 4-9 9 0 2 1 4 2 5L8 35c-2 2-2 5 0 7s5 2 7 0l15-15c1 1 3 2 5 2 5 0 9-4 9-9 0-2-1-3-2-5l-5 5-5-5 5-5c-2-1-3-2-5-2z"/><circle cx="11" cy="37" r="2.5" fill="#F11A22" stroke="none"/></svg></div>
       <strong>Handwerk &amp; Bau</strong>
       <small>SHK, Elektro, Tischler, Dachdecker</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="10"/><line x1="24" y1="38" x2="24" y2="44"/><line x1="4" y1="24" x2="10" y2="24"/><line x1="38" y1="24" x2="44" y2="24"/><line x1="10" y1="10" x2="14" y2="14"/><line x1="34" y1="34" x2="38" y2="38"/><line x1="10" y1="38" x2="14" y2="34"/><line x1="34" y1="14" x2="38" y2="10"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="8"/><line x1="24" y1="4" x2="24" y2="10"/><line x1="24" y1="38" x2="24" y2="44"/><line x1="4" y1="24" x2="10" y2="24"/><line x1="38" y1="24" x2="44" y2="24"/><line x1="10" y1="10" x2="14" y2="14"/><line x1="34" y1="34" x2="38" y2="38"/><line x1="10" y1="38" x2="14" y2="34"/><line x1="34" y1="14" x2="38" y2="10"/><circle cx="24" cy="24" r="4" fill="#F11A22" stroke="none"/></svg></div>
       <strong>Energie &amp; Photovoltaik</strong>
       <small>PV-Anlagen, Wärmepumpen, E-Mobilität</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30l4-12a4 4 0 0 1 4-3h20a4 4 0 0 1 4 3l4 12"/><path d="M4 30h40v8a2 2 0 0 1-2 2h-4v-4H10v4H6a2 2 0 0 1-2-2v-8z"/><circle cx="12" cy="34" r="2.5" fill="#f5a524" stroke="none"/><circle cx="36" cy="34" r="2.5" fill="currentColor" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30l4-12a4 4 0 0 1 4-3h20a4 4 0 0 1 4 3l4 12"/><path d="M4 30h40v8a2 2 0 0 1-2 2h-4v-4H10v4H6a2 2 0 0 1-2-2v-8z"/><circle cx="12" cy="34" r="2.5" fill="#F11A22" stroke="none"/><circle cx="36" cy="34" r="2.5" fill="currentColor" stroke="none"/></svg></div>
       <strong>KfZ-Handel</strong>
       <small>Autohäuser, Nutzfahrzeuge, Wohnmobile, E-Mobilität</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="32" rx="2"/><line x1="6" y1="20" x2="42" y2="20"/><line x1="24" y1="8" x2="24" y2="40"/><circle cx="15" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="33" cy="14" r="1.5" fill="#f5a524" stroke="none"/><rect x="11" y="26" width="8" height="10" rx="1"/><rect x="29" y="26" width="8" height="10" rx="1"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="32" rx="2"/><line x1="6" y1="20" x2="42" y2="20"/><line x1="24" y1="8" x2="24" y2="40"/><circle cx="15" cy="14" r="1.5" fill="currentColor" stroke="none"/><circle cx="33" cy="14" r="1.5" fill="#F11A22" stroke="none"/><rect x="11" y="26" width="8" height="10" rx="1"/><rect x="29" y="26" width="8" height="10" rx="1"/></svg></div>
       <strong>Küchen &amp; Möbel</strong>
       <small>Einbauküchen, Möbelhäuser, Innenausstattung</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2"/><circle cx="24" cy="28" r="9"/><circle cx="24" cy="28" r="5" fill="#f5a524" stroke="none"/><line x1="14" y1="10" x2="22" y2="10"/><circle cx="32" cy="11" r="1" fill="currentColor" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2"/><circle cx="24" cy="28" r="9"/><circle cx="24" cy="28" r="5" fill="#F11A22" stroke="none"/><line x1="14" y1="10" x2="22" y2="10"/><circle cx="32" cy="11" r="1" fill="currentColor" stroke="none"/></svg></div>
       <strong>Elektrogeräte &amp; Weiße Ware</strong>
       <small>Waschmaschinen, Großgeräte, Smart Home</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="24,4 30,18 44,20 34,30 36,44 24,37 12,44 14,30 4,20 18,18"/><circle cx="24" cy="24" r="4" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="24,4 30,18 44,20 34,30 36,44 24,37 12,44 14,30 4,20 18,18"/><circle cx="24" cy="24" r="4" fill="#F11A22" stroke="none"/></svg></div>
       <strong>Agenturen &amp; Beratung</strong>
       <small>Werbe-, Web-, PR-Agenturen, Beratungen</small>
     </div>
     <div class="ind-card">
-      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6 6 6-12 6 8 6-8 6 12 6-6-2 22H8z"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="22" r="3" fill="#f5a524" stroke="none"/></svg></div>
+      <div class="ind-icon"><svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6 6 6-12 6 8 6-8 6 12 6-6-2 22H8z"/><line x1="8" y1="40" x2="40" y2="40"/><circle cx="24" cy="22" r="3" fill="#F11A22" stroke="none"/></svg></div>
       <strong>Hochpreisige Dienstleistung</strong>
       <small>Hochzeiten, Events, Immobilien, IT-Projekte</small>
     </div>
@@ -2784,7 +2844,7 @@
         <svg class="logo-icon" viewBox="0 0 90 90">
           <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
           <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
-          <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+          <rect x="75" y="51" width="3" height="3" fill="#F11A22"/>
         </svg>
         <span class="logo-text">dealfalcon</span>
       </a>

@@ -12,9 +12,9 @@
   :root {
     --black: #0a0a0a;
     --black-soft: #161616;
-    --gold: #f5a524;
-    --gold-deep: #c97a14;
-    --gold-light: #fbbf24;
+    --gold: #F11A22;
+    --gold-deep: #C41419;
+    --gold-light: #FF3F46;
     --ink: #0a0a0a;
     --ink-strong: #1d1d1f;
     --ink-mid: #424245;
@@ -145,7 +145,7 @@
     background: var(--gold);
     border-color: var(--gold);
     color: var(--black);
-    box-shadow: 0 0 0 4px rgba(245,165,36,0.15);
+    box-shadow: 0 0 0 4px rgba(241, 26, 34,0.15);
   }
   .wizard-step-label {
     font-family: var(--mono);
@@ -222,7 +222,7 @@
   .plan-card.selected {
     border-color: var(--gold);
     background: linear-gradient(135deg, #fffbf2, white);
-    box-shadow: 0 0 0 4px rgba(245,165,36,0.1);
+    box-shadow: 0 0 0 4px rgba(241, 26, 34,0.1);
   }
   .plan-card.recommended::before {
     content: 'EMPFOHLEN';
@@ -672,7 +672,7 @@
       <svg class="mini-logo-icon" viewBox="0 0 90 90" aria-hidden="true">
         <circle cx="45" cy="45" r="40" fill="#0a0a0a" stroke="#fff" stroke-width="2.5"/>
         <path d="M36 24h24v3h-24zM33 27h33v3h-33zM30 30h39v3h-39zM27 33h15v3h-15zM60 33h12v3h-12zM27 36h21v3h-21zM66 36h9v3h-9zM24 39h27v3h-27zM60 39h18v3h-18zM21 42h57v3h-57zM21 45h57v3h-57zM21 48h30v3h-30zM72 48h6v3h-6zM18 51h24v3h-24zM75 51h3v3h-3zM15 54h24v3h-24zM15 57h18v3h-18zM12 60h15v3h-15zM12 63h9v3h-9z" fill="#fff"/>
-        <rect x="75" y="51" width="3" height="3" fill="#f5a524"/>
+        <rect x="75" y="51" width="3" height="3" fill="#F11A22"/>
       </svg>
       <span class="mini-logo-text">dealfalcon</span>
     </a>
@@ -1035,9 +1035,9 @@
   function showExistingAccountBanner(account) {
     const main = document.querySelector('.wizard-main');
     const banner = document.createElement('div');
-    banner.style.cssText = 'background: linear-gradient(135deg, #fef9c3, #fde68a); border: 1px solid #f5a524; border-left-width: 4px; padding: 16px 20px; border-radius: 10px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;';
+    banner.style.cssText = 'background: linear-gradient(135deg, #fef9c3, #fde68a); border: 1px solid #F11A22; border-left-width: 4px; padding: 16px 20px; border-radius: 10px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;';
     banner.innerHTML = `
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#c97a14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C41419" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
       <div style="flex: 1; min-width: 200px;">
         <strong style="display:block; font-size: 14px; color: #7c3a08; margin-bottom: 2px;">Sie haben bereits einen Account</strong>
         <small style="font-family: var(--mono); font-size: 11px; color: #7c3a08;">Eingeloggt als <strong>${account.email}</strong> (${account.company || '—'})</small>
