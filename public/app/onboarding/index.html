@@ -1301,17 +1301,23 @@
 
   // ============ STEP 3: TEAM ============
   var PLAN_LIMITS = {
-    solo: { max: 1, name: 'Solo-Plan', detail: '1 Nutzer · monatliche Abrechnung' },
-    team: { max: 3, name: 'Team-Plan', detail: 'Bis zu 3 Nutzer · monatliche Abrechnung' },
-    business: { max: 5, name: 'Business-Plan', detail: 'Bis zu 5 Nutzer · monatliche Abrechnung' },
-    pro: { max: 10, name: 'Pro-Plan', detail: 'Bis zu 10 Nutzer · monatliche Abrechnung' },
-    enterprise: { max: 999, name: 'Enterprise-Plan', detail: 'Unbegrenzt Nutzer · individuell' }
+    solomini:  { max: 1, name: 'Solo Mini',   detail: '1 Nutzer · 10 Angebote / Monat · monatlich' },
+    soloallin: { max: 1, name: 'Solo All-in', detail: '1 Nutzer · unbegrenzte Angebote · monatlich' },
+    team3:     { max: 3, name: 'Team 3',      detail: 'Bis zu 3 Nutzer · monatliche Abrechnung' },
+    team5:     { max: 5, name: 'Team 5',      detail: 'Bis zu 5 Nutzer · monatliche Abrechnung' },
+    team10:    { max: 10, name: 'Team 10',    detail: 'Bis zu 10 Nutzer · monatliche Abrechnung' },
+    enterprise:{ max: 999, name: 'Enterprise',detail: 'Unbegrenzt Nutzer · individuell' },
+    // Legacy-Kompatibilität für alte Daten
+    solo:      { max: 1, name: 'Solo All-in', detail: '1 Nutzer · monatliche Abrechnung' },
+    team:      { max: 3, name: 'Team 3',      detail: 'Bis zu 3 Nutzer · monatliche Abrechnung' },
+    business:  { max: 5, name: 'Team 5',      detail: 'Bis zu 5 Nutzer · monatliche Abrechnung' },
+    pro:       { max: 10, name: 'Team 10',    detail: 'Bis zu 10 Nutzer · monatliche Abrechnung' }
   };
 
   function getPlanInfo() {
     var signup = loadJSON(KEYS.signup, {});
-    var planId = (signup.plan || 'business').toLowerCase();
-    return PLAN_LIMITS[planId] || PLAN_LIMITS.business;
+    var planId = (signup.plan || 'team5').toLowerCase();
+    return PLAN_LIMITS[planId] || PLAN_LIMITS.team5;
   }
 
   function loadTeam() {

@@ -201,9 +201,12 @@
   /* ============ STEP 1: PLANS ============ */
   .plans-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
     margin-bottom: 32px;
+  }
+  @media (max-width: 980px) {
+    .plans-grid { grid-template-columns: repeat(2, 1fr); }
   }
   .plan-card {
     background: white;
@@ -990,11 +993,12 @@
 <script>
   // ============ DATEN ============
   const PLANS = [
-    { id: 'solo', name: 'Solo', users: 1, price: 29, features: ['1 Benutzer', 'Unbegrenzte Vorgänge', 'Aktivitäts-Tracking', 'E-Mail-Support'] },
-    { id: 'team', name: 'Team', users: 3, price: 79, features: ['3 Benutzer', 'Alle Solo-Features', 'KI-Empfehlungen', 'Versionsvergleich', 'Prioritäts-Support'] },
-    { id: 'business', name: 'Business', users: 5, price: 149, recommended: true, features: ['5 Benutzer', 'Alle Team-Features', 'Eigene Microsite-Domain', 'API-Zugang', 'CRM-Integrationen'] },
-    { id: 'pro', name: 'Pro', users: 10, price: 249, features: ['10 Benutzer', 'Alle Business-Features', 'Custom Branding', 'SLA 99,9 %', 'Dedicated Account Manager'] },
-    { id: 'enterprise', name: 'Enterprise', users: '∞', price: null, features: ['Unbegrenzte Benutzer', 'Single Sign-On (SSO)', 'On-Premise möglich', 'Custom Onboarding', 'Persönliche Betreuung'] }
+    { id: 'solomini',  name: 'Solo Mini',   users: 1, price: 59,  features: ['1 Nutzer', '10 Angebote pro Monat', 'Echtzeit-Tracking', 'KI-Abschluss-Empfehlung', 'Mini-CRM', 'E-Mail-Support'] },
+    { id: 'soloallin', name: 'Solo All-in', users: 1, price: 89,  features: ['1 Nutzer', 'Unbegrenzte Angebote', 'Alle Solo-Mini-Features', 'Eigenes Branding', 'Kollegen-Lesezugriff', 'Priority-Support'] },
+    { id: 'team3',     name: 'Team 3',      users: 3, price: 199, features: ['3 Nutzer', 'Unbegrenzte Angebote', 'Lead-Übergabe & Vertretungen', 'Team-Chat pro Vorgang', 'Aktive Team-Kollaboration', 'Pipeline-Übersicht'] },
+    { id: 'team5',     name: 'Team 5',      users: 5, price: 349, features: ['5 Nutzer', 'Alle Team-3-Features', 'Erweiterte Reports', 'Eigene Domain möglich', 'Priority-Support'] },
+    { id: 'team10',    name: 'Team 10',     users: 10, price: 599, features: ['10 Nutzer', 'Alle Team-5-Features', 'Pipeline-Forecast', 'Mehrere Subdomains', 'Priority-Support · 4h'] },
+    { id: 'enterprise', name: 'Enterprise', users: '∞', price: null, features: ['11+ Nutzer', 'SSO / SAML', 'Eigene Domain & API', 'SLA-Garantie', 'Dedicated Account Manager', 'On-Premise möglich'] }
   ];
 
   // ============ STATE ============
@@ -1015,13 +1019,18 @@
 
   // ============ INIT ============
   document.addEventListener('DOMContentLoaded', () => {
-    // Wenn bereits ein Account existiert: Hinweis-Banner zeigen statt direkt umzuleiten
+    // Plan aus URL holen (für ggf. existing account Anzeige)
+    const params = new URLSearchParams(window.location.search);
+    const planFromUrl = params.get('plan');
+
+    // Wenn bereits ein Account existiert: Klare Plan-Wechsel-Ansicht statt Signup
     const existingAccount = (() => {
       try { return JSON.parse(localStorage.getItem('df_account') || 'null'); }
       catch(e) { return null; }
     })();
     if (existingAccount && existingAccount.passwordSet) {
-      showExistingAccountBanner(existingAccount);
+      showExistingAccountTakeover(existingAccount, planFromUrl);
+      return; // Signup-Wizard nicht initialisieren
     }
     renderPlans();
     restoreFromState();
@@ -1032,19 +1041,78 @@
     updateStep();
   });
 
-  function showExistingAccountBanner(account) {
+  // Ersetzt den ganzen Signup-Wizard durch eine klare Plan-Wechsel-Ansicht
+  function showExistingAccountTakeover(account, requestedPlanId) {
     const main = document.querySelector('.wizard-main');
-    const banner = document.createElement('div');
-    banner.style.cssText = 'background: linear-gradient(135deg, #fef9c3, #fde68a); border: 1px solid #F11A22; border-left-width: 4px; padding: 16px 20px; border-radius: 10px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;';
-    banner.innerHTML = `
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C41419" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <div style="flex: 1; min-width: 200px;">
-        <strong style="display:block; font-size: 14px; color: #7c3a08; margin-bottom: 2px;">Sie haben bereits einen Account</strong>
-        <small style="font-family: var(--mono); font-size: 11px; color: #7c3a08;">Eingeloggt als <strong>${account.email}</strong> (${account.company || '—'})</small>
+    if (!main) return;
+
+    // Plan-Daten holen (für gewählten Tarif)
+    const requestedPlan = PLANS.find(p => p.id === requestedPlanId);
+    // Aktuellen Plan aus df_workspace_meta lesen
+    let currentPlan = null;
+    try {
+      const meta = JSON.parse(localStorage.getItem('df_workspace_meta') || '{}');
+      currentPlan = PLANS.find(p => p.id === (meta.plan || '').toLowerCase());
+    } catch(e) {}
+
+    main.innerHTML = `
+      <div style="max-width: 640px; margin: 0 auto; padding: 60px 20px; text-align: center;">
+
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: #fef3c7; border-radius: 50%; margin-bottom: 24px;">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#C41419" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+
+        <h2 style="font-family: var(--display); font-size: 26px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px;">Sie haben bereits einen Account</h2>
+
+        <p style="font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.55; margin-bottom: 32px;">
+          Eingeloggt als <strong>${account.email}</strong>${account.company ? ' (' + account.company + ')' : ''}.
+          ${requestedPlan ? 'Eine neue Anmeldung ist nicht nötig — wechseln Sie einfach den Tarif im Cockpit.' : 'Wechseln Sie zum Cockpit, um dort weiterzuarbeiten.'}
+        </p>
+
+        ${requestedPlan ? `
+          <div style="background: var(--paper-cool); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-bottom: 24px; text-align: left;">
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;">Sie haben gewählt</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;">
+              <div>
+                <div style="font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 4px;">${requestedPlan.name}</div>
+                <div style="font-size: 13px; color: var(--ink-mid);">${requestedPlan.users} ${requestedPlan.users === 1 ? 'Nutzer' : 'Nutzer'} · ${requestedPlan.features[1] || ''}</div>
+              </div>
+              <div style="text-align: right;">
+                ${requestedPlan.price !== null ? `
+                  <div style="font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1;">${requestedPlan.price} €</div>
+                  <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 4px;">netto / Monat</div>
+                ` : `
+                  <div style="font-family: var(--display); font-size: 18px; font-weight: 600; color: var(--ink);">Auf Anfrage</div>
+                `}
+              </div>
+            </div>
+            ${currentPlan && currentPlan.id !== requestedPlan.id ? `
+              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-mid);">
+                Aktueller Tarif: <strong>${currentPlan.name}</strong> (${currentPlan.price !== null ? currentPlan.price + ' € / Monat' : 'Enterprise'})
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
+
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="/app/dashboard" class="btn btn-gold" style="padding: 14px 24px; font-size: 14px;">
+            Zum Cockpit →
+          </a>
+          ${requestedPlan && currentPlan && currentPlan.id !== requestedPlan.id ? `
+            <a href="/app/dashboard?settings=billing&newplan=${requestedPlan.id}" class="btn btn-ghost" style="padding: 14px 24px; font-size: 14px;">
+              Tarif jetzt wechseln
+            </a>
+          ` : ''}
+        </div>
+
+        <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line);">
+          <small style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.04em;">
+            Falscher Account?
+            <a href="/login" style="color: var(--ink); text-decoration: underline;">Mit anderem Account anmelden</a>
+          </small>
+        </div>
       </div>
-      <a href="/app/onboarding" class="btn btn-gold" style="padding: 9px 16px; font-size: 13px;">Zum Onboarding →</a>
     `;
-    main.insertBefore(banner, main.firstChild);
   }
 
   function parseUrlParams() {
@@ -1078,21 +1146,20 @@
   // ============ PLAN-RENDERING ============
   function renderPlans() {
     const grid = document.getElementById('plans-grid');
-    // Erstmal die ersten 4, Enterprise als Banner unten ist eleganter — aber laut Brief volle 5:
-    // Wir zeigen 4 Karten in 2x2 + Enterprise als breite Karte unten
-    const main = PLANS.slice(0, 4);
-    const enterprise = PLANS[4];
-    grid.innerHTML = main.map(p => planCardHTML(p)).join('') +
-      `<div class="plan-card" style="grid-column: span 2; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;" data-plan-id="${enterprise.id}" onclick="selectPlan('${enterprise.id}')">
+    // 5 reguläre Pläne als Karten + Enterprise als breite Karte unten
+    const regular = PLANS.slice(0, 5);
+    const enterprise = PLANS[5];
+    grid.innerHTML = regular.map(p => planCardHTML(p)).join('') +
+      `<div class="plan-card" style="grid-column: 1 / -1; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;" data-plan-id="${enterprise.id}" onclick="selectPlan('${enterprise.id}')">
          <div class="plan-radio"></div>
          <div style="flex: 1; min-width: 200px;">
            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;">
              <span class="plan-name">${enterprise.name}</span>
-             <span class="plan-users-badge">${enterprise.users} Benutzer</span>
+             <span class="plan-users-badge">${enterprise.users} Nutzer</span>
            </div>
-           <p style="font-family: var(--display); font-size: 13px; color: var(--ink-mid); line-height: 1.5;">Für größere Vertriebsorganisationen mit individuellen Anforderungen. Preis nach Absprache.</p>
+           <p style="font-family: var(--display); font-size: 13px; color: var(--ink-mid); line-height: 1.5;">Für Vertriebsorganisationen mit mehr als 10 Nutzern und individuellen Anforderungen.</p>
          </div>
-         <div style="font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em;">PREIS NACH ABSPRACHE</div>
+         <div style="font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em;">PREIS AUF ANFRAGE</div>
        </div>`;
   }
 
