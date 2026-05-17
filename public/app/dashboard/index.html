@@ -1425,7 +1425,7 @@
       <div class="db-brand-logo" id="brand-logo"><span>LOGO</span></div>
       <div class="db-brand-text">
         <strong id="brand-company">Mein Workspace</strong>
-        <small id="brand-plan">Business · Demo</small>
+        <small id="brand-plan">Team 5 · Demo</small>
       </div>
     </div>
 
@@ -1516,7 +1516,7 @@
         </div>
       <li class="db-nav-section">
         <div class="db-nav-eyebrow">Workspace</div>
-        <div class="db-nav-item" data-nav="team">
+        <div class="db-nav-item is-team-feature" data-nav="team">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Team
           <span class="nav-badge" id="nav-team-count">1</span>
@@ -1563,6 +1563,16 @@
           </button>
         </div>
         <div id="dashboard-vacation-banner"></div>
+      </div>
+
+      <!-- Plan-Limit-Warnung (nur bei Solo Mini, wenn nahe am Limit) -->
+      <div id="plan-limit-banner" style="display:none; margin-bottom: 28px; padding: 14px 18px; background: linear-gradient(135deg, #fff5f5, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; display: none; align-items: center; gap: 12px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C41419" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div style="font-family: var(--display); font-size: 13px; color: var(--ink-soft); flex: 1;">
+          <strong id="plan-limit-banner-strong" style="color: #C41419;"></strong>
+          <span id="plan-limit-banner-text"></span>
+        </div>
+        <a href="/pricing" style="font-family: var(--mono); font-size: 11px; font-weight: 600; color: #C41419; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;">Upgrade →</a>
       </div>
 
       <!-- Block 1: HEUTE ZU TUN (Hauptpriorität) -->
@@ -4049,6 +4059,26 @@
   }
 
   function openEditor(dealId, prefillCustomerId) {
+    // === Solo-Mini-Limit prüfen (10 Angebote/Monat) ===
+    if (!dealId && window.dfPlan) {
+      var maxPerMonth = window.dfPlan.maxDealsPerMonth();
+      if (maxPerMonth > 0) {
+        var nowMonth = new Date().toISOString().substring(0, 7);
+        var dealsThisMonth = (loadDeals() || []).filter(function(d) {
+          var created = d.createdAt || d.created_at || d.sentAt || d.sent_at;
+          if (!created) return false;
+          return String(created).substring(0, 7) === nowMonth;
+        }).length;
+        if (dealsThisMonth >= maxPerMonth) {
+          showToast(
+            'Limit erreicht: ' + maxPerMonth + ' Angebote im Monat (Solo Mini). ' +
+            'Wechseln Sie auf Solo All-in für unbegrenzte Angebote.',
+            'error'
+          );
+          return;
+        }
+      }
+    }
     if (dealId) {
       // Existing deal laden
       var deals = loadDeals();
@@ -4159,7 +4189,7 @@
         '<div class="lead-card-name">' + escapeHtml(leadUser.name) + (leadIsMe ? ' <span style="font-family: var(--mono); font-size: 9px; color: var(--gold-deep); background: white; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.04em; font-weight: 600;">SIE</span>' : '') + '</div>' +
         '<div class="lead-card-meta">Hauptverantwortlich für diesen Vorgang</div>' +
       '</div>' +
-      (hasOtherUsers ? '<button type="button" class="lead-card-action" id="btn-editor-handoff-lead">Lead übergeben</button>' : '') +
+      (hasOtherUsers && (window.dfPlan && window.dfPlan.hasTeamFeatures()) ? '<button type="button" class="lead-card-action" id="btn-editor-handoff-lead">Lead übergeben</button>' : '') +
     '</div>';
 
     // Eingeladene Kollegen
@@ -6281,7 +6311,7 @@
             '<div class="lead-card-name">' + escapeHtml(leadUser.name) + (leadIsMe ? ' <span style="font-family: var(--mono); font-size: 9px; color: var(--gold-deep); background: white; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.04em; font-weight: 600;">SIE</span>' : '') + '</div>' +
             (delegateUser ? '<div class="lead-card-meta">🏖 Im Urlaub — Vertretung: ' + escapeHtml(delegateUser.name) + '</div>' : '<div class="lead-card-meta">Hauptverantwortlich</div>') +
           '</div>' +
-          (hasOtherUsers && (leadIsMe || (delegateUser && delegateUser.id === getCurrentUser().id)) ? '<button type="button" class="lead-card-action" data-action="handoff-lead">Lead übergeben</button>' : '') +
+          (hasOtherUsers && (window.dfPlan && window.dfPlan.hasTeamFeatures()) && (leadIsMe || (delegateUser && delegateUser.id === getCurrentUser().id)) ? '<button type="button" class="lead-card-action" data-action="handoff-lead">Lead übergeben</button>' : '') +
         '</div>';
 
       if (collaborators.length > 0) {
@@ -6337,6 +6367,8 @@
     }
 
     // Team-Nachrichten — Aktionen die andere Berechtigte benachrichtigen
+    // Bei Solo-Plänen ausblenden (keine Team-Funktionen)
+    if (window.dfPlan && window.dfPlan.hasTeamFeatures()) {
     var dealRecipients = getDealRecipientUsers(deal).filter(function(u) { return u.id !== getCurrentUser().id; });
     var hasOtherUsers = dealRecipients.length > 0;
     html += '<div class="detail-section">' +
@@ -6360,6 +6392,7 @@
         '</div>' +
       '</div>' : '<div class="notes-list-empty">Sobald Sie Kollegen einladen oder den Lead teilen, können Sie hier Nachrichten senden.</div>') +
     '</div>';
+    } // ende: window.dfPlan.hasTeamFeatures()
 
     // Interne Notizen
     html += '<div class="detail-section">' +
@@ -6503,7 +6536,8 @@
       });
     });
 
-    // Team-Nachrichten rendern + binden
+    // Team-Nachrichten rendern + binden (nur bei Team-Plänen)
+    if (window.dfPlan && window.dfPlan.hasTeamFeatures()) {
     renderTeamMessages(dealId);
     var btnAddTmInfo = document.getElementById('btn-add-tm-info');
     if (btnAddTmInfo) btnAddTmInfo.addEventListener('click', function() {
@@ -6532,6 +6566,7 @@
         if (text) addTeamMessage(dealId, text, expectsReaction);
       });
     });
+    } // ende: window.dfPlan.hasTeamFeatures() für TM-Bindings
 
     // Beim Öffnen: alle Aktivitäten dieses Vorgangs als gesehen markieren
     var seen = loadSeenActivities();
@@ -6967,6 +7002,35 @@
   function renderDashboard() {
     var deals = loadDeals();
     var hasDeals = deals.length > 0;
+
+    // Plan-Limit-Banner aktualisieren
+    var planBanner = document.getElementById('plan-limit-banner');
+    if (planBanner && window.dfPlan) {
+      var maxPerMonth = window.dfPlan.maxDealsPerMonth();
+      if (maxPerMonth > 0) {
+        var nowMonth = new Date().toISOString().substring(0, 7);
+        var dealsThisMonth = deals.filter(function(d) {
+          var created = d.createdAt || d.created_at || d.sentAt || d.sent_at;
+          return created && String(created).substring(0, 7) === nowMonth;
+        }).length;
+        var remaining = maxPerMonth - dealsThisMonth;
+        var strongEl = document.getElementById('plan-limit-banner-strong');
+        var textEl = document.getElementById('plan-limit-banner-text');
+        if (dealsThisMonth >= maxPerMonth) {
+          if (strongEl) strongEl.textContent = 'Monatslimit erreicht — ';
+          if (textEl) textEl.textContent = dealsThisMonth + ' von ' + maxPerMonth + ' Angeboten genutzt. Weitere Angebote ab nächstem Monat oder mit Upgrade auf Solo All-in.';
+          planBanner.style.display = 'flex';
+        } else if (remaining <= 3) {
+          if (strongEl) strongEl.textContent = 'Nur noch ' + remaining + ' ' + (remaining === 1 ? 'Angebot' : 'Angebote') + ' frei — ';
+          if (textEl) textEl.textContent = dealsThisMonth + ' von ' + maxPerMonth + ' im Solo-Mini-Paket dieses Monat verwendet.';
+          planBanner.style.display = 'flex';
+        } else {
+          planBanner.style.display = 'none';
+        }
+      } else {
+        planBanner.style.display = 'none';
+      }
+    }
 
     var blockTodo = document.getElementById('block-todo');
     var blockStats = document.getElementById('block-stats');
@@ -7671,8 +7735,67 @@
     var email = (account && account.email) || 'demo@dealfalcon.app';
     var companyName = company['c-company'] || (account && account.company) || 'Mein Workspace';
 
-    var PLAN_NAMES = { solo: 'Solo', team: 'Team', business: 'Business', pro: 'Pro', enterprise: 'Enterprise' };
-    var planLabel = PLAN_NAMES[(signup.plan || 'business').toLowerCase()] || 'Business';
+    var PLAN_NAMES = {
+      solomini: 'Solo Mini',
+      soloallin: 'Solo All-in',
+      team3: 'Team 3',
+      team5: 'Team 5',
+      team10: 'Team 10',
+      enterprise: 'Enterprise',
+      // Legacy-Kompatibilität (für alte Daten)
+      solo: 'Solo All-in',
+      team: 'Team 3',
+      business: 'Team 5',
+      pro: 'Team 10'
+    };
+    var planLabel = PLAN_NAMES[(signup.plan || 'team5').toLowerCase()] || 'Team 5';
+
+    // === PLAN-HELPER: Feature-Verfügbarkeit pro Tarif ===
+    window.dfPlan = {
+      // Aktueller Plan-Slug (normalisiert)
+      current: function() {
+        try {
+          var meta = JSON.parse(localStorage.getItem('df_workspace_meta') || '{}');
+          var su = JSON.parse(localStorage.getItem('df_signup') || '{}');
+          return (meta.plan || su.plan || 'team5').toLowerCase();
+        } catch (e) { return 'team5'; }
+      },
+      // Ist es ein Solo-Plan? (keine Team-Features)
+      isSolo: function() {
+        var p = this.current();
+        return p === 'solomini' || p === 'soloallin' || p === 'solo';
+      },
+      // Hat Lead-Übergabe / Vertretungen / Team-Chat?
+      hasTeamFeatures: function() {
+        return !this.isSolo();
+      },
+      // Max. Angebote pro Monat (0 = unbegrenzt)
+      maxDealsPerMonth: function() {
+        var p = this.current();
+        if (p === 'solomini') return 10;
+        return 0; // unbegrenzt
+      },
+      // Max. Nutzer im Workspace
+      maxUsers: function() {
+        var p = this.current();
+        var limits = { solomini: 1, soloallin: 1, solo: 1, team3: 3, team: 3, team5: 5, business: 5, team10: 10, pro: 10, enterprise: 999 };
+        return limits[p] || 5;
+      },
+      // Plan-Anzeigename
+      label: function() {
+        return PLAN_NAMES[this.current()] || 'Team 5';
+      }
+    };
+
+    // === Team-Features bei Solo-Plan ausblenden ===
+    (function applyPlanRestrictions() {
+      if (!window.dfPlan.isSolo()) return;
+      // CSS-Regel injizieren
+      var css = '.is-team-feature { display: none !important; }';
+      var style = document.createElement('style');
+      style.textContent = css;
+      document.head.appendChild(style);
+    })();
 
     // Topbar Brand
     var brandCompanyEl = document.getElementById('brand-company');
@@ -8333,8 +8456,20 @@
     var subtitle = document.getElementById('team-page-subtitle');
 
     var members = (team && team.members) ? team.members : [];
-    var PLAN_LIMITS = { solo: 1, team: 3, business: 5, pro: 10, enterprise: 999 };
-    var max = PLAN_LIMITS[(signup.plan || 'business').toLowerCase()] || 5;
+    var PLAN_LIMITS = {
+      solomini: 1,
+      soloallin: 1,
+      team3: 3,
+      team5: 5,
+      team10: 10,
+      enterprise: 999,
+      // Legacy-Kompatibilität
+      solo: 1,
+      team: 3,
+      business: 5,
+      pro: 10
+    };
+    var max = PLAN_LIMITS[(signup.plan || 'team5').toLowerCase()] || 5;
     var canAdd = members.length < max;
     if (subtitle) subtitle.textContent = members.length + ' / ' + (max === 999 ? '∞' : max) + ' Mitglieder';
 
@@ -9086,10 +9221,10 @@
         localStorage.setItem('df_account', JSON.stringify({ name: 'Demo User', email: 'demo@dealfalcon.app' }));
       }
       if (!localStorage.getItem('df_workspace_meta')) {
-        localStorage.setItem('df_workspace_meta', JSON.stringify({ name: 'Mein Workspace', plan: 'business' }));
+        localStorage.setItem('df_workspace_meta', JSON.stringify({ name: 'Mein Workspace', plan: 'team5' }));
       }
       if (!localStorage.getItem('df_signup')) {
-        localStorage.setItem('df_signup', JSON.stringify({ plan: 'business', completed: true }));
+        localStorage.setItem('df_signup', JSON.stringify({ plan: 'team5', completed: true }));
       }
       if (!localStorage.getItem('df_onboarding')) {
         localStorage.setItem('df_onboarding', JSON.stringify({ completed: true }));
@@ -9146,7 +9281,7 @@
     localStorage.setItem('df_workspace_meta', JSON.stringify({
       id: workspace.id,
       name: workspace.name || 'Mein Workspace',
-      plan: workspace.plan || 'team'
+      plan: workspace.plan || 'team5'
     }));
     localStorage.setItem('df_brand', JSON.stringify(workspace.brand || {}));
     localStorage.setItem('df_company', JSON.stringify(workspace.company || { name: workspace.name || 'Mein Workspace' }));
@@ -9154,7 +9289,7 @@
     // Signup-Plan setzen damit das bestehende Frontend die Limits kennt
     var signup = {};
     try { signup = JSON.parse(localStorage.getItem('df_signup') || '{}'); } catch(e) {}
-    signup.plan = workspace.plan || 'team';
+    signup.plan = workspace.plan || 'team5';
     signup.email = profile.email || me.user.email;
     signup.completed = true;
     localStorage.setItem('df_signup', JSON.stringify(signup));

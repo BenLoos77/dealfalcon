@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Preise — Dealfalcon</title>
-<meta name="description" content="Transparente Preise für komplexe B2B-Verkaufsprozesse. Drei Pakete für Vertriebsteams jeder Größe.">
+<meta name="description" content="Transparente Preise für komplexe B2B-Verkaufsprozesse. Sechs Tarife — vom Solo-Vertrieb bis zum Team von Zehn.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -199,10 +199,16 @@
   }
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    max-width: 1280px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1180px;
     margin: 0 auto;
+  }
+  @media (max-width: 1100px) {
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .pricing-grid { grid-template-columns: 1fr; }
   }
   .price-card {
     background: var(--paper-cool);
@@ -215,6 +221,28 @@
   }
   .price-card:hover { transform: translateY(-2px); }
 
+  /* Tier-Gruppen optisch leicht voneinander absetzen */
+  .price-card.tier-solo {
+    border: 1px solid var(--line-soft);
+  }
+  .price-card.tier-team {
+    background: white;
+    border: 1.5px solid var(--line);
+  }
+  .price-card.tier-enterprise {
+    background: var(--black);
+    color: white;
+  }
+  .price-card.tier-enterprise .plan-name { color: white; }
+  .price-card.tier-enterprise .plan-tagline { color: rgba(255,255,255,0.7); }
+  .price-card.tier-enterprise .price-amount { color: white; }
+  .price-card.tier-enterprise .price-currency,
+  .price-card.tier-enterprise .price-period { color: rgba(255,255,255,0.6); }
+  .price-card.tier-enterprise .price-tagline { color: rgba(255,255,255,0.7); }
+  .price-card.tier-enterprise .feature-item { color: rgba(255,255,255,0.85); }
+  .price-card.tier-enterprise .feature-item.disabled { color: rgba(255,255,255,0.4); }
+
+  /* "featured"-Highlight ist optional — wir nutzen es jetzt nicht */
   .price-card.featured {
     background: var(--black);
     color: white;
@@ -802,14 +830,14 @@
 <section class="hero">
   <div class="container">
     <div class="hero-eyebrow">Transparente Preise</div>
-    <h1>Ein Plan für jedes Vertriebsteam.</h1>
+    <h1>Vom Solo-Vertrieb bis zum Team von Zehn.</h1>
     <p class="hero-sub">
-      Drei klare Pakete. Keine versteckten Kosten. Jederzeit kündbar im Monatsabo, mit zwei Monaten Rabatt im Jahresabo.
+      Sechs klare Tarife. Keine versteckten Kosten. Monatlich kündbar — oder 20 % sparen mit Jahresabo.
     </p>
     <div class="billing-toggle">
       <button class="active" id="btn-monthly" onclick="setBilling('monthly')">Monatlich</button>
       <button id="btn-yearly" onclick="setBilling('yearly')">
-        Jährlich <span class="toggle-saving">−17%</span>
+        Jährlich <span class="toggle-saving">−20%</span>
       </button>
     </div>
   </div>
@@ -819,100 +847,146 @@
   <div class="container">
     <div class="pricing-grid">
 
-      <!-- SOLO -->
-      <div class="price-card">
-        <div class="plan-name">Solo</div>
-        <div class="plan-tagline">Für Einzelkämpfer und Solo-Selbständige, die professionell auftreten wollen.</div>
+      <!-- ===== TARIF 1: Solo Mini ===== -->
+      <div class="price-card tier-solo">
+        <div class="plan-name">Solo Mini</div>
+        <div class="plan-tagline">Für Solo-Vertriebler mit wenigen Angeboten pro Monat.</div>
         <div class="plan-price">
-          <span class="price-amount" data-monthly="149" data-yearly="124">149</span>
+          <span class="price-amount" data-monthly="59" data-yearly="47">59</span>
           <span class="price-currency">€</span>
         </div>
-        <div class="price-period">pro Monat <span id="solo-billed">monatlich</span></div>
-        <div class="billing-note">zzgl. MwSt · kein Setup</div>
-        <a href="/signup?plan=solo" class="plan-cta ghost">Solo wählen</a>
+        <div class="price-period">pro Monat · <span class="billing-label" id="solomini-billed">monatlich</span></div>
+        <div class="billing-note">netto · zzgl. MwSt · monatlich kündbar</div>
+        <a href="/signup?plan=solomini" class="plan-cta ghost">Solo Mini wählen</a>
         <div class="plan-features-label">Enthalten</div>
         <ul class="plan-features">
           <li><strong>1 Nutzer</strong></li>
-          <li>Bis zu <strong>30 aktive Vorgänge</strong></li>
-          <li><strong>50 Versendungen</strong> / Monat</li>
+          <li><strong>10 Angebote</strong> pro Monat</li>
           <li>Microsite im eigenen CI</li>
           <li>Echtzeit-Tracking</li>
-          <li>Versionierung &amp; Magic-Links</li>
-          <li>Material-Bibliothek</li>
-          <li>E-Mail-Support · 1 Werktag</li>
+          <li>KI-Abschluss-Empfehlung</li>
+          <li>Mini-CRM (Kundenverwaltung)</li>
+          <li>Kollegen-Lesezugriff &amp; Kommentare</li>
+          <li>E-Mail-Support</li>
         </ul>
       </div>
 
-      <!-- TEAM -->
-      <div class="price-card">
-        <div class="plan-name">Team</div>
-        <div class="plan-tagline">Für kleine Vertriebsteams, Agenturen und Familienbetriebe.</div>
+      <!-- ===== TARIF 2: Solo All-in ===== -->
+      <div class="price-card tier-solo">
+        <div class="plan-name">Solo All-in</div>
+        <div class="plan-tagline">Für Solo-Vertriebler mit hohem Angebotsvolumen.</div>
         <div class="plan-price">
-          <span class="price-amount" data-monthly="399" data-yearly="332">399</span>
+          <span class="price-amount" data-monthly="89" data-yearly="71">89</span>
           <span class="price-currency">€</span>
         </div>
-        <div class="price-period">pro Monat <span id="team-billed">monatlich</span></div>
-        <div class="billing-note">zzgl. MwSt · kein Setup</div>
-        <a href="/signup?plan=team" class="plan-cta ghost">Team wählen</a>
-        <div class="plan-features-label">Alles aus Solo, plus</div>
+        <div class="price-period">pro Monat · <span class="billing-label" id="soloallin-billed">monatlich</span></div>
+        <div class="billing-note">netto · zzgl. MwSt · monatlich kündbar</div>
+        <a href="/signup?plan=soloallin" class="plan-cta ghost">Solo All-in wählen</a>
+        <div class="plan-features-label">Alles aus Solo Mini, plus</div>
         <ul class="plan-features">
-          <li>Bis zu <strong>3 Nutzer</strong></li>
-          <li><strong>Unbegrenzte</strong> Vorgänge</li>
-          <li><strong>200 Versendungen</strong> / Monat</li>
-          <li><strong>KI-Empfehlungen</strong> Next-Action</li>
-          <li><strong>Interne Kollegen</strong> einbinden</li>
+          <li><strong>1 Nutzer</strong></li>
+          <li><strong>Unbegrenzte</strong> Angebote</li>
+          <li>Microsite im eigenen CI</li>
+          <li>Echtzeit-Tracking</li>
+          <li>KI-Abschluss-Empfehlung</li>
+          <li>Mini-CRM (Kundenverwaltung)</li>
+          <li>Kollegen-Lesezugriff &amp; Kommentare</li>
+          <li>E-Mail-Support</li>
+        </ul>
+      </div>
+
+      <!-- ===== TARIF 3: Team 3 ===== -->
+      <div class="price-card tier-team">
+        <div class="plan-name">Team 3</div>
+        <div class="plan-tagline">Für kleine Teams mit drei aktiven Vertrieblern.</div>
+        <div class="plan-price">
+          <span class="price-amount" data-monthly="199" data-yearly="159">199</span>
+          <span class="price-currency">€</span>
+        </div>
+        <div class="price-period">pro Monat · <span class="billing-label" id="team3-billed">monatlich</span></div>
+        <div class="billing-note">netto · zzgl. MwSt · monatlich kündbar</div>
+        <a href="/signup?plan=team3" class="plan-cta ghost">Team 3 wählen</a>
+        <div class="plan-features-label">Alles aus Solo All-in, plus</div>
+        <ul class="plan-features">
+          <li><strong>3 Nutzer</strong></li>
+          <li><strong>Unbegrenzte</strong> Angebote</li>
+          <li><strong>Lead-Übergabe</strong> &amp; Vertretungen</li>
+          <li><strong>Team-Chat</strong> pro Vorgang</li>
+          <li><strong>Aktive Team-Kollaboration</strong></li>
+          <li>Pipeline-Übersicht</li>
           <li>Eigene Domain möglich</li>
-          <li>Lücken-Check &amp; Entwurfs-Status</li>
-          <li>Priority Support · 8 Stunden</li>
+          <li>Priority-Support</li>
         </ul>
       </div>
 
-      <!-- BUSINESS — empfohlen -->
-      <div class="price-card featured">
-        <div class="featured-badge">Empfohlen</div>
-        <div class="plan-name">Business</div>
-        <div class="plan-tagline">Für etablierte Betriebe mit mehreren Vertrieblern, Innendienst und Geschäftsführung.</div>
+      <!-- ===== TARIF 4: Team 5 ===== -->
+      <div class="price-card tier-team">
+        <div class="plan-name">Team 5</div>
+        <div class="plan-tagline">Für wachsende Vertriebsteams mit fünf Sitzplätzen.</div>
         <div class="plan-price">
-          <span class="price-amount" data-monthly="899" data-yearly="746">899</span>
+          <span class="price-amount" data-monthly="349" data-yearly="279">349</span>
           <span class="price-currency">€</span>
         </div>
-        <div class="price-period">pro Monat <span id="business-billed">monatlich</span></div>
-        <div class="billing-note">zzgl. MwSt · kein Setup</div>
-        <a href="/signup?plan=business" class="plan-cta gold">Business wählen</a>
-        <div class="plan-features-label">Alles aus Team, plus</div>
+        <div class="price-period">pro Monat · <span class="billing-label" id="team5-billed">monatlich</span></div>
+        <div class="billing-note">netto · zzgl. MwSt · monatlich kündbar</div>
+        <a href="/signup?plan=team5" class="plan-cta ghost">Team 5 wählen</a>
+        <div class="plan-features-label">Alles aus Team 3, plus</div>
         <ul class="plan-features">
-          <li>Bis zu <strong>10 Nutzer</strong></li>
-          <li><strong>800 Versendungen</strong> / Monat</li>
-          <li><strong>KI-Begründungen</strong> bei Abschluss</li>
-          <li><strong>Cross-Sell-Signale</strong></li>
-          <li><strong>Pipeline-Forecast</strong></li>
-          <li>Mehrere Subdomains</li>
+          <li><strong>5 Nutzer</strong></li>
+          <li><strong>Unbegrenzte</strong> Angebote</li>
+          <li>Lead-Übergabe &amp; Vertretungen</li>
+          <li>Team-Chat pro Vorgang</li>
+          <li>Aktive Team-Kollaboration</li>
+          <li>Pipeline-Übersicht</li>
           <li>Erweiterte Reports</li>
-          <li>Priority Support · 4 Stunden</li>
+          <li>Priority-Support</li>
         </ul>
       </div>
 
-      <!-- ENTERPRISE -->
-      <div class="price-card">
-        <div class="plan-name">Enterprise</div>
-        <div class="plan-tagline">Für Unternehmen mit eigenem Vertriebsprozess, ERP- und CRM-Anbindung.</div>
+      <!-- ===== TARIF 5: Team 10 ===== -->
+      <div class="price-card tier-team">
+        <div class="plan-name">Team 10</div>
+        <div class="plan-tagline">Für etablierte Vertriebsorganisationen mit zehn Plätzen.</div>
         <div class="plan-price">
-          <span class="price-amount">ab 1.490</span>
+          <span class="price-amount" data-monthly="599" data-yearly="479">599</span>
           <span class="price-currency">€</span>
         </div>
-        <div class="price-period">pro Monat · individuell</div>
-        <div class="billing-note">Setup-Workshop ab 2.490 €</div>
-        <a href="mailto:hello@dealfalcon.io?subject=Enterprise%20Anfrage" class="plan-cta primary">Beratung anfragen</a>
-        <div class="plan-features-label">Alles aus Business, plus</div>
+        <div class="price-period">pro Monat · <span class="billing-label" id="team10-billed">monatlich</span></div>
+        <div class="billing-note">netto · zzgl. MwSt · monatlich kündbar</div>
+        <a href="/signup?plan=team10" class="plan-cta ghost">Team 10 wählen</a>
+        <div class="plan-features-label">Alles aus Team 5, plus</div>
         <ul class="plan-features">
-          <li><strong>Unbegrenzte</strong> Nutzer &amp; Versendungen</li>
-          <li><strong>KI-Conversations-Übernahme</strong> (V2)</li>
-          <li><strong>ERP-Integration</strong> (SAP, Dynamics)</li>
-          <li><strong>CRM-Integration</strong> (HubSpot, Pipedrive)</li>
-          <li>Dedicated Customer Success Manager</li>
-          <li>SLA <strong>99,9 %</strong> Verfügbarkeit</li>
-          <li>Eigene Server-Region möglich</li>
-          <li>Custom Onboarding vor Ort</li>
+          <li><strong>10 Nutzer</strong></li>
+          <li><strong>Unbegrenzte</strong> Angebote</li>
+          <li>Lead-Übergabe &amp; Vertretungen</li>
+          <li>Team-Chat pro Vorgang</li>
+          <li>Aktive Team-Kollaboration</li>
+          <li>Pipeline-Forecast</li>
+          <li>Mehrere Subdomains</li>
+          <li>Priority-Support · 4 Stunden</li>
+        </ul>
+      </div>
+
+      <!-- ===== TARIF 6: Enterprise ===== -->
+      <div class="price-card tier-enterprise">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-tagline">Für Vertriebsorganisationen mit mehr als 10 Nutzern und individuellen Anforderungen.</div>
+        <div class="plan-price">
+          <span class="price-amount">Auf Anfrage</span>
+        </div>
+        <div class="price-period">Individuell kalkuliert</div>
+        <div class="billing-note">SSO · eigene Domain · SLA · Dedicated Manager</div>
+        <a href="mailto:kontakt@dealfalcon.de?subject=Enterprise-Anfrage" class="plan-cta gold">Kontakt aufnehmen</a>
+        <div class="plan-features-label">Alles aus Team 10, plus</div>
+        <ul class="plan-features">
+          <li><strong>11+ Nutzer</strong></li>
+          <li><strong>SSO / SAML</strong></li>
+          <li><strong>Eigene (Sub-)Domain</strong></li>
+          <li><strong>API-Zugriff</strong></li>
+          <li><strong>SLA-Garantie</strong></li>
+          <li><strong>Dedicated Account Manager</strong></li>
+          <li>On-Premise auf Anfrage</li>
+          <li>Individuelle Schulungen</li>
         </ul>
       </div>
 
@@ -932,15 +1006,15 @@
     <div class="addons-grid">
       <div class="addon-card">
         <div class="addon-name">Add-On 01</div>
-        <h3>Zusätzlicher Nutzer</h3>
-        <p>Ein weiterer User mit vollem Funktionsumfang Ihres Pakets, eigener Pipeline und Lead-Avatar im Cockpit.</p>
-        <div class="addon-price">49 €<small>pro User · pro Monat</small></div>
+        <h3>Zusätzliche Angebote (Solo Mini)</h3>
+        <p>Wenn Sie im Solo-Mini-Paket über die 10-Angebote-Grenze hinausgehen, kostet jedes weitere Angebot 5 € — transparent am Monatsende abgerechnet.</p>
+        <div class="addon-price">5 €<small>pro zusätzlichem Angebot</small></div>
       </div>
       <div class="addon-card">
         <div class="addon-name">Add-On 02</div>
-        <h3>Zusätzliche 100 Versendungen</h3>
-        <p>Erweitert Ihr monatliches Versand-Kontingent um 100 Stück mit allen Tracking- und Versionierungs-Funktionen.</p>
-        <div class="addon-price">129 €<small>pro 100 Versendungen · pro Monat</small></div>
+        <h3>Eigene (Sub-)Domain</h3>
+        <p>Microsites unter Ihrer eigenen Domain (z.B. angebote.ihre-firma.de). DNS-Setup übernehmen wir. Verfügbar ab Team 3.</p>
+        <div class="addon-price">49 €<small>pro Monat</small></div>
       </div>
       <div class="addon-card">
         <div class="addon-name">Add-On 03</div>
@@ -961,23 +1035,23 @@
       </div>
       <h2>Werden Sie <span class="accent">Launch-Partner.</span></h2>
       <p>
-        Drei bis fünf Unternehmen bekommen das <strong>Team-Paket zum halben Preis</strong> für die ersten 12 Monate. Plus kostenfreies Onboarding mit persönlichem Brand-Setup. Plus direktes Mitspracherecht bei der Roadmap.
+        Drei bis fünf Unternehmen bekommen das <strong>Team-3-Paket zum halben Preis</strong> für die ersten 12 Monate. Plus kostenfreies Onboarding mit persönlichem Brand-Setup. Plus direktes Mitspracherecht bei der Roadmap.
       </p>
       <div class="pilot-perks">
         <div class="pilot-perk">
           <strong>50 % Rabatt · 12 Monate</strong>
-          <p>Team-Paket für 199 € statt 399 € im ersten Jahr. Preisgarantie weitere 24 Monate.</p>
+          <p>Team-3-Paket für 99,50 € statt 199 € im ersten Jahr. Preisgarantie weitere 24 Monate.</p>
         </div>
         <div class="pilot-perk">
           <strong>Kostenfreies Onboarding</strong>
-          <p>Persönlicher Workshop, Brand-Setup, Material-Bibliothek aufgebaut. Wert: 2.490 €.</p>
+          <p>Persönlicher Workshop, Brand-Setup, Material-Bibliothek aufgebaut. Wert: 990 €.</p>
         </div>
         <div class="pilot-perk">
           <strong>Mitsprache an der Roadmap</strong>
           <p>Ihre Anforderungen fließen direkt ins Produkt ein. Direkter Draht zum Gründer.</p>
         </div>
       </div>
-      <a href="mailto:hello@dealfalcon.io?subject=Launch-Partner%20werden" class="btn btn-gold">Launch-Partner werden →</a>
+      <a href="mailto:kontakt@dealfalcon.de?subject=Launch-Partner%20werden" class="btn btn-gold">Launch-Partner werden →</a>
     </div>
   </div>
 </section>
@@ -995,7 +1069,7 @@
       </div>
       <div class="faq-item">
         <h3>Was passiert über dem Limit?</h3>
-        <p>Im Solo-Paket kostet jede weitere Versendung über 50 nur <strong>2,50 € pro Stück</strong>. Im Team-Paket 2 € ab Versendung 201, im Business-Paket 1,50 € ab 801. Wir berechnen das transparent am Monatsende. Wer regelmäßig drüber kommt, bucht ein Add-On.</p>
+        <p>Im <strong>Solo-Mini-Paket</strong> sind 10 Angebote pro Monat enthalten. Jedes weitere Angebot kostet <strong>5 € pro Stück</strong>. Wer regelmäßig drüber kommt, wechselt einfach auf <strong>Solo All-in</strong> (89 €/Monat) — dort sind alle Angebote unbegrenzt enthalten. Bei allen Team-Tarifen gibt es keine Mengen-Begrenzung.</p>
       </div>
       <div class="faq-item">
         <h3>Kann ich jederzeit kündigen?</h3>
@@ -1092,7 +1166,7 @@
       monthly.classList.remove('active');
       yearly.classList.add('active');
     }
-    ['solo-billed', 'team-billed', 'business-billed'].forEach(id => {
+    ['solomini-billed', 'soloallin-billed', 'team3-billed', 'team5-billed', 'team10-billed'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = billText;
     });
