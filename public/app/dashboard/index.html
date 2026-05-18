@@ -618,7 +618,35 @@
   /* ============ DEAL DETAIL MODAL ============ */
   .deal-detail-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 350; display: none; align-items: flex-start; justify-content: center; padding: 32px 20px; backdrop-filter: blur(4px); overflow-y: auto; }
   .deal-detail-modal.open { display: flex; animation: backdropIn 0.2s ease-out; }
-  .deal-detail-card { background: var(--paper-cool); border-radius: 16px; max-width: 920px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; overflow: hidden; }
+  .deal-detail-card { background: var(--paper-cool); border-radius: 16px; max-width: 1240px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; overflow: hidden; display: flex; flex-direction: column; max-height: calc(100vh - 64px); }
+
+  /* Tabs */
+  .deal-detail-tabs { display: flex; gap: 4px; padding: 0 32px; background: white; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
+  .deal-detail-tab { background: transparent; border: none; padding: 14px 18px; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink-mute); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; letter-spacing: -0.005em; }
+  .deal-detail-tab:hover { color: var(--ink); }
+  .deal-detail-tab.active { color: var(--black); border-bottom-color: var(--gold); }
+  .deal-detail-tab svg { opacity: 0.7; }
+  .deal-detail-tab.active svg { opacity: 1; }
+
+  /* Preview-Bereich */
+  .deal-detail-preview { display: flex; flex-direction: column; background: var(--paper-cool); flex: 1; min-height: 0; }
+  .deal-detail-preview[hidden] { display: none; }
+  .dd-preview-watermark { display: flex; align-items: center; gap: 10px; padding: 12px 22px; background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; font-family: var(--display); font-size: 12px; line-height: 1.45; flex-shrink: 0; }
+  .dd-preview-watermark svg { flex-shrink: 0; opacity: 0.85; }
+  .dd-preview-watermark span { flex: 1; }
+  .dd-preview-watermark strong { font-weight: 600; }
+  .dd-preview-newtab { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 10px; border-radius: 100px; font-family: var(--mono); font-size: 13px; cursor: pointer; flex-shrink: 0; transition: all 0.15s; line-height: 1; }
+  .dd-preview-newtab:hover { background: rgba(255,255,255,0.22); }
+  .dd-preview-iframe-wrap { flex: 1; min-height: 0; padding: 0; background: var(--paper-cool); overflow: hidden; }
+  .dd-preview-iframe-wrap iframe { width: 100%; height: 100%; min-height: 70vh; border: none; display: block; background: white; }
+
+  /* Wenn Body in Tab-Mode ausgeblendet ist */
+  .deal-detail-body[hidden] { display: none; }
+
+  /* Responsive: kleinere Screens kriegen die volle Breite */
+  @media (max-width: 1300px) {
+    .deal-detail-modal { padding: 20px 14px; }
+  }
   .deal-detail-header { background: white; padding: 28px 32px; border-bottom: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
   .deal-detail-title-block { flex: 1; min-width: 0; }
   .deal-detail-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
@@ -692,7 +720,7 @@
   .editor-section-head { padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; border-bottom: 1px solid var(--line-soft); }
   .editor-section-head-left { display: flex; align-items: center; gap: 12px; }
   .editor-section-num { width: 26px; height: 26px; border-radius: 50%; background: var(--paper-cool); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mid); flex-shrink: 0; }
-  .editor-section-num.complete { background: var(--gold); color: white; }
+  .editor-section-num.complete { background: var(--gold); color: var(--black); }
   .editor-section-num.is-team { background: linear-gradient(135deg, var(--ink-mid), var(--ink)); color: white; font-size: 13px; }
   .editor-section-title { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
   .editor-section-subtitle { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.02em; margin-top: 1px; }
@@ -838,87 +866,6 @@
   @media (max-width: 1100px) { .db-page[data-page="microsite-preview"] { margin: -24px -24px 0; } }
   @media (max-width: 720px) { .db-page[data-page="microsite-preview"] { margin: -20px -20px 0; } }
 
-  /* ============ DEAL DETAIL PAGE (Full-Page Split-View) ============ */
-  .db-page[data-page="deal-detail"] { padding: 0; margin: -32px -32px 0; max-width: none; }
-  @media (max-width: 1100px) { .db-page[data-page="deal-detail"] { margin: -24px -24px 0; } }
-  @media (max-width: 720px) { .db-page[data-page="deal-detail"] { margin: -20px -20px 0; } }
-  .dd-page-shell { display: flex; flex-direction: column; min-height: calc(100vh - 60px); background: var(--paper-cool); }
-  .dd-page-header { position: sticky; top: 0; z-index: 30; background: white; border-bottom: 1px solid var(--line-soft); padding: 16px 32px; display: flex; align-items: center; gap: 20px; }
-  .dd-back-btn { background: transparent; border: 1px solid var(--line); color: var(--ink-mid); padding: 8px 14px; border-radius: 100px; font-family: var(--mono); font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: all 0.15s; flex-shrink: 0; }
-  .dd-back-btn:hover { border-color: var(--black); color: var(--black); background: var(--paper-cool); }
-  .dd-header-titles { flex: 1; min-width: 0; }
-  .dd-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
-  .dd-title { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin: 0; }
-  .dd-subtitle { font-family: var(--display); font-size: 13px; color: var(--ink-mid); margin-top: 2px; }
-  .dd-preview-toggle { background: transparent; border: 1px solid var(--line); color: var(--ink-mid); padding: 8px 14px; border-radius: 100px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; flex-shrink: 0; }
-  .dd-preview-toggle:hover { border-color: var(--black); color: var(--black); }
-  .dd-preview-toggle.active { background: var(--black); color: white; border-color: var(--black); }
-
-  /* Split-Layout */
-  .dd-split { display: grid; grid-template-columns: minmax(0, 1fr) 560px; gap: 0; flex: 1; }
-  .dd-main { padding: 28px 32px; max-width: 760px; width: 100%; margin-left: auto; margin-right: auto; }
-  .dd-preview { padding: 24px 28px 24px 0; background: var(--paper-cool); position: sticky; top: 60px; align-self: start; max-height: calc(100vh - 76px); overflow-y: auto; }
-  
-  /* Browser-Chrome-Frame um Microsite-Vorschau */
-  .dd-preview-frame { background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-  .dd-preview-chrome { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--paper-cool); border-bottom: 1px solid var(--line-soft); }
-  .dd-preview-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); flex-shrink: 0; }
-  .dd-preview-dot:nth-child(1) { background: #ff5f57; }
-  .dd-preview-dot:nth-child(2) { background: #febc2e; }
-  .dd-preview-dot:nth-child(3) { background: #28c840; }
-  .dd-preview-url { flex: 1; margin-left: 10px; padding: 5px 12px; background: white; border: 1px solid var(--line-soft); border-radius: 100px; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); text-align: center; }
-  .dd-preview-body { padding: 0; min-height: 400px; }
-
-  /* Inhalt der Microsite-Vorschau */
-  .ddp-header { padding: 24px 22px 18px; background: var(--black); color: white; }
-  .ddp-anbieter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .ddp-anbieter { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); flex: 1; }
-  .ddp-version-badge { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border-radius: 100px; background: rgba(255,255,255,0.12); color: white; letter-spacing: 0.06em; }
-  .ddp-title { font-family: var(--display); font-size: 20px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 6px; color: white; }
-  .ddp-recipient { font-family: var(--display); font-size: 12px; color: rgba(255,255,255,0.75); }
-  
-  .ddp-sections { padding: 18px 22px 8px; }
-  .ddp-section { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
-  .ddp-section:last-child { border-bottom: none; }
-  .ddp-section-num { width: 22px; height: 22px; border-radius: 50%; background: var(--paper-cool); color: var(--ink-mute); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ddp-section-content { flex: 1; min-width: 0; }
-  .ddp-section-title { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.35; }
-  .ddp-section-snippet { font-family: var(--display); font-size: 12px; color: var(--ink-mute); line-height: 1.5; margin-top: 3px; }
-
-  .ddp-empty { padding: 36px 22px; text-align: center; color: var(--ink-mute); font-family: var(--display); font-size: 12px; line-height: 1.5; }
-
-  .ddp-pricing { padding: 16px 22px; margin: 4px 14px; background: var(--paper-cool); border-radius: 10px; display: flex; align-items: baseline; justify-content: space-between; }
-  .ddp-pricing-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); }
-  .ddp-pricing-value { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
-
-  .ddp-docs { padding: 14px 22px 4px; }
-  .ddp-docs-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; }
-  .ddp-docs-list { display: flex; flex-direction: column; gap: 4px; }
-  .ddp-doc { font-family: var(--display); font-size: 12px; color: var(--ink-strong); padding: 6px 10px; background: var(--paper-cool); border-radius: 6px; }
-  .ddp-doc-more { color: var(--ink-mute); font-style: italic; }
-
-  .ddp-cta-zone { padding: 20px 22px 24px; text-align: center; border-top: 1px solid var(--line-soft); margin-top: 12px; }
-  .ddp-cta { background: var(--gold); color: white; border: none; padding: 12px 28px; border-radius: 100px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: not-allowed; opacity: 0.85; }
-  .ddp-cta-hint { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--ink-faint); text-transform: uppercase; margin-top: 8px; }
-
-  /* Responsive: Tablet → kleineres Preview-Panel */
-  @media (max-width: 1280px) {
-    .dd-split { grid-template-columns: minmax(0, 1fr) 440px; }
-    .dd-main { padding: 24px 24px; }
-  }
-  /* Mobile/Tablet hoch: Preview als Toggle, default ausgeblendet */
-  @media (max-width: 1024px) {
-    .dd-split { grid-template-columns: 1fr; }
-    .dd-preview { display: none; padding: 16px; position: static; }
-    .dd-split.preview-open .dd-preview { display: block; }
-    .dd-split.preview-open .dd-main { display: none; }
-  }
-  /* Auf Desktop ist Preview immer da, der Toggle blendet ein/aus */
-  @media (min-width: 1025px) {
-    .dd-split.preview-closed { grid-template-columns: minmax(0, 1fr); }
-    .dd-split.preview-closed .dd-preview { display: none; }
-  }
-
   /* Vorschau-Bar (Editor-Top-Bar) */
   .ms-preview-bar { position: sticky; top: 0; z-index: 30; background: var(--ink); color: white; padding: 12px 22px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--ink); }
   .ms-preview-back { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 14px; border-radius: 8px; font-family: var(--mono); font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: all 0.15s; }
@@ -990,7 +937,7 @@
   .ms-letter-headline .gold { color: var(--gold-deep); }
   .ms-letter-text { font-family: var(--display); font-size: 17px; color: var(--ink-mid); line-height: 1.65; max-width: 680px; margin-bottom: 32px; white-space: pre-line; font-weight: 400; }
   .ms-letter-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
-  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
+  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
   .ms-letter-info strong { display: block; font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
   .ms-letter-info small { display: block; font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
 
@@ -1098,7 +1045,7 @@
   .send-confirm-recipients { background: white; border: 1px solid var(--line-soft); border-radius: 10px; overflow: hidden; }
   .send-confirm-recipient { padding: 12px 18px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; gap: 12px; }
   .send-confirm-recipient:last-child { border-bottom: none; }
-  .send-confirm-recipient-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .send-confirm-recipient-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
   .send-confirm-recipient-avatar.is-secondary { background: linear-gradient(135deg, #e4e4e7, #a1a1aa); color: white; }
   .send-confirm-recipient-info { flex: 1; min-width: 0; }
   .send-confirm-recipient-info strong { display: block; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
@@ -1306,7 +1253,7 @@
   .notes-list-empty { padding: 16px; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.02em; font-style: italic; background: var(--paper-warm); border-radius: 8px; }
   .note-row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: flex-start; padding: 12px 14px; background: white; border: 1px solid var(--line-soft); border-radius: 10px; }
   .note-row.is-system { background: var(--paper-cool); }
-  .note-row .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; flex-shrink: 0; }
+  .note-row .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; flex-shrink: 0; }
   .note-row.is-other .note-avatar { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: white; }
   .note-info { min-width: 0; }
   .note-info-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
@@ -1391,7 +1338,7 @@
   .contact-row:hover { background: white; border-color: var(--line-soft); }
   .contact-row.is-primary { background: #fffbf2; border-color: #fde68a; }
   .contact-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--paper-cool), #cbd5e1); color: var(--ink-mid); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
-  .contact-row.is-primary .contact-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; }
+  .contact-row.is-primary .contact-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); }
   .contact-info { min-width: 0; }
   .contact-info strong { display: block; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
   .contact-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0.02em; }
@@ -2157,45 +2104,7 @@
       </div>
     </section>
 
-    <!-- ============ DEAL DETAIL PAGE (Full-Page mit Split-View) ============ -->
-    <section class="db-page" data-page="deal-detail">
-      <div class="dd-page-shell">
-        <header class="dd-page-header">
-          <button type="button" class="dd-back-btn" id="dd-back-btn">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
-            Zurück
-          </button>
-          <div class="dd-header-titles">
-            <div class="dd-eyebrow" id="dd-eyebrow">2026-0000 · Kunde</div>
-            <h1 class="dd-title" id="dd-title">Vorgang</h1>
-            <div class="dd-subtitle" id="dd-subtitle">Empfänger</div>
-          </div>
-          <button type="button" class="dd-preview-toggle" id="dd-preview-toggle" title="Empfängersicht ein-/ausblenden">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>Empfängersicht</span>
-          </button>
-        </header>
-
-        <div class="dd-split">
-          <div class="dd-main" id="dd-main">
-            <!-- Vertriebssicht — wird durch renderDealDetailPage() befüllt -->
-          </div>
-          <aside class="dd-preview" id="dd-preview">
-            <div class="dd-preview-frame">
-              <div class="dd-preview-chrome">
-                <span class="dd-preview-dot"></span>
-                <span class="dd-preview-dot"></span>
-                <span class="dd-preview-dot"></span>
-                <div class="dd-preview-url" id="dd-preview-url">dealfalcon.io/a/…</div>
-              </div>
-              <div class="dd-preview-body" id="dd-preview-body">
-                <!-- Microsite-Rendering durch renderDealPreview() -->
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
+  </main>
 </div>
 
 <!-- ============ NOTIFICATIONS PANEL ============ -->
@@ -2504,17 +2413,41 @@
         <p class="deal-detail-subtitle" id="detail-deal-customer">…</p>
       </div>
       <div style="display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0;">
-        <button type="button" class="btn-secondary" id="btn-detail-open-customer-view" title="So sieht der Kunde die Microsite" onclick="window.dfOpenRecipientView && window.dfOpenRecipientView();">
+        <button type="button" class="btn-secondary" id="btn-detail-open-customer-view" title="In neuem Tab — voll funktional" onclick="window.dfOpenRecipientView && window.dfOpenRecipientView();">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Empfängersicht
+          In neuem Tab
         </button>
         <button type="button" class="deal-detail-close" id="btn-detail-close">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
     </div>
-    <div class="deal-detail-body" id="detail-body">
+
+    <!-- Tabs -->
+    <div class="deal-detail-tabs" role="tablist">
+      <button type="button" class="deal-detail-tab active" data-detail-tab="info" role="tab" aria-selected="true">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Vorgang</span>
+      </button>
+      <button type="button" class="deal-detail-tab" data-detail-tab="preview" role="tab" aria-selected="false">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Empfängersicht</span>
+      </button>
+    </div>
+
+    <div class="deal-detail-body" id="detail-body" data-tab-pane="info">
       <!-- via JS -->
+    </div>
+
+    <div class="deal-detail-preview" id="detail-preview" data-tab-pane="preview" hidden>
+      <div class="dd-preview-watermark">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span><strong>Vorschau Empfängersicht</strong> — so sieht der Kunde die Microsite. Klicks und Scrolls in dieser Vorschau werden nicht getrackt.</span>
+        <button type="button" class="dd-preview-newtab" id="btn-dd-preview-newtab" title="In neuem Tab öffnen">↗</button>
+      </div>
+      <div class="dd-preview-iframe-wrap">
+        <iframe id="detail-preview-iframe" title="Empfängersicht" loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 </div>
@@ -4434,7 +4367,7 @@
 
     if (!customer) {
       html += '<div class="customer-picker-row is-empty" id="btn-pick-customer">' +
-        '<div class="customer-card-logo" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white;">?</div>' +
+        '<div class="customer-card-logo" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black);">?</div>' +
         '<div class="customer-picker-info">' +
           '<strong>Kunde wählen oder neu anlegen</strong>' +
           '<small>Wählen Sie aus bestehenden Kunden oder legen einen neuen an</small>' +
@@ -6658,9 +6591,14 @@
     html += '</div>';
 
     document.getElementById('detail-body').innerHTML = html;
+    document.getElementById('deal-detail-modal').classList.add('open');
 
-    // ► NEU: Statt Modal öffnen → Full-Page navigieren und Inhalt spiegeln
-    _showDealDetailPage(dealId);
+    // Tab beim Öffnen immer auf "Vorgang" resetten
+    _setDealDetailTab('info');
+    // Preview-Iframe wird beim ersten Klick geladen, deal-Kontext merken
+    _currentPreviewDealId = dealId;
+    var iframe = document.getElementById('detail-preview-iframe');
+    if (iframe) iframe.src = ''; // alte Preview aus letztem Deal löschen
 
     // Notizen rendern
     renderDealNotes(dealId);
@@ -6739,6 +6677,47 @@
 
   function closeDealDetail() {
     document.getElementById('deal-detail-modal').classList.remove('open');
+    // Iframe entladen, damit das Microsite-JS nicht im Hintergrund weiterläuft
+    var iframe = document.getElementById('detail-preview-iframe');
+    if (iframe) iframe.src = '';
+    _currentPreviewDealId = null;
+  }
+
+  // ============ DETAIL-MODAL TABS ============
+  var _currentPreviewDealId = null;
+
+  function _setDealDetailTab(tabName) {
+    document.querySelectorAll('.deal-detail-tab').forEach(function(btn) {
+      var active = btn.dataset.detailTab === tabName;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-tab-pane]').forEach(function(pane) {
+      pane.hidden = pane.dataset.tabPane !== tabName;
+    });
+
+    // Lazy-Load der Preview beim ersten Tab-Switch
+    if (tabName === 'preview' && _currentPreviewDealId) {
+      var iframe = document.getElementById('detail-preview-iframe');
+      if (iframe && !iframe.src) {
+        iframe.src = '/m?d=' + encodeURIComponent(_currentPreviewDealId) + '&preview=internal';
+      }
+    }
+  }
+
+  function _bindDealDetailTabs() {
+    document.querySelectorAll('.deal-detail-tab').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var t = btn.dataset.detailTab;
+        if (t) _setDealDetailTab(t);
+      });
+    });
+    var btnNewTab = document.getElementById('btn-dd-preview-newtab');
+    if (btnNewTab) {
+      btnNewTab.addEventListener('click', function() {
+        if (window.dfOpenRecipientView) window.dfOpenRecipientView();
+      });
+    }
   }
 
   // ============ STATUS-AKTIONEN: GEWONNEN / VERLOREN ============
@@ -7986,8 +7965,7 @@
   }
 
   // ============ NAVIGATION ============
-  function navigate(pageName, opts) {
-    opts = opts || {};
+  function navigate(pageName) {
     document.querySelectorAll('.db-page').forEach(function(p) {
       p.classList.toggle('active', p.dataset.page === pageName);
     });
@@ -8005,20 +7983,6 @@
     if (pageName === 'documents') renderDocsOverview();
     if (pageName === 'editor') renderEditor();
     if (pageName === 'microsite-preview') renderMicrositeFull();
-    if (pageName === 'deal-detail' && opts.dealId) renderDealDetailPage(opts.dealId);
-
-    // Hash setzen (außer wenn schon durch popstate kommt)
-    if (!opts._fromHash) {
-      var newHash = '';
-      if (pageName === 'deal-detail' && opts.dealId) {
-        newHash = '#deal/' + encodeURIComponent(opts.dealId);
-      } else if (pageName !== 'dashboard') {
-        newHash = '#' + pageName;
-      }
-      if (location.hash !== newHash) {
-        history.pushState({ page: pageName, dealId: opts.dealId || null }, '', newHash || location.pathname);
-      }
-    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -8030,215 +7994,6 @@
         if (page) navigate(page);
       });
     });
-  }
-
-  // ============ DEAL DETAIL PAGE (Full-Page Split) ============
-  function renderDealDetailPage(dealId) {
-    var deals = loadDeals();
-    var deal = deals.find(function(d) { return d.id === dealId; });
-    if (!deal) {
-      navigate('deals');
-      return;
-    }
-    // Trigger das komplette Render via bestehendem openDealDetail-Code.
-    // Der ruft am Ende _showDealDetailPage() auf, das alles in die Page spiegelt.
-    openDealDetail(dealId);
-  }
-
-  // Wird am Ende von openDealDetail aufgerufen — spiegelt Inhalt in die Page und rendert Preview
-  function _showDealDetailPage(dealId) {
-    var deals = loadDeals();
-    var deal = deals.find(function(d) { return d.id === dealId; });
-    if (!deal) return;
-    _currentDetailDealId = dealId;
-
-    // Header-Felder
-    document.getElementById('dd-eyebrow').textContent = deal.dealNumber + ' · ' + (deal.customerCompany || '');
-    document.getElementById('dd-title').textContent = deal.title || 'Vorgang';
-    var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
-    document.getElementById('dd-subtitle').textContent = 'Empfänger: ' + (primary ? primary.name : (deal.customer || '—'));
-    var urlEl = document.getElementById('dd-preview-url');
-    if (urlEl) urlEl.textContent = 'dealfalcon.io/a/' + (deal.dealNumber || '…');
-
-    // Inhalt aus dem (jetzt unsichtbaren) detail-body in dd-main spiegeln
-    var ddMain = document.getElementById('dd-main');
-    var detailBody = document.getElementById('detail-body');
-    if (ddMain && detailBody) {
-      ddMain.innerHTML = detailBody.innerHTML;
-      // Empfänger-Sektion nach oben verschieben
-      _reorderDealDetailSections(ddMain);
-      // Event-Bindings im neuen Container neu setzen
-      _bindDealDetailPageEvents(ddMain, dealId);
-    }
-
-    // Microsite-Vorschau im rechten Panel
-    try { renderDealPreviewPanel(deal); } catch(e) { console.warn('Preview-Render', e); }
-
-    // Zur Page navigieren (nur wenn nicht schon dort, sonst kein Stack-Eintrag doppelt)
-    if (!document.querySelector('.db-page[data-page="deal-detail"]').classList.contains('active')) {
-      navigate('deal-detail', { dealId: dealId });
-    } else {
-      // Schon auf der Page → URL aktualisieren ohne pushState-Duplikat
-      var hash = '#deal/' + encodeURIComponent(dealId);
-      if (location.hash !== hash) history.replaceState({ page: 'deal-detail', dealId: dealId }, '', hash);
-    }
-  }
-
-  // Empfänger-Sektion an den Anfang sortieren
-  function _reorderDealDetailSections(container) {
-    // Suche die Sektion, die Empfänger enthält. Erkennungsmerkmal: Header oder bestimmte Klasse.
-    var sections = Array.from(container.querySelectorAll(':scope > .detail-section, :scope > .detail-grid, :scope > .closed-banner, :scope > .detail-rec-card'));
-    var recipSection = null;
-    for (var i = 0; i < sections.length; i++) {
-      var s = sections[i];
-      // Heuristik: Sektion enthält ".recipient-row" oder eine Heading "Empfänger" oder eine ".btn-add-recipient"
-      if (s.querySelector('.recipient-row, .btn-add-recipient, [data-action="invite-collab-detail"]')) {
-        recipSection = s;
-        break;
-      }
-    }
-    if (recipSection && container.firstChild !== recipSection) {
-      container.insertBefore(recipSection, container.firstChild);
-    }
-  }
-
-  // Event-Bindings re-binden (weil HTML neu eingefügt wurde)
-  function _bindDealDetailPageEvents(container, dealId) {
-    // Re-Bind aller Buttons / Inputs aus dem alten Detail-Body, jetzt im neuen Container.
-    // Wir rufen die zentralen Renderer auf, die Bindings setzen.
-    try { renderDealNotes(dealId); } catch(e) {}
-    if (window.dfPlan && window.dfPlan.hasTeamFeatures()) {
-      try { renderTeamMessages(dealId); } catch(e) {}
-    }
-
-    var btnAddNote = container.querySelector('#btn-add-note');
-    if (btnAddNote) btnAddNote.addEventListener('click', function() {
-      var input = container.querySelector('#deal-note-input');
-      if (!input) return;
-      addDealNote(dealId, input.value);
-      input.value = '';
-    });
-    container.querySelectorAll('.note-quick-chip').forEach(function(chip) {
-      chip.addEventListener('click', function() {
-        var text = chip.dataset.quickNote;
-        if (text) addDealNote(dealId, text);
-      });
-    });
-    var btnAddInfo = container.querySelector('#btn-add-tm-info');
-    var btnAddReact = container.querySelector('#btn-add-tm-reaction');
-    var tmInput = container.querySelector('#team-message-input');
-    if (btnAddInfo && tmInput) btnAddInfo.addEventListener('click', function() {
-      if (typeof addTeamMessage === 'function') { addTeamMessage(dealId, tmInput.value, 'info'); tmInput.value = ''; }
-    });
-    if (btnAddReact && tmInput) btnAddReact.addEventListener('click', function() {
-      if (typeof addTeamMessage === 'function') { addTeamMessage(dealId, tmInput.value, 'reaction'); tmInput.value = ''; }
-    });
-  }
-
-  // Microsite-Vorschau: rendert die Kunden-Sicht kompakt im rechten Panel
-  function renderDealPreviewPanel(deal) {
-    var body = document.getElementById('dd-preview-body');
-    if (!body) return;
-
-    var brand = (typeof loadBranding === 'function') ? loadBranding() : {};
-    var brandColor = (brand && brand.accentColor) || 'var(--gold)';
-    var company = brand && brand.companyName ? brand.companyName : (deal.workspaceName || 'Ihr Anbieter');
-    var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
-    var recipientName = primary ? primary.name : (deal.customer || 'Kunde');
-
-    // Sektionen aus Deal-Daten — falls Editor-Inhalte existieren, nutzen; sonst Defaults
-    var sections = (deal.microsite && deal.microsite.sections) || deal.sections || [];
-    var versions = deal.versions || (deal.sentAt ? [{ id: 'v1', sentAt: deal.sentAt, label: 'Erste Version' }] : []);
-
-    var html = '';
-    // Anbieter-Header
-    html += '<div class="ddp-header">' +
-      '<div class="ddp-anbieter-row">' +
-        '<div class="ddp-anbieter">' + escapeHtml(company) + '</div>' +
-        (versions.length > 1 ? '<span class="ddp-version-badge">v' + versions.length + ' · aktuell</span>' : (versions.length === 1 ? '<span class="ddp-version-badge">v1</span>' : '')) +
-      '</div>' +
-      '<h2 class="ddp-title">' + escapeHtml(deal.title || 'Ihr Angebot') + '</h2>' +
-      '<div class="ddp-recipient">Für ' + escapeHtml(recipientName) + (primary && primary.company ? ' · ' + escapeHtml(primary.company) : '') + '</div>' +
-    '</div>';
-
-    // Sektionen
-    if (sections.length > 0) {
-      html += '<div class="ddp-sections">';
-      sections.slice(0, 6).forEach(function(s, idx) {
-        var title = s.title || s.heading || 'Abschnitt ' + (idx + 1);
-        var bodyText = s.body || s.content || s.text || '';
-        var snippet = bodyText.length > 140 ? bodyText.slice(0, 140) + '…' : bodyText;
-        html += '<div class="ddp-section">' +
-          '<div class="ddp-section-num">' + (idx + 1) + '</div>' +
-          '<div class="ddp-section-content">' +
-            '<div class="ddp-section-title">' + escapeHtml(title) + '</div>' +
-            (snippet ? '<div class="ddp-section-snippet">' + escapeHtml(snippet) + '</div>' : '') +
-          '</div>' +
-        '</div>';
-      });
-      html += '</div>';
-    } else {
-      html += '<div class="ddp-empty">Noch keine Inhalte. Öffnen Sie den Editor, um die Microsite zu gestalten.</div>';
-    }
-
-    // Pricing/Wert
-    if (deal.value || deal.totalValue) {
-      var val = deal.value || deal.totalValue;
-      html += '<div class="ddp-pricing">' +
-        '<div class="ddp-pricing-label">Investition</div>' +
-        '<div class="ddp-pricing-value">' + formatCurrency(val) + '</div>' +
-      '</div>';
-    }
-
-    // Dokumente
-    if (deal.documents && deal.documents.length) {
-      html += '<div class="ddp-docs">' +
-        '<div class="ddp-docs-label">Dokumente (' + deal.documents.length + ')</div>' +
-        '<div class="ddp-docs-list">';
-      deal.documents.slice(0, 4).forEach(function(doc) {
-        html += '<div class="ddp-doc">📄 ' + escapeHtml(doc.name || 'Datei') + '</div>';
-      });
-      if (deal.documents.length > 4) {
-        html += '<div class="ddp-doc ddp-doc-more">+ ' + (deal.documents.length - 4) + ' weitere</div>';
-      }
-      html += '</div></div>';
-    }
-
-    // CTA
-    html += '<div class="ddp-cta-zone">' +
-      '<button type="button" class="ddp-cta" disabled>Angebot annehmen</button>' +
-      '<div class="ddp-cta-hint">Preview · Klicks sind in der Empfängersicht aktiv</div>' +
-    '</div>';
-
-    body.innerHTML = html;
-  }
-
-  // Hilfs-Formatierung Währung — fallback wenn formatCurrency nicht existiert
-  if (typeof formatCurrency !== 'function') {
-    window.formatCurrency = function(v) {
-      if (typeof v !== 'number') v = parseFloat(v) || 0;
-      try {
-        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
-      } catch(e) { return v + ' €'; }
-    };
-  }
-
-  // ============ HASH-ROUTING ============
-  function applyHashRoute() {
-    var hash = location.hash.replace(/^#/, '');
-    if (!hash) {
-      navigate('dashboard', { _fromHash: true });
-      return;
-    }
-    if (hash.indexOf('deal/') === 0) {
-      var dealId = decodeURIComponent(hash.slice(5));
-      navigate('deal-detail', { dealId: dealId, _fromHash: true });
-      return;
-    }
-    // Andere Pages: dashboard/deals/customers/etc.
-    if (document.querySelector('.db-page[data-page="' + hash + '"]')) {
-      navigate(hash, { _fromHash: true });
-    }
   }
 
   // ============ DOCS OVERVIEW ============
@@ -9229,6 +8984,7 @@
     initBranding();
     initNavCounts();
     bindNavigation();
+    _bindDealDetailTabs();
 
     // Tracking-Engine starten
     bindFeedTabs();
@@ -9236,40 +8992,6 @@
     resumeScheduledActivities();
     renderDashboard();
     updateNotificationBadge();
-
-    // Hash-Routing (Browser-Back, deep-links)
-    window.addEventListener('popstate', function() { applyHashRoute(); });
-    window.addEventListener('hashchange', function() { applyHashRoute(); });
-    // Initial: Hash auswerten (z.B. wenn URL bereits #deal/X enthält)
-    if (location.hash) {
-      setTimeout(applyHashRoute, 50); // nach dem ersten Render
-    }
-
-    // Back-Button auf Deal-Detail-Page
-    var ddBack = document.getElementById('dd-back-btn');
-    if (ddBack) {
-      ddBack.addEventListener('click', function() {
-        if (history.length > 1) history.back();
-        else navigate('deals');
-      });
-    }
-    // Preview-Toggle (Empfängersicht ein/ausblenden)
-    var ddToggle = document.getElementById('dd-preview-toggle');
-    if (ddToggle) {
-      ddToggle.addEventListener('click', function() {
-        var split = document.querySelector('.dd-split');
-        if (!split) return;
-        // Auf Desktop: closed/offen toggeln
-        if (window.matchMedia('(min-width: 1025px)').matches) {
-          split.classList.toggle('preview-closed');
-          ddToggle.classList.toggle('active', !split.classList.contains('preview-closed'));
-        } else {
-          // Auf kleineren Screens: preview-open zeigt Preview an
-          split.classList.toggle('preview-open');
-          ddToggle.classList.toggle('active', split.classList.contains('preview-open'));
-        }
-      });
-    }
 
     // Notification-Button: öffnet Panel
     var notifBtn = document.querySelector('.db-icon-btn');

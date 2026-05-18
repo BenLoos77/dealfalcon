@@ -24,6 +24,14 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--display); color: var(--ink-strong); background: #f5f5f7; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
+  /* Internes Preview-Banner (nur im Vorschau-Mode) */
+  #ms-preview-mode-banner { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; font-family: var(--display); font-size: 12px; padding: 8px 22px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  #ms-preview-mode-banner[hidden] { display: none; }
+  .ms-pmb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; box-shadow: 0 0 8px rgba(241,26,34,0.6); animation: msPmbPulse 1.6s ease-in-out infinite; }
+  @keyframes msPmbPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .ms-pmb-text { line-height: 1.4; }
+  .ms-pmb-text strong { font-weight: 600; }
+
   /* Microsite Container */
   .ms-shell { padding: 0 0 60px; min-height: 100vh; background: #f5f5f7; }
   .ms-container { max-width: none; margin: 0; padding: 0 56px; }
@@ -241,6 +249,11 @@
 </style>
 </head>
 <body>
+
+<div id="ms-preview-mode-banner" hidden>
+  <span class="ms-pmb-dot"></span>
+  <span class="ms-pmb-text"><strong>Interne Vorschau</strong> — Klicks und Scrolls werden nicht getrackt</span>
+</div>
 
 <div id="microsite-root"></div>
 
@@ -581,8 +594,26 @@
     });
   }
 
+  // Preview-Mode erkennen — keine Tracking-Events ans Backend
+  var _isPreviewMode = (function() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('preview') === 'internal';
+    } catch(e) { return false; }
+  })();
+
+  // Banner einblenden falls Preview-Mode
+  if (_isPreviewMode) {
+    document.addEventListener('DOMContentLoaded', function() {
+      var banner = document.getElementById('ms-preview-mode-banner');
+      if (banner) banner.hidden = false;
+    });
+  }
+
   function trackActivity(type, label, detail, extra) {
     if (!deal || !recipient) return;
+    // Im internen Preview-Mode: keine Tracking-Events
+    if (_isPreviewMode) return;
 
     // Wenn der Deal vom Backend geladen wurde, schicken wir die Activity ans Backend
     if (deal._fromBackend) {
