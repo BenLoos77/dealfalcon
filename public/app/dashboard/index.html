@@ -692,7 +692,7 @@
   .editor-section-head { padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; gap: 14px; border-bottom: 1px solid var(--line-soft); }
   .editor-section-head-left { display: flex; align-items: center; gap: 12px; }
   .editor-section-num { width: 26px; height: 26px; border-radius: 50%; background: var(--paper-cool); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink-mid); flex-shrink: 0; }
-  .editor-section-num.complete { background: var(--gold); color: var(--black); }
+  .editor-section-num.complete { background: var(--gold); color: white; }
   .editor-section-num.is-team { background: linear-gradient(135deg, var(--ink-mid), var(--ink)); color: white; font-size: 13px; }
   .editor-section-title { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
   .editor-section-subtitle { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.02em; margin-top: 1px; }
@@ -909,7 +909,7 @@
   .ms-letter-headline .gold { color: var(--gold-deep); }
   .ms-letter-text { font-family: var(--display); font-size: 17px; color: var(--ink-mid); line-height: 1.65; max-width: 680px; margin-bottom: 32px; white-space: pre-line; font-weight: 400; }
   .ms-letter-signature { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
-  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
+  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
   .ms-letter-info strong { display: block; font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
   .ms-letter-info small { display: block; font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
 
@@ -1017,7 +1017,7 @@
   .send-confirm-recipients { background: white; border: 1px solid var(--line-soft); border-radius: 10px; overflow: hidden; }
   .send-confirm-recipient { padding: 12px 18px; border-bottom: 1px solid var(--line-soft); display: flex; align-items: center; gap: 12px; }
   .send-confirm-recipient:last-child { border-bottom: none; }
-  .send-confirm-recipient-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .send-confirm-recipient-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
   .send-confirm-recipient-avatar.is-secondary { background: linear-gradient(135deg, #e4e4e7, #a1a1aa); color: white; }
   .send-confirm-recipient-info { flex: 1; min-width: 0; }
   .send-confirm-recipient-info strong { display: block; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
@@ -1225,7 +1225,7 @@
   .notes-list-empty { padding: 16px; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.02em; font-style: italic; background: var(--paper-warm); border-radius: 8px; }
   .note-row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: flex-start; padding: 12px 14px; background: white; border: 1px solid var(--line-soft); border-radius: 10px; }
   .note-row.is-system { background: var(--paper-cool); }
-  .note-row .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; flex-shrink: 0; }
+  .note-row .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 11px; flex-shrink: 0; }
   .note-row.is-other .note-avatar { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: white; }
   .note-info { min-width: 0; }
   .note-info-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
@@ -1310,7 +1310,7 @@
   .contact-row:hover { background: white; border-color: var(--line-soft); }
   .contact-row.is-primary { background: #fffbf2; border-color: #fde68a; }
   .contact-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--paper-cool), #cbd5e1); color: var(--ink-mid); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; }
-  .contact-row.is-primary .contact-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); }
+  .contact-row.is-primary .contact-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; }
   .contact-info { min-width: 0; }
   .contact-info strong { display: block; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
   .contact-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0.02em; }
@@ -4315,7 +4315,7 @@
 
     if (!customer) {
       html += '<div class="customer-picker-row is-empty" id="btn-pick-customer">' +
-        '<div class="customer-card-logo" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black);">?</div>' +
+        '<div class="customer-card-logo" style="background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white;">?</div>' +
         '<div class="customer-picker-info">' +
           '<strong>Kunde wählen oder neu anlegen</strong>' +
           '<small>Wählen Sie aus bestehenden Kunden oder legen einen neuen an</small>' +
