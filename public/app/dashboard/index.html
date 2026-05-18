@@ -28,7 +28,14 @@
   body { font-family: var(--display); color: var(--ink-strong); background: var(--paper-cool); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
   /* ============ DEALFALCON MASTER HEADER ============ */
-  .df-master-header { background: var(--ink); color: white; border-bottom: 1px solid #1f1f1f; position: sticky; top: 0; z-index: 200; }
+  .df-master-header {
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: sticky; top: 0; z-index: 200;
+  }
   .df-master-header-inner { padding: 0 24px; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 100%; }
   .df-master-logo { display: inline-flex; align-items: center; gap: 8px; color: white; text-decoration: none; transition: opacity 0.15s; }
   .df-master-logo:hover { opacity: 0.85; }
@@ -79,18 +86,32 @@
   .cockpit-todo-list { display: flex; flex-direction: column; gap: 12px; }
   .cockpit-todo-card { background: white; border: 1px solid var(--line-soft); border-radius: 14px; padding: 22px 28px; transition: all 0.15s; cursor: pointer; }
   .cockpit-todo-card:hover { border-color: var(--ink-mute); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .cockpit-todo-card.is-hot { background: var(--ink); color: white; padding: 28px 32px; border: none; }
-  .cockpit-todo-card.is-hot:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .cockpit-todo-card.is-hot {
+    background: var(--black);
+    color: white;
+    padding: 28px 32px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .cockpit-todo-card.is-hot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(241, 26, 34, 0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .cockpit-todo-card.is-hot:hover { box-shadow: 0 12px 32px rgba(241, 26, 34, 0.22); }
   .cockpit-todo-row { display: flex; align-items: flex-start; gap: 20px; justify-content: space-between; }
   .cockpit-todo-number { width: 36px; height: 36px; border-radius: 50%; background: var(--paper-cool); color: var(--ink-mid); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 16px; font-weight: 600; flex-shrink: 0; letter-spacing: -0.01em; line-height: 1; }
-  .cockpit-todo-card.is-hot .cockpit-todo-number { background: var(--gold); color: var(--ink); width: 40px; height: 40px; font-size: 17px; }
+  .cockpit-todo-card.is-hot .cockpit-todo-number { background: var(--gold); color: white; width: 40px; height: 40px; font-size: 17px; }
   .cockpit-todo-content { flex: 1; min-width: 0; }
   .cockpit-todo-meta-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
   .cockpit-todo-temp { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 100px; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; flex-shrink: 0; }
   .cockpit-todo-lead { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-size: 12px; color: var(--ink-mute); }
   .cockpit-todo-card.is-hot .cockpit-todo-lead { color: rgba(255,255,255,0.6); }
   .cockpit-todo-lead-avatar { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: white; display: inline-flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 10px; font-weight: 700; letter-spacing: -0.01em; flex-shrink: 0; }
-  .cockpit-todo-lead.is-me .cockpit-todo-lead-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--ink); }
+  .cockpit-todo-lead.is-me .cockpit-todo-lead-avatar { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; }
   .cockpit-todo-lead-label strong { color: var(--ink); font-weight: 600; }
   .cockpit-todo-card.is-hot .cockpit-todo-lead-label strong { color: white; }
   .cockpit-todo-delegate { font-family: var(--mono); font-size: 10px; color: var(--gold-deep); padding: 2px 8px; border-radius: 100px; background: #fffbf2; border: 1px solid var(--gold); letter-spacing: 0.04em; font-weight: 500; margin-left: 4px; }
@@ -102,17 +123,17 @@
   .cockpit-todo-temp-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
   .cockpit-todo-title { font-family: var(--display); font-weight: 600; letter-spacing: -0.005em; line-height: 1.25; margin-bottom: 4px; color: inherit; }
   .cockpit-todo-card.is-hot .cockpit-todo-title { font-size: 22px; margin-bottom: 6px; }
-  .cockpit-todo-card:not(.is-hot) .cockpit-todo-title { font-size: 17px; color: var(--ink); }
+  .cockpit-todo-card:not(.is-hot) .cockpit-todo-title { font-size: 17px; color: var(--black); }
   .cockpit-todo-customer { font-family: var(--display); font-size: 13px; color: var(--ink-mute); margin-bottom: 14px; }
   .cockpit-todo-card.is-hot .cockpit-todo-customer { color: rgba(255,255,255,0.6); margin-bottom: 18px; }
   .cockpit-todo-recommendation { font-family: var(--display); font-size: 14px; line-height: 1.55; color: var(--ink-mid); }
   .cockpit-todo-card.is-hot .cockpit-todo-recommendation { font-size: 15px; color: rgba(255,255,255,0.9); }
   .cockpit-todo-recommendation::before { content: '→ '; color: var(--gold-deep); font-weight: 600; }
   .cockpit-todo-card.is-hot .cockpit-todo-recommendation::before { color: var(--gold); }
-  .cockpit-todo-action-btn { background: white; color: var(--ink); border: 1px solid var(--line); padding: 9px 16px; border-radius: 8px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; }
-  .cockpit-todo-action-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
-  .cockpit-todo-card.is-hot .cockpit-todo-action-btn { background: var(--gold); color: var(--ink); border: none; padding: 12px 20px; font-size: 14px; }
-  .cockpit-todo-card.is-hot .cockpit-todo-action-btn:hover { background: white; color: var(--ink); }
+  .cockpit-todo-action-btn { background: white; color: var(--ink); border: 1px solid var(--line); padding: 10px 18px; border-radius: 100px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: all 0.15s; white-space: nowrap; }
+  .cockpit-todo-action-btn:hover { background: var(--black); color: white; border-color: var(--black); }
+  .cockpit-todo-card.is-hot .cockpit-todo-action-btn { background: var(--gold); color: white; border: none; padding: 12px 22px; font-size: 14px; border-radius: 100px; position: relative; z-index: 1; }
+  .cockpit-todo-card.is-hot .cockpit-todo-action-btn:hover { background: var(--gold-deep); color: white; box-shadow: 0 12px 32px rgba(241, 26, 34, 0.4); }
 
   /* TODO Empty-State */
   .cockpit-todo-empty { padding: 40px 32px; text-align: center; background: var(--paper-warm); border-radius: 14px; border: 1px dashed var(--line); }
@@ -195,7 +216,7 @@
   /* Pagination */
   .deals-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; padding: 8px 0; }
   .deals-page-btn { background: white; border: 1px solid var(--line); padding: 8px 14px; border-radius: 8px; font-family: var(--display); font-size: 13px; color: var(--ink); cursor: pointer; transition: all 0.15s; font-weight: 500; }
-  .deals-page-btn:hover:not(:disabled) { background: var(--ink); color: white; border-color: var(--ink); }
+  .deals-page-btn:hover:not(:disabled) { background: var(--black); color: white; border-color: var(--black); }
   .deals-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .deals-page-info { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.02em; }
 
@@ -238,12 +259,12 @@
   .db-icon-btn:hover { border-color: var(--ink); color: var(--ink); }
   .db-icon-btn .badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; border: 2px solid white; }
 
-  .db-account { display: flex; align-items: center; gap: 10px; padding: 4px 4px 4px 12px; border: 1.5px solid var(--line); border-radius: 100px; background: white; cursor: pointer; transition: all 0.15s; position: relative; }
-  .db-account:hover { border-color: var(--ink); }
-  .db-account-info { text-align: right; }
-  .db-account-info strong { display: block; font-family: var(--display); font-size: 12px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; line-height: 1.1; }
-  .db-account-info small { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.02em; }
-  .db-account-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; color: var(--black); background: linear-gradient(135deg, var(--gold), var(--gold-deep)); letter-spacing: -0.02em; }
+  .db-account { display: flex; align-items: center; gap: 10px; padding: 4px 14px 4px 4px; border: 1.5px solid var(--line); border-radius: 100px; background: white; cursor: pointer; transition: all 0.15s; position: relative; }
+  .db-account:hover { border-color: var(--black); }
+  .db-account-info { text-align: left; line-height: 1.15; }
+  .db-account-info strong { display: block; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; letter-spacing: -0.005em; }
+  .db-account-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.04em; text-transform: uppercase; }
+  .db-account-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; color: white; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); letter-spacing: -0.02em; }
 
   /* Account-Dropdown */
   .db-account-menu { position: absolute; top: calc(100% + 8px); right: 0; background: white; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); min-width: 240px; z-index: 200; display: none; overflow: hidden; }
@@ -271,13 +292,13 @@
   .db-nav-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; padding: 8px 14px; }
   .db-nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s; color: var(--ink-mid); font-family: var(--display); font-size: 14px; font-weight: 500; }
   .db-nav-item:hover { background: var(--paper-cool); color: var(--ink); }
-  .db-nav-item.active { background: var(--ink); color: white; }
+  .db-nav-item.active { background: var(--black); color: white; }
   .db-nav-item.active svg { color: white; }
   .db-nav-item svg { color: var(--ink-faint); flex-shrink: 0; }
   .db-nav-item .nav-badge { margin-left: auto; font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 100px; background: var(--paper-cool); color: var(--ink-mute); }
   .db-nav-item.active .nav-badge { background: rgba(255,255,255,0.2); color: white; }
 
-  .db-cta-create { margin: 0 12px 24px; display: block; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--black); padding: 14px 16px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-align: left; display: flex; align-items: center; gap: 10px; transition: all 0.2s; box-shadow: 0 6px 16px rgba(241, 26, 34,0.25); }
+  .db-cta-create { margin: 0 12px 24px; display: block; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: white; padding: 14px 16px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-align: left; display: flex; align-items: center; gap: 10px; transition: all 0.2s; box-shadow: 0 6px 16px rgba(241, 26, 34,0.25); }
   .db-cta-create:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(241, 26, 34,0.35); }
 
   /* ============ MAIN ============ */
@@ -292,10 +313,10 @@
   .db-page-title { font-family: var(--display); font-size: 32px; font-weight: 700; color: var(--ink); letter-spacing: -0.025em; line-height: 1.1; margin-bottom: 6px; }
   .db-page-subtitle { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.55; }
   .db-page-actions { display: flex; gap: 8px; flex-shrink: 0; }
-  .btn-primary { background: var(--ink); color: white; border: none; padding: 11px 20px; border-radius: 8px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
-  .btn-primary:hover { background: var(--black-soft); transform: translateY(-1px); }
-  .btn-secondary { background: white; border: 1.5px solid var(--line); color: var(--ink-mid); padding: 11px 18px; border-radius: 8px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
-  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+  .btn-primary { background: var(--gold); color: white; border: none; padding: 12px 24px; border-radius: 100px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; letter-spacing: -0.01em; }
+  .btn-primary:hover { background: var(--gold-deep); color: white; box-shadow: 0 12px 28px rgba(241, 26, 34, 0.35); transform: translateY(-1px); }
+  .btn-secondary { background: white; border: 1.5px solid var(--line); color: var(--ink-strong); padding: 11px 22px; border-radius: 100px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; letter-spacing: -0.01em; }
+  .btn-secondary:hover { border-color: var(--black); color: var(--black); background: var(--paper-cool); }
 
   /* ============ STATS BAR ============ */
   .db-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
@@ -316,8 +337,8 @@
   .db-empty-illustration:hover { transform: rotate(0deg); }
   .db-empty-hero h2 { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--ink); letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 14px; }
   .db-empty-hero p { font-family: var(--display); font-size: 15px; color: var(--ink-mid); line-height: 1.6; margin-bottom: 28px; }
-  .db-empty-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: white; padding: 15px 30px; border-radius: 10px; font-family: var(--display); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-  .db-empty-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+  .db-empty-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: white; padding: 16px 32px; border-radius: 100px; font-family: var(--display); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; box-shadow: 0 8px 24px rgba(241, 26, 34, 0.18); letter-spacing: -0.01em; }
+  .db-empty-cta:hover { background: var(--gold-deep); color: white; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(241, 26, 34, 0.4); }
   .db-empty-secondary { font-family: var(--mono); font-size: 12px; color: var(--ink-mute); margin-top: 18px; letter-spacing: 0.02em; }
   .db-empty-secondary a { color: var(--ink); text-decoration: underline; cursor: pointer; }
 
@@ -486,7 +507,7 @@
   .profile-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .profile-card-name { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
   .profile-card-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600; }
-  .profile-card.active .profile-card-tag { background: var(--gold); color: var(--black); }
+  .profile-card.active .profile-card-tag { background: var(--gold); color: white; }
   .profile-card-desc { font-family: var(--display); font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
 
   /* Event-Liste */
@@ -581,7 +602,7 @@
   .recipient-microsite-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: var(--ink); color: white; border: none; border-radius: 8px; font-family: var(--display); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.15s; margin-left: auto; flex-shrink: 0; white-space: nowrap; }
   .recipient-microsite-btn:hover { background: #1a1a1a; transform: translateY(-1px); }
   .recipient-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 12px; flex-shrink: 0; letter-spacing: -0.02em; }
-  .recipient-avatar.primary { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); }
+  .recipient-avatar.primary { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; }
   .recipient-avatar.secondary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
   .recipient-info { flex: 1; min-width: 0; }
   .recipient-info-name { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); }
@@ -696,7 +717,7 @@
   .recipient-item input, .recipient-item select { border: 1px solid var(--line); background: white; padding: 8px 10px; border-radius: 6px; font-family: var(--display); font-size: 13px; color: var(--ink); }
   .recipient-item input:focus, .recipient-item select:focus { outline: none; border-color: var(--ink); }
   .recipient-primary-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; padding: 6px 10px; border-radius: 100px; background: white; border: 1px solid var(--line); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-mid); transition: all 0.15s; white-space: nowrap; }
-  .recipient-primary-toggle.checked { background: var(--gold); border-color: var(--gold-deep); color: var(--black); }
+  .recipient-primary-toggle.checked { background: var(--gold); border-color: var(--gold-deep); color: white; }
   .recipient-primary-toggle input { display: none; }
   .recipient-primary-icon { width: 12px; height: 12px; border-radius: 50%; border: 2px solid currentColor; flex-shrink: 0; position: relative; }
   .recipient-primary-toggle.checked .recipient-primary-icon::after { content: ""; position: absolute; inset: 2px; background: currentColor; border-radius: 50%; }
@@ -950,7 +971,7 @@
   .ms-version-row { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 16px; background: var(--paper-warm); border-radius: 10px; }
   .ms-version-row.current { background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; }
   .ms-version-pill-mini { font-family: var(--mono); font-size: 11px; color: var(--ink-mid); background: white; border: 1px solid var(--line-soft); padding: 3px 8px; border-radius: 100px; letter-spacing: 0.04em; font-weight: 700; }
-  .ms-version-row.current .ms-version-pill-mini { background: var(--gold); color: var(--black); border-color: var(--gold-deep); }
+  .ms-version-row.current .ms-version-pill-mini { background: var(--gold); color: white; border-color: var(--gold-deep); }
   .ms-version-info strong { display: block; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; }
   .ms-version-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0.02em; }
 
@@ -959,7 +980,7 @@
   .ms-cta-card h2 { margin: 0 0 12px; font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
   .ms-cta-card p { font-family: var(--display); font-size: 14px; opacity: 0.9; line-height: 1.55; max-width: 480px; margin: 0 auto 20px; }
   .ms-cta-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .ms-cta-primary { background: var(--gold); color: var(--black); border: none; padding: 12px 22px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; letter-spacing: -0.005em; }
+  .ms-cta-primary { background: var(--gold); color: white; border: none; padding: 12px 22px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; letter-spacing: -0.005em; }
   .ms-cta-primary:hover:not(:disabled) { background: var(--gold-deep); transform: translateY(-1px); }
   .ms-cta-primary:disabled, .ms-cta-secondary:disabled { opacity: 0.45; cursor: not-allowed; }
   .ms-cta-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px 18px; border-radius: 10px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
@@ -1115,13 +1136,13 @@
   .deal-filter-option { background: transparent; border: none; padding: 6px 14px; font-family: var(--display); font-size: 12px; font-weight: 600; color: var(--ink-mute); cursor: pointer; border-radius: 6px; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; letter-spacing: -0.005em; }
   .deal-filter-option.active { background: white; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
   .deal-filter-option-count { font-family: var(--mono); font-size: 10px; padding: 1px 6px; border-radius: 100px; background: var(--paper-warm); color: var(--ink-mute); letter-spacing: 0.04em; font-weight: 600; }
-  .deal-filter-option.active .deal-filter-option-count { background: var(--gold); color: var(--black); }
+  .deal-filter-option.active .deal-filter-option-count { background: var(--gold); color: white; }
   .deal-filter-bar-vacation { margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 8px; font-family: var(--mono); font-size: 11px; color: #854d0e; letter-spacing: 0.02em; font-weight: 600; }
   .deal-filter-bar-vacation::before { content: "🏖"; }
 
   /* ============ TEAM AVATARE (Initialen-Kreise) ============ */
   .user-avatar { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, var(--ink-mid), var(--ink)); color: white; font-family: var(--display); font-weight: 700; font-size: 11px; letter-spacing: -0.01em; }
-  .user-avatar.is-self { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); }
+  .user-avatar.is-self { background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; }
   .user-avatar.is-vacation { background: linear-gradient(135deg, #fde68a, #f59e0b); color: white; position: relative; }
   .user-avatar.is-vacation::after { content: "🏖"; position: absolute; bottom: -3px; right: -4px; background: white; border-radius: 50%; width: 13px; height: 13px; display: flex; align-items: center; justify-content: center; font-size: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
   .user-avatar.size-md { width: 32px; height: 32px; font-size: 12px; }
@@ -1156,13 +1177,14 @@
   .invite-collab-list-empty { padding: 16px; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); }
 
   /* Lead-Card (im Detail-Modal + Editor) */
-  .lead-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; }
+  .lead-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: white; border: 1.5px solid var(--black); border-radius: 12px; }
   .lead-card-info { flex: 1; min-width: 0; }
-  .lead-card-eyebrow { font-family: var(--mono); font-size: 9px; color: var(--gold-deep); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
-  .lead-card-name { font-family: var(--display); font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 2px; }
+  .lead-card-eyebrow { font-family: var(--mono); font-size: 9px; color: var(--black); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .lead-card-name { font-family: var(--display); font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 2px; display: inline-flex; align-items: center; gap: 8px; }
   .lead-card-meta { font-family: var(--mono); font-size: 10px; color: var(--ink-mute); letter-spacing: 0.02em; margin-top: 2px; }
-  .lead-card-action { background: white; border: 1px solid var(--line); padding: 6px 12px; border-radius: 7px; font-family: var(--mono); font-size: 10px; cursor: pointer; letter-spacing: 0.04em; font-weight: 600; color: var(--ink-mid); transition: all 0.15s; }
-  .lead-card-action:hover { background: var(--ink); color: white; border-color: var(--ink); }
+  .lead-card-action { background: white; border: 1px solid var(--line); padding: 6px 14px; border-radius: 100px; font-family: var(--mono); font-size: 10px; cursor: pointer; letter-spacing: 0.04em; font-weight: 600; color: var(--ink-mid); transition: all 0.15s; }
+  .lead-card-action:hover { background: var(--black); color: white; border-color: var(--black); }
+  .lead-card-self-tag { font-family: var(--mono); font-size: 9px; color: white; background: var(--gold); padding: 2px 8px; border-radius: 100px; letter-spacing: 0.06em; font-weight: 700; }
 
   /* Lead-Übergabe-Modal-Spezifisches */
   .handoff-user-list { display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
@@ -1442,11 +1464,11 @@
         <span class="badge-dot"></span>
       </button>
       <div class="db-account" id="db-account-trigger">
+        <div class="db-account-avatar" id="account-avatar">DU</div>
         <div class="db-account-info">
           <strong id="account-name">Demo User</strong>
           <small id="account-role">Admin</small>
         </div>
-        <div class="db-account-avatar" id="account-avatar">DU</div>
 
         <div class="db-account-menu" id="account-menu">
           <div class="db-menu-section">
@@ -1568,7 +1590,7 @@
       <!-- Plan-Limit-Warnung (nur bei Solo Mini, wenn nahe am Limit) -->
       <div id="plan-limit-banner" style="display:none; margin-bottom: 28px; padding: 14px 18px; background: linear-gradient(135deg, #fff5f5, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; display: none; align-items: center; gap: 12px;">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C41419" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <div style="font-family: var(--display); font-size: 13px; color: var(--ink-soft); flex: 1;">
+        <div style="font-family: var(--display); font-size: 13px; color: var(--ink-mute); flex: 1;">
           <strong id="plan-limit-banner-strong" style="color: #C41419;"></strong>
           <span id="plan-limit-banner-text"></span>
         </div>
@@ -6308,7 +6330,7 @@
           '<span class="user-avatar size-md ' + (leadIsMe ? 'is-self' : '') + (delegateUser ? ' is-vacation' : '') + '">' + escapeHtml(userInitials(leadUser)) + '</span>' +
           '<div class="lead-card-info">' +
             '<div class="lead-card-eyebrow">Lead</div>' +
-            '<div class="lead-card-name">' + escapeHtml(leadUser.name) + (leadIsMe ? ' <span style="font-family: var(--mono); font-size: 9px; color: var(--gold-deep); background: white; padding: 1px 6px; border-radius: 3px; letter-spacing: 0.04em; font-weight: 600;">SIE</span>' : '') + '</div>' +
+            '<div class="lead-card-name">' + escapeHtml(leadUser.name) + (leadIsMe ? ' <span class="lead-card-self-tag">SIE</span>' : '') + '</div>' +
             (delegateUser ? '<div class="lead-card-meta">🏖 Im Urlaub — Vertretung: ' + escapeHtml(delegateUser.name) + '</div>' : '<div class="lead-card-meta">Hauptverantwortlich</div>') +
           '</div>' +
           (hasOtherUsers && (window.dfPlan && window.dfPlan.hasTeamFeatures()) && (leadIsMe || (delegateUser && delegateUser.id === getCurrentUser().id)) ? '<button type="button" class="lead-card-action" data-action="handoff-lead">Lead übergeben</button>' : '') +

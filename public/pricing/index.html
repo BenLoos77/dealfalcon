@@ -10,18 +10,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --black-soft: #161616;
-    --gold: #F11A22;
-    --gold-deep: #C41419;
-    --gold-faint: rgba(241, 26, 34, 0.12);
+    /* Marine — primary brand surface & headlines */
+    --marine: #00253A;
+    --marine-soft: #1a3a4f;
+    --marine-deep: #001A2A;
 
+    /* BMW-M Red — primary accent (was --gold; value unchanged) */
+    --m-red: #F11A22;
+    --m-red-deep: #C41419;
+    --m-red-light: #FF3F46;
+    --m-red-faint: rgba(241, 26, 34, 0.12);
+
+    /* Info Blue — supporting accent */
+    --info-blue: #008AC9;
+    --info-blue-light: #4DB1DC;
+    --info-blue-deep: #006FA1;
+
+    /* Premium Violet — reserved for premium/enterprise surfaces */
+    --premium-violet: #4A2D8F;
+    --premium-violet-glow: #6B3FBF;
+
+    /* Neutral ink scale */
     --ink: #0a0a0a;
     --ink-strong: #1d1d1f;
     --ink-mid: #424245;
     --ink-mute: #6e6e73;
     --ink-faint: #86868b;
 
+    /* Paper & lines */
     --paper: #ffffff;
     --paper-warm: #fbfbfb;
     --paper-cool: #f5f5f7;
@@ -29,6 +45,7 @@
     --line: #d2d2d7;
     --line-soft: #e8e8ed;
 
+    /* Type stacks */
     --display: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'Geist Mono', 'SF Mono', monospace;
   }
@@ -43,7 +60,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  ::selection { background: var(--gold); color: var(--black); }
+  ::selection { background: var(--m-red); color: var(--marine); }
 
   .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
@@ -79,7 +96,7 @@
     font-size: 24px;
     font-weight: 600;
     letter-spacing: -0.5px;
-    color: var(--black);
+    color: var(--marine);
   }
   .nav-links {
     display: flex;
@@ -95,7 +112,7 @@
     transition: color 0.15s;
   }
   .nav-links a:hover { color: var(--ink-mute); }
-  .nav-links a.active { color: var(--gold-deep); font-weight: 500; }
+  .nav-links a.active { color: var(--m-red-deep); font-weight: 500; }
   .nav-cta {
     background: var(--ink);
     color: white !important;
@@ -127,7 +144,7 @@
   .hero-eyebrow {
     font-family: var(--display);
     font-size: 14px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     font-weight: 500;
     margin-bottom: 24px;
     letter-spacing: -0.005em;
@@ -139,7 +156,7 @@
     letter-spacing: -0.04em;
     margin: 0 auto 28px;
     max-width: 880px;
-    color: var(--black);
+    color: var(--marine);
   }
   .hero-sub {
     font-size: 22px;
@@ -185,8 +202,8 @@
   .toggle-saving {
     font-family: var(--mono);
     font-size: 10px;
-    background: var(--gold);
-    color: var(--black);
+    background: var(--m-red);
+    color: var(--marine);
     padding: 2px 8px;
     border-radius: 100px;
     font-weight: 700;
@@ -230,7 +247,7 @@
     border: 1.5px solid var(--line);
   }
   .price-card.tier-enterprise {
-    background: var(--black);
+    background: var(--marine);
     color: white;
   }
   .price-card.tier-enterprise .plan-name { color: white; }
@@ -244,7 +261,7 @@
 
   /* "featured"-Highlight ist optional — wir nutzen es jetzt nicht */
   .price-card.featured {
-    background: var(--black);
+    background: var(--marine);
     color: white;
     box-shadow: 0 30px 80px rgba(241, 26, 34, 0.2), 0 8px 30px rgba(0,0,0,0.15);
     transform: scale(1.025);
@@ -256,8 +273,8 @@
     top: -14px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--gold);
-    color: var(--black);
+    background: var(--m-red);
+    color: var(--marine);
     padding: 6px 16px;
     border-radius: 100px;
     font-family: var(--mono);
@@ -271,13 +288,13 @@
   .plan-name {
     font-family: var(--mono);
     font-size: 12px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     font-weight: 700;
     margin-bottom: 10px;
   }
-  .price-card.featured .plan-name { color: var(--gold); }
+  .price-card.featured .plan-name { color: var(--m-red); }
 
   .plan-tagline {
     font-size: 14.5px;
@@ -299,7 +316,7 @@
     font-size: 46px;
     font-weight: 600;
     letter-spacing: -0.035em;
-    color: var(--black);
+    color: var(--marine);
     line-height: 1;
   }
   .price-card.featured .price-amount { color: white; }
@@ -352,25 +369,34 @@
     background: var(--ink-strong);
   }
   .plan-cta.gold {
-    background: var(--gold);
-    color: var(--black);
-    border-color: var(--gold);
+    background: var(--m-red);
+    color: var(--marine);
+    border-color: var(--m-red);
   }
   .plan-cta.gold:hover {
     background: #FF3F46;
     box-shadow: 0 8px 24px rgba(241, 26, 34, 0.4);
   }
   .plan-cta.ghost {
-    background: transparent;
-    color: var(--ink);
-    border-color: var(--line);
-  }
-  .price-card.featured .plan-cta.ghost {
+    background: var(--info-blue);
     color: white;
-    border-color: rgba(255,255,255,0.25);
+    border-color: var(--info-blue);
+    font-weight: 600;
   }
   .plan-cta.ghost:hover {
-    border-color: var(--ink);
+    background: var(--info-blue-deep);
+    border-color: var(--info-blue-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 138, 201, 0.35);
+  }
+  .price-card.featured .plan-cta.ghost {
+    background: white;
+    color: var(--marine);
+    border-color: white;
+  }
+  .price-card.featured .plan-cta.ghost:hover {
+    background: var(--paper-cool);
+    border-color: var(--paper-cool);
   }
 
   .plan-features-label {
@@ -389,16 +415,16 @@
     flex: 1;
   }
   .plan-features li {
-    padding: 9px 0;
+    position: relative;
+    padding: 10px 0 10px 26px;
     border-top: 1px solid var(--line-soft);
     font-size: 13px;
     color: var(--ink-strong);
-    display: grid;
-    grid-template-columns: 16px 1fr;
-    gap: 10px;
-    align-items: baseline;
-    line-height: 1.4;
+    line-height: 1.45;
     letter-spacing: -0.005em;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    text-wrap: pretty;
   }
   .plan-features li:last-child { border-bottom: 1px solid var(--line-soft); }
   .price-card.featured .plan-features li {
@@ -410,11 +436,15 @@
   }
   .plan-features li::before {
     content: "✓";
+    position: absolute;
+    left: 0;
+    top: 10px;
     font-weight: 600;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     font-size: 14px;
+    line-height: 1.45;
   }
-  .price-card.featured .plan-features li::before { color: var(--gold); }
+  .price-card.featured .plan-features li::before { color: var(--m-red); }
 
   .plan-features li strong {
     font-weight: 600;
@@ -434,7 +464,7 @@
   .section-eyebrow {
     font-family: var(--mono);
     font-size: 12px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     font-weight: 700;
@@ -446,7 +476,7 @@
     line-height: 1.08;
     letter-spacing: -0.03em;
     margin-bottom: 20px;
-    color: var(--black);
+    color: var(--marine);
   }
   .section-sub {
     font-size: 19px;
@@ -470,7 +500,7 @@
   .addon-name {
     font-family: var(--mono);
     font-size: 11px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 700;
@@ -481,7 +511,7 @@
     font-weight: 600;
     letter-spacing: -0.015em;
     margin-bottom: 10px;
-    color: var(--black);
+    color: var(--marine);
     line-height: 1.2;
   }
   .addon-card p {
@@ -495,7 +525,7 @@
     font-family: var(--mono);
     font-size: 16px;
     font-weight: 700;
-    color: var(--black);
+    color: var(--marine);
     letter-spacing: -0.02em;
   }
   .addon-price small {
@@ -515,7 +545,7 @@
   .pilot-card {
     max-width: 880px;
     margin: 0 auto;
-    background: linear-gradient(135deg, var(--gold-faint), rgba(241, 26, 34, 0.04));
+    background: linear-gradient(135deg, var(--m-red-faint), rgba(241, 26, 34, 0.04));
     border: 1px solid rgba(241, 26, 34, 0.3);
     border-radius: 24px;
     padding: 56px 48px;
@@ -537,7 +567,7 @@
     gap: 8px;
     font-family: var(--mono);
     font-size: 12px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     background: white;
     border: 1px solid rgba(241, 26, 34, 0.3);
     padding: 6px 14px;
@@ -551,7 +581,7 @@
   .pilot-eyebrow .dot {
     width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--gold);
+    background: var(--m-red);
     animation: pulse 2s infinite;
   }
   @keyframes pulse {
@@ -564,11 +594,11 @@
     letter-spacing: -0.028em;
     line-height: 1.1;
     margin-bottom: 18px;
-    color: var(--black);
+    color: var(--marine);
     position: relative;
   }
   .pilot-card h2 .accent {
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
   }
   .pilot-card > p {
     font-size: 18px;
@@ -596,7 +626,7 @@
     display: block;
     font-family: var(--mono);
     font-size: 11px;
-    color: var(--gold-deep);
+    color: var(--m-red-deep);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     font-weight: 700;
@@ -636,7 +666,7 @@
     font-weight: 600;
     letter-spacing: -0.015em;
     margin-bottom: 12px;
-    color: var(--black);
+    color: var(--marine);
     line-height: 1.3;
   }
   .faq-item p {
@@ -650,7 +680,7 @@
   /* CTA */
   .cta-final {
     padding: 140px 0;
-    background: var(--black);
+    background: var(--marine);
     color: white;
     text-align: center;
   }
@@ -665,7 +695,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .cta-final h2 .accent { color: var(--gold); }
+  .cta-final h2 .accent { color: var(--m-red); }
   .cta-final p {
     font-size: 20px;
     color: rgba(255,255,255,0.72);
@@ -696,9 +726,9 @@
     letter-spacing: -0.005em;
   }
   .btn-gold {
-    background: var(--gold);
-    color: var(--black);
-    border-color: var(--gold);
+    background: var(--m-red);
+    color: var(--marine);
+    border-color: var(--m-red);
     padding: 14px 30px;
     font-weight: 600;
   }
