@@ -635,6 +635,51 @@
   .detail-card-detail { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); margin-top: 6px; letter-spacing: 0.02em; }
   .detail-section { background: white; border: 1px solid var(--line-soft); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
   .detail-section-title { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  /* ============ ANGEBOTS-ÜBERSICHT (Modal-Top) ============ */
+  .da-overview { background: white; border: 1px solid var(--line-soft); border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 18px; }
+  .da-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; margin-bottom: 6px; }
+
+  /* Top-Zeile: Summe + Konditionen */
+  .da-top-row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .da-value-block { flex-shrink: 0; }
+  .da-value { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; line-height: 1; }
+  .da-conditions { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px 24px; align-items: start; }
+  .da-cond { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .da-cond-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; }
+  .da-cond-value { font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; line-height: 1.3; }
+
+  /* Anschreiben-Snippet */
+  .da-anschreiben { padding-top: 16px; border-top: 1px solid var(--line-soft); }
+  .da-anschreiben-text { font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.6; }
+  .da-anschreiben-full { font-family: var(--display); font-size: 13px; color: var(--ink-strong); line-height: 1.6; margin-top: 4px; }
+  .da-anschreiben-full[hidden] { display: none; }
+  .da-anschreiben-toggle { background: transparent; border: none; color: var(--black); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; cursor: pointer; padding: 6px 0 0; font-weight: 600; text-transform: uppercase; }
+  .da-anschreiben-toggle:hover { color: var(--gold); }
+  .da-anschreiben-toggle::after { content: " →"; }
+  .da-anschreiben[data-expanded="true"] .da-anschreiben-text { display: none; }
+  .da-anschreiben[data-expanded="true"] .da-anschreiben-full { display: block !important; }
+  .da-anschreiben[data-expanded="true"] .da-anschreiben-toggle::after { content: " ↑"; }
+
+  /* Inhalte-Block */
+  .da-contents { padding-top: 16px; border-top: 1px solid var(--line-soft); }
+  .da-contents-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .da-doc-item { display: flex; gap: 10px; align-items: center; padding: 10px 12px; background: var(--paper-cool); border-radius: 8px; min-width: 0; }
+  .da-doc-icon { font-size: 18px; flex-shrink: 0; line-height: 1; }
+  .da-doc-info { flex: 1; min-width: 0; }
+  .da-doc-name { font-family: var(--display); font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .da-doc-meta { font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; color: var(--ink-mute); text-transform: uppercase; margin-top: 2px; }
+  .da-doc-main { background: var(--paper-cool); border-left: 3px solid var(--gold); }
+  .da-doc-media { background: var(--paper-cool); border-left: 3px solid var(--info-blue); }
+
+  /* Ordner */
+  .da-folder { padding: 10px 12px; background: var(--paper-cool); border-radius: 8px; grid-column: span 2; }
+  @media (max-width: 640px) { .da-folder { grid-column: span 1; } }
+  .da-folder-title { font-family: var(--display); font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .da-folder-count { background: white; border: 1px solid var(--line); color: var(--ink-mute); padding: 1px 8px; border-radius: 100px; font-family: var(--mono); font-size: 9px; font-weight: 700; }
+  .da-folder-files { display: flex; flex-direction: column; gap: 4px; }
+  .da-folder-file { font-family: var(--display); font-size: 12px; color: var(--ink-strong); padding: 4px 0; }
+  .da-folder-more { color: var(--ink-mute); font-style: italic; }
+
   .detail-rec-card { background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; padding: 22px; margin-bottom: 16px; }
   .detail-rec-card .detail-temp { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 100px; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
   .detail-rec-action-title { font-family: var(--display); font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; }
@@ -6201,6 +6246,138 @@
 
   var _currentDetailDealId = null;
 
+  // ============ ANGEBOTS-ÜBERSICHT (Vertriebler-Quick-View der Microsite) ============
+  function renderDealAngebotsuebersicht(deal) {
+    var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
+    var recipientName = primary ? primary.name : (deal.customer || '—');
+    var recipientCompany = primary && primary.company ? primary.company : (deal.customerCompany || '');
+
+    // Werte formatieren
+    var valueStr = '';
+    if (typeof deal.value === 'number' && deal.value > 0) {
+      try { valueStr = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(deal.value); }
+      catch(e) { valueStr = deal.value + ' €'; }
+    } else if (deal.value && typeof deal.value === 'string') {
+      valueStr = deal.value;
+    }
+
+    var validUntilStr = '';
+    if (deal.validUntil) {
+      var d = new Date(deal.validUntil);
+      validUntilStr = isNaN(d.getTime()) ? deal.validUntil : d.toLocaleDateString('de-DE');
+    }
+
+    // Versionen
+    var versionsCount = (deal.pdfVersions || []).length;
+    var versionLabel = versionsCount > 0 ? 'v' + (versionsCount + 1) + ' · aktuell' : (deal.pdfFile ? 'v1' : '');
+
+    // Anschreiben-Snippet (erste ~150 Zeichen, ohne Linebreaks)
+    var descSnippet = '';
+    var descFull = '';
+    if (deal.description) {
+      descFull = String(deal.description);
+      var clean = descFull.replace(/\s+/g, ' ').trim();
+      descSnippet = clean.length > 180 ? clean.slice(0, 180) + '…' : clean;
+    }
+
+    // Dokumente zählen
+    var folders = deal.folders || [];
+    var totalDocs = 0;
+    folders.forEach(function(f) { totalDocs += (f.files || []).length; });
+    var hasMainPdf = !!(deal.pdfFile && deal.pdfFile.name);
+    var hasAudio = (deal.videoFiles && deal.videoFiles.length > 0);
+
+    var html = '<section class="da-overview">';
+
+    // === Top-Zeile: Summe + Konditionen ===
+    html += '<div class="da-top-row">';
+    if (valueStr) {
+      html += '<div class="da-value-block">' +
+        '<div class="da-eyebrow">Angebotssumme</div>' +
+        '<div class="da-value">' + escapeHtml(valueStr) + '</div>' +
+      '</div>';
+    }
+    html += '<div class="da-conditions">';
+    if (validUntilStr) {
+      html += '<div class="da-cond"><span class="da-cond-label">Gültig bis</span><span class="da-cond-value">' + escapeHtml(validUntilStr) + '</span></div>';
+    }
+    if (deal.delivery) {
+      html += '<div class="da-cond"><span class="da-cond-label">Lieferzeit</span><span class="da-cond-value">' + escapeHtml(deal.delivery) + '</span></div>';
+    }
+    if (deal.payment) {
+      html += '<div class="da-cond"><span class="da-cond-label">Zahlung</span><span class="da-cond-value">' + escapeHtml(deal.payment) + '</span></div>';
+    }
+    if (versionLabel) {
+      html += '<div class="da-cond"><span class="da-cond-label">Version</span><span class="da-cond-value">' + escapeHtml(versionLabel) + '</span></div>';
+    }
+    html += '</div></div>';
+
+    // === Anschreiben-Snippet (klappbar) ===
+    if (descSnippet) {
+      var needsExpand = descFull.replace(/\s+/g, ' ').length > 180;
+      html += '<div class="da-anschreiben">' +
+        '<div class="da-eyebrow">Anschreiben an ' + escapeHtml(recipientName) + (recipientCompany ? ' · ' + escapeHtml(recipientCompany) : '') + '</div>' +
+        '<div class="da-anschreiben-text" data-collapsed="true">' + escapeHtml(descSnippet) + '</div>';
+      if (needsExpand) {
+        html += '<button type="button" class="da-anschreiben-toggle" data-da-action="toggle-anschreiben">Mehr anzeigen</button>' +
+          '<div class="da-anschreiben-full" hidden>' + escapeHtml(descFull).replace(/\n/g, '<br>') + '</div>';
+      }
+      html += '</div>';
+    }
+
+    // === Inhalte-Übersicht: PDF + Dokumente + Audio ===
+    var hasContent = hasMainPdf || totalDocs > 0 || hasAudio;
+    if (hasContent) {
+      html += '<div class="da-contents">' +
+        '<div class="da-eyebrow">Mitgesendete Inhalte</div>' +
+        '<div class="da-contents-grid">';
+
+      if (hasMainPdf) {
+        html += '<div class="da-doc-item da-doc-main">' +
+          '<div class="da-doc-icon">📄</div>' +
+          '<div class="da-doc-info">' +
+            '<div class="da-doc-name">' + escapeHtml(deal.pdfFile.name) + '</div>' +
+            '<div class="da-doc-meta">Vollständiges Angebot</div>' +
+          '</div>' +
+        '</div>';
+      }
+
+      if (hasAudio) {
+        deal.videoFiles.forEach(function(v) {
+          var typeLabel = (v.type === 'video') ? 'Videobotschaft' : 'Audiobotschaft';
+          var icon = (v.type === 'video') ? '🎬' : '🎙️';
+          html += '<div class="da-doc-item da-doc-media">' +
+            '<div class="da-doc-icon">' + icon + '</div>' +
+            '<div class="da-doc-info">' +
+              '<div class="da-doc-name">' + escapeHtml(v.name || typeLabel) + '</div>' +
+              '<div class="da-doc-meta">' + typeLabel + '</div>' +
+            '</div>' +
+          '</div>';
+        });
+      }
+
+      folders.forEach(function(f) {
+        var files = f.files || [];
+        if (files.length === 0) return;
+        html += '<div class="da-folder">' +
+          '<div class="da-folder-title">' + escapeHtml(f.title || 'Ordner') + ' <span class="da-folder-count">' + files.length + '</span></div>' +
+          '<div class="da-folder-files">';
+        files.slice(0, 4).forEach(function(file) {
+          html += '<div class="da-folder-file">📎 ' + escapeHtml(file.name || 'Datei') + '</div>';
+        });
+        if (files.length > 4) {
+          html += '<div class="da-folder-file da-folder-more">+ ' + (files.length - 4) + ' weitere</div>';
+        }
+        html += '</div></div>';
+      });
+
+      html += '</div></div>';
+    }
+
+    html += '</section>';
+    return html;
+  }
+
   function openDealDetail(dealId) {
     var deals = loadDeals();
     var deal = deals.find(function(d) { return d.id === dealId; });
@@ -6242,6 +6419,9 @@
     var STATUS_LABELS = { draft: 'Entwurf', sent: 'Versendet', opened: 'Geöffnet', won: 'Gewonnen', lost: 'Verloren' };
 
     var html = '';
+
+    // ============ ANGEBOTS-ÜBERSICHT (oben im Modal) ============
+    html += renderDealAngebotsuebersicht(deal);
 
     // Empfehlungs-Karte
     var allDealsForProb = loadDeals();
@@ -6613,6 +6793,16 @@
     });
     detailBody.querySelectorAll('[data-action="invite-collab-detail"]').forEach(function(btn) {
       btn.addEventListener('click', function() { openInviteCollabModal(deal.id); });
+    });
+    // Anschreiben Mehr/Weniger-Toggle
+    detailBody.querySelectorAll('[data-da-action="toggle-anschreiben"]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var wrap = btn.closest('.da-anschreiben');
+        if (!wrap) return;
+        var expanded = wrap.getAttribute('data-expanded') === 'true';
+        wrap.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        btn.textContent = expanded ? 'Mehr anzeigen' : 'Weniger anzeigen';
+      });
     });
   }
 
