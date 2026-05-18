@@ -618,35 +618,7 @@
   /* ============ DEAL DETAIL MODAL ============ */
   .deal-detail-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 350; display: none; align-items: flex-start; justify-content: center; padding: 32px 20px; backdrop-filter: blur(4px); overflow-y: auto; }
   .deal-detail-modal.open { display: flex; animation: backdropIn 0.2s ease-out; }
-  .deal-detail-card { background: var(--paper-cool); border-radius: 16px; max-width: 1240px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; overflow: hidden; display: flex; flex-direction: column; max-height: calc(100vh - 64px); }
-
-  /* Tabs */
-  .deal-detail-tabs { display: flex; gap: 4px; padding: 0 32px; background: white; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
-  .deal-detail-tab { background: transparent; border: none; padding: 14px 18px; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink-mute); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; letter-spacing: -0.005em; }
-  .deal-detail-tab:hover { color: var(--ink); }
-  .deal-detail-tab.active { color: var(--black); border-bottom-color: var(--gold); }
-  .deal-detail-tab svg { opacity: 0.7; }
-  .deal-detail-tab.active svg { opacity: 1; }
-
-  /* Preview-Bereich */
-  .deal-detail-preview { display: flex; flex-direction: column; background: var(--paper-cool); flex: 1; min-height: 0; }
-  .deal-detail-preview[hidden] { display: none; }
-  .dd-preview-watermark { display: flex; align-items: center; gap: 10px; padding: 12px 22px; background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; font-family: var(--display); font-size: 12px; line-height: 1.45; flex-shrink: 0; }
-  .dd-preview-watermark svg { flex-shrink: 0; opacity: 0.85; }
-  .dd-preview-watermark span { flex: 1; }
-  .dd-preview-watermark strong { font-weight: 600; }
-  .dd-preview-newtab { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 10px; border-radius: 100px; font-family: var(--mono); font-size: 13px; cursor: pointer; flex-shrink: 0; transition: all 0.15s; line-height: 1; }
-  .dd-preview-newtab:hover { background: rgba(255,255,255,0.22); }
-  .dd-preview-iframe-wrap { flex: 1; min-height: 0; padding: 0; background: var(--paper-cool); overflow: hidden; }
-  .dd-preview-iframe-wrap iframe { width: 100%; height: 100%; min-height: 70vh; border: none; display: block; background: white; }
-
-  /* Wenn Body in Tab-Mode ausgeblendet ist */
-  .deal-detail-body[hidden] { display: none; }
-
-  /* Responsive: kleinere Screens kriegen die volle Breite */
-  @media (max-width: 1300px) {
-    .deal-detail-modal { padding: 20px 14px; }
-  }
+  .deal-detail-card { background: var(--paper-cool); border-radius: 16px; max-width: 920px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; overflow: hidden; }
   .deal-detail-header { background: white; padding: 28px 32px; border-bottom: 1px solid var(--line-soft); display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
   .deal-detail-title-block { flex: 1; min-width: 0; }
   .deal-detail-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
@@ -2413,41 +2385,17 @@
         <p class="deal-detail-subtitle" id="detail-deal-customer">…</p>
       </div>
       <div style="display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0;">
-        <button type="button" class="btn-secondary" id="btn-detail-open-customer-view" title="In neuem Tab — voll funktional" onclick="window.dfOpenRecipientView && window.dfOpenRecipientView();">
+        <button type="button" class="btn-secondary" id="btn-detail-open-customer-view" title="So sieht der Kunde die Microsite" onclick="window.dfOpenRecipientView && window.dfOpenRecipientView();">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          In neuem Tab
+          Empfängersicht
         </button>
         <button type="button" class="deal-detail-close" id="btn-detail-close">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
     </div>
-
-    <!-- Tabs -->
-    <div class="deal-detail-tabs" role="tablist">
-      <button type="button" class="deal-detail-tab active" data-detail-tab="info" role="tab" aria-selected="true">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span>Vorgang</span>
-      </button>
-      <button type="button" class="deal-detail-tab" data-detail-tab="preview" role="tab" aria-selected="false">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span>Empfängersicht</span>
-      </button>
-    </div>
-
-    <div class="deal-detail-body" id="detail-body" data-tab-pane="info">
+    <div class="deal-detail-body" id="detail-body">
       <!-- via JS -->
-    </div>
-
-    <div class="deal-detail-preview" id="detail-preview" data-tab-pane="preview" hidden>
-      <div class="dd-preview-watermark">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        <span><strong>Vorschau Empfängersicht</strong> — so sieht der Kunde die Microsite. Klicks und Scrolls in dieser Vorschau werden nicht getrackt.</span>
-        <button type="button" class="dd-preview-newtab" id="btn-dd-preview-newtab" title="In neuem Tab öffnen">↗</button>
-      </div>
-      <div class="dd-preview-iframe-wrap">
-        <iframe id="detail-preview-iframe" title="Empfängersicht" loading="lazy"></iframe>
-      </div>
     </div>
   </div>
 </div>
@@ -6593,13 +6541,6 @@
     document.getElementById('detail-body').innerHTML = html;
     document.getElementById('deal-detail-modal').classList.add('open');
 
-    // Tab beim Öffnen immer auf "Vorgang" resetten
-    _setDealDetailTab('info');
-    // Preview-Iframe wird beim ersten Klick geladen, deal-Kontext merken
-    _currentPreviewDealId = dealId;
-    var iframe = document.getElementById('detail-preview-iframe');
-    if (iframe) iframe.src = ''; // alte Preview aus letztem Deal löschen
-
     // Notizen rendern
     renderDealNotes(dealId);
     // Notizen-Bindings
@@ -6677,47 +6618,6 @@
 
   function closeDealDetail() {
     document.getElementById('deal-detail-modal').classList.remove('open');
-    // Iframe entladen, damit das Microsite-JS nicht im Hintergrund weiterläuft
-    var iframe = document.getElementById('detail-preview-iframe');
-    if (iframe) iframe.src = '';
-    _currentPreviewDealId = null;
-  }
-
-  // ============ DETAIL-MODAL TABS ============
-  var _currentPreviewDealId = null;
-
-  function _setDealDetailTab(tabName) {
-    document.querySelectorAll('.deal-detail-tab').forEach(function(btn) {
-      var active = btn.dataset.detailTab === tabName;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-    document.querySelectorAll('[data-tab-pane]').forEach(function(pane) {
-      pane.hidden = pane.dataset.tabPane !== tabName;
-    });
-
-    // Lazy-Load der Preview beim ersten Tab-Switch
-    if (tabName === 'preview' && _currentPreviewDealId) {
-      var iframe = document.getElementById('detail-preview-iframe');
-      if (iframe && !iframe.src) {
-        iframe.src = '/m?d=' + encodeURIComponent(_currentPreviewDealId) + '&preview=internal';
-      }
-    }
-  }
-
-  function _bindDealDetailTabs() {
-    document.querySelectorAll('.deal-detail-tab').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var t = btn.dataset.detailTab;
-        if (t) _setDealDetailTab(t);
-      });
-    });
-    var btnNewTab = document.getElementById('btn-dd-preview-newtab');
-    if (btnNewTab) {
-      btnNewTab.addEventListener('click', function() {
-        if (window.dfOpenRecipientView) window.dfOpenRecipientView();
-      });
-    }
   }
 
   // ============ STATUS-AKTIONEN: GEWONNEN / VERLOREN ============
@@ -8984,7 +8884,6 @@
     initBranding();
     initNavCounts();
     bindNavigation();
-    _bindDealDetailTabs();
 
     // Tracking-Engine starten
     bindFeedTabs();

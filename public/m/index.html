@@ -24,14 +24,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--display); color: var(--ink-strong); background: #f5f5f7; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-  /* Internes Preview-Banner (nur im Vorschau-Mode) */
-  #ms-preview-mode-banner { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; font-family: var(--display); font-size: 12px; padding: 8px 22px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  #ms-preview-mode-banner[hidden] { display: none; }
-  .ms-pmb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; box-shadow: 0 0 8px rgba(241,26,34,0.6); animation: msPmbPulse 1.6s ease-in-out infinite; }
-  @keyframes msPmbPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-  .ms-pmb-text { line-height: 1.4; }
-  .ms-pmb-text strong { font-weight: 600; }
-
   /* Microsite Container */
   .ms-shell { padding: 0 0 60px; min-height: 100vh; background: #f5f5f7; }
   .ms-container { max-width: none; margin: 0; padding: 0 56px; }
@@ -98,7 +90,7 @@
   .ms-letter-text { font-family: var(--display); font-size: 17px; color: var(--ink-mid); line-height: 1.65; max-width: 680px; margin-bottom: 32px; white-space: pre-line; font-weight: 400; }
   @media (max-width: 720px) { .ms-letter-text { font-size: 15px; } }
   .ms-letter-signature { display: flex; align-items: center; gap: 16px; padding-top: 24px; border-top: 1px solid var(--line-soft); }
-  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: white; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
+  .ms-letter-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); color: var(--black); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 600; font-size: 17px; flex-shrink: 0; letter-spacing: -0.01em; }
   .ms-letter-info strong { display: block; font-family: var(--display); font-size: 16px; color: var(--ink); font-weight: 600; }
   .ms-letter-info small { display: block; font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em; margin-top: 3px; }
 
@@ -160,7 +152,7 @@
   .ms-version-row { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 16px; background: var(--paper-warm); border-radius: 10px; }
   .ms-version-row.current { background: linear-gradient(135deg, #fffbf2, #fef3c7); border: 1px solid #fde68a; }
   .ms-version-pill-mini { font-family: var(--mono); font-size: 11px; color: var(--ink-mid); background: white; border: 1px solid var(--line-soft); padding: 3px 8px; border-radius: 100px; letter-spacing: 0.04em; font-weight: 700; }
-  .ms-version-row.current .ms-version-pill-mini { background: var(--gold); color: white; border-color: var(--gold-deep); }
+  .ms-version-row.current .ms-version-pill-mini { background: var(--gold); color: var(--black); border-color: var(--gold-deep); }
   .ms-version-info strong { display: block; font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 600; }
   .ms-version-info small { display: block; font-family: var(--mono); font-size: 10px; color: var(--ink-mute); margin-top: 2px; letter-spacing: 0.02em; }
 
@@ -174,7 +166,7 @@
     .ms-cta-card p { font-size: 15px; }
   }
   .ms-cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .ms-cta-primary { background: var(--gold); color: white; border: none; padding: 16px 28px; border-radius: 10px; font-family: var(--display); font-size: 16px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.15s; letter-spacing: -0.005em; }
+  .ms-cta-primary { background: var(--gold); color: var(--black); border: none; padding: 16px 28px; border-radius: 10px; font-family: var(--display); font-size: 16px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: all 0.15s; letter-spacing: -0.005em; }
   .ms-cta-primary:hover { background: var(--gold-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(241, 26, 34,0.3); }
   .ms-cta-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 16px 22px; border-radius: 10px; font-family: var(--display); font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
   .ms-cta-secondary:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
@@ -233,7 +225,7 @@
   /* Quick-Question Beispiel-Chips im Hauptbereich */
   .ms-question-examples { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .ms-question-chip { background: var(--paper-cool); border: 1px solid var(--line-soft); padding: 10px 16px; border-radius: 100px; font-family: var(--display); font-size: 14px; color: var(--ink-mid); cursor: pointer; transition: all 0.15s; font-weight: 500; }
-  .ms-question-chip:hover { background: var(--gold); color: white; border-color: var(--gold-deep); }
+  .ms-question-chip:hover { background: var(--gold); color: var(--black); border-color: var(--gold-deep); }
 
   /* Toast */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--ink); color: white; padding: 12px 20px; border-radius: 8px; font-family: var(--display); font-size: 13px; font-weight: 600; z-index: 2000; box-shadow: 0 8px 24px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
@@ -249,11 +241,6 @@
 </style>
 </head>
 <body>
-
-<div id="ms-preview-mode-banner" hidden>
-  <span class="ms-pmb-dot"></span>
-  <span class="ms-pmb-text"><strong>Interne Vorschau</strong> — Klicks und Scrolls werden nicht getrackt</span>
-</div>
 
 <div id="microsite-root"></div>
 
@@ -594,26 +581,8 @@
     });
   }
 
-  // Preview-Mode erkennen — keine Tracking-Events ans Backend
-  var _isPreviewMode = (function() {
-    try {
-      var params = new URLSearchParams(window.location.search);
-      return params.get('preview') === 'internal';
-    } catch(e) { return false; }
-  })();
-
-  // Banner einblenden falls Preview-Mode
-  if (_isPreviewMode) {
-    document.addEventListener('DOMContentLoaded', function() {
-      var banner = document.getElementById('ms-preview-mode-banner');
-      if (banner) banner.hidden = false;
-    });
-  }
-
   function trackActivity(type, label, detail, extra) {
     if (!deal || !recipient) return;
-    // Im internen Preview-Mode: keine Tracking-Events
-    if (_isPreviewMode) return;
 
     // Wenn der Deal vom Backend geladen wurde, schicken wir die Activity ans Backend
     if (deal._fromBackend) {
