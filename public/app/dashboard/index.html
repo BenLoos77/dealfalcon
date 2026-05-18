@@ -838,6 +838,55 @@
   @media (max-width: 1100px) { .db-page[data-page="microsite-preview"] { margin: -24px -24px 0; } }
   @media (max-width: 720px) { .db-page[data-page="microsite-preview"] { margin: -20px -20px 0; } }
 
+  /* ============ DEAL DETAIL PAGE (Full-Page Split-View) ============ */
+  .db-page[data-page="deal-detail"] { padding: 0; margin: -32px -32px 0; max-width: none; }
+  @media (max-width: 1100px) { .db-page[data-page="deal-detail"] { margin: -24px -24px 0; } }
+  @media (max-width: 720px) { .db-page[data-page="deal-detail"] { margin: -20px -20px 0; } }
+  .dd-page-shell { display: flex; flex-direction: column; min-height: calc(100vh - 60px); background: var(--paper-cool); }
+  .dd-page-header { position: sticky; top: 0; z-index: 30; background: white; border-bottom: 1px solid var(--line-soft); padding: 16px 32px; display: flex; align-items: center; gap: 20px; }
+  .dd-back-btn { background: transparent; border: 1px solid var(--line); color: var(--ink-mid); padding: 8px 14px; border-radius: 100px; font-family: var(--mono); font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: all 0.15s; flex-shrink: 0; }
+  .dd-back-btn:hover { border-color: var(--black); color: var(--black); background: var(--paper-cool); }
+  .dd-header-titles { flex: 1; min-width: 0; }
+  .dd-eyebrow { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+  .dd-title { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin: 0; }
+  .dd-subtitle { font-family: var(--display); font-size: 13px; color: var(--ink-mid); margin-top: 2px; }
+  .dd-preview-toggle { background: transparent; border: 1px solid var(--line); color: var(--ink-mid); padding: 8px 14px; border-radius: 100px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; flex-shrink: 0; }
+  .dd-preview-toggle:hover { border-color: var(--black); color: var(--black); }
+  .dd-preview-toggle.active { background: var(--black); color: white; border-color: var(--black); }
+
+  /* Split-Layout */
+  .dd-split { display: grid; grid-template-columns: minmax(0, 1fr) 560px; gap: 0; flex: 1; }
+  .dd-main { padding: 28px 32px; max-width: 760px; width: 100%; margin-left: auto; margin-right: auto; }
+  .dd-preview { padding: 24px 28px 24px 0; background: var(--paper-cool); position: sticky; top: 60px; align-self: start; max-height: calc(100vh - 76px); overflow-y: auto; }
+  
+  /* Browser-Chrome-Frame um Microsite-Vorschau */
+  .dd-preview-frame { background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .dd-preview-chrome { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--paper-cool); border-bottom: 1px solid var(--line-soft); }
+  .dd-preview-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); flex-shrink: 0; }
+  .dd-preview-dot:nth-child(1) { background: #ff5f57; }
+  .dd-preview-dot:nth-child(2) { background: #febc2e; }
+  .dd-preview-dot:nth-child(3) { background: #28c840; }
+  .dd-preview-url { flex: 1; margin-left: 10px; padding: 5px 12px; background: white; border: 1px solid var(--line-soft); border-radius: 100px; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); text-align: center; }
+  .dd-preview-body { padding: 0; min-height: 400px; }
+
+  /* Responsive: Tablet → kleineres Preview-Panel */
+  @media (max-width: 1280px) {
+    .dd-split { grid-template-columns: minmax(0, 1fr) 440px; }
+    .dd-main { padding: 24px 24px; }
+  }
+  /* Mobile/Tablet hoch: Preview als Toggle, default ausgeblendet */
+  @media (max-width: 1024px) {
+    .dd-split { grid-template-columns: 1fr; }
+    .dd-preview { display: none; padding: 16px; position: static; }
+    .dd-split.preview-open .dd-preview { display: block; }
+    .dd-split.preview-open .dd-main { display: none; }
+  }
+  /* Auf Desktop ist Preview immer da, der Toggle blendet ein/aus */
+  @media (min-width: 1025px) {
+    .dd-split.preview-closed { grid-template-columns: minmax(0, 1fr); }
+    .dd-split.preview-closed .dd-preview { display: none; }
+  }
+
   /* Vorschau-Bar (Editor-Top-Bar) */
   .ms-preview-bar { position: sticky; top: 0; z-index: 30; background: var(--ink); color: white; padding: 12px 22px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--ink); }
   .ms-preview-back { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 14px; border-radius: 8px; font-family: var(--mono); font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: all 0.15s; }
@@ -2076,7 +2125,45 @@
       </div>
     </section>
 
-  </main>
+    <!-- ============ DEAL DETAIL PAGE (Full-Page mit Split-View) ============ -->
+    <section class="db-page" data-page="deal-detail">
+      <div class="dd-page-shell">
+        <header class="dd-page-header">
+          <button type="button" class="dd-back-btn" id="dd-back-btn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
+            Zurück
+          </button>
+          <div class="dd-header-titles">
+            <div class="dd-eyebrow" id="dd-eyebrow">2026-0000 · Kunde</div>
+            <h1 class="dd-title" id="dd-title">Vorgang</h1>
+            <div class="dd-subtitle" id="dd-subtitle">Empfänger</div>
+          </div>
+          <button type="button" class="dd-preview-toggle" id="dd-preview-toggle" title="Empfängersicht ein-/ausblenden">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>Empfängersicht</span>
+          </button>
+        </header>
+
+        <div class="dd-split">
+          <div class="dd-main" id="dd-main">
+            <!-- Vertriebssicht — wird durch renderDealDetailPage() befüllt -->
+          </div>
+          <aside class="dd-preview" id="dd-preview">
+            <div class="dd-preview-frame">
+              <div class="dd-preview-chrome">
+                <span class="dd-preview-dot"></span>
+                <span class="dd-preview-dot"></span>
+                <span class="dd-preview-dot"></span>
+                <div class="dd-preview-url" id="dd-preview-url">dealfalcon.io/a/…</div>
+              </div>
+              <div class="dd-preview-body" id="dd-preview-body">
+                <!-- Microsite-Rendering durch renderDealPreview() -->
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
 </div>
 
 <!-- ============ NOTIFICATIONS PANEL ============ -->
@@ -7865,7 +7952,8 @@
   }
 
   // ============ NAVIGATION ============
-  function navigate(pageName) {
+  function navigate(pageName, opts) {
+    opts = opts || {};
     document.querySelectorAll('.db-page').forEach(function(p) {
       p.classList.toggle('active', p.dataset.page === pageName);
     });
@@ -7883,6 +7971,20 @@
     if (pageName === 'documents') renderDocsOverview();
     if (pageName === 'editor') renderEditor();
     if (pageName === 'microsite-preview') renderMicrositeFull();
+    if (pageName === 'deal-detail' && opts.dealId) renderDealDetailPage(opts.dealId);
+
+    // Hash setzen (außer wenn schon durch popstate kommt)
+    if (!opts._fromHash) {
+      var newHash = '';
+      if (pageName === 'deal-detail' && opts.dealId) {
+        newHash = '#deal/' + encodeURIComponent(opts.dealId);
+      } else if (pageName !== 'dashboard') {
+        newHash = '#' + pageName;
+      }
+      if (location.hash !== newHash) {
+        history.pushState({ page: pageName, dealId: opts.dealId || null }, '', newHash || location.pathname);
+      }
+    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -7894,6 +7996,80 @@
         if (page) navigate(page);
       });
     });
+  }
+
+  // ============ DEAL DETAIL PAGE (Full-Page Split) ============
+  function renderDealDetailPage(dealId) {
+    var deals = loadDeals();
+    var deal = deals.find(function(d) { return d.id === dealId; });
+    if (!deal) {
+      navigate('deals');
+      return;
+    }
+    _currentDetailDealId = dealId;
+
+    // Header befüllen
+    document.getElementById('dd-eyebrow').textContent = deal.dealNumber + ' · ' + (deal.customerCompany || '');
+    document.getElementById('dd-title').textContent = deal.title || 'Vorgang';
+    var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
+    document.getElementById('dd-subtitle').textContent = 'Empfänger: ' + (primary ? primary.name : (deal.customer || '—'));
+    var urlEl = document.getElementById('dd-preview-url');
+    if (urlEl) urlEl.textContent = 'dealfalcon.io/a/' + (deal.dealNumber || '…');
+
+    // Inhalt: bestehende openDealDetail-Render-Logik wiederverwenden, indem wir den Modal-Body-Inhalt in dd-main spiegeln
+    // (Übergang Etappe 1 → Etappe 2 wird das durch echtes Rendering ersetzt)
+    var ddMain = document.getElementById('dd-main');
+    var detailBody = document.getElementById('detail-body');
+    if (ddMain && detailBody) {
+      // Lasse den existierenden Render-Code laufen, der detail-body befüllt
+      try { _renderDealDetailBody(deal); } catch(e) { console.warn('Detail-Body-Render-Fallback', e); }
+      // Inhalt in dd-main übernehmen
+      ddMain.innerHTML = detailBody.innerHTML;
+      // Eventuell vorhandene Event-Handler re-binden
+      try { _bindDealDetailEvents(ddMain, deal); } catch(e) {}
+    }
+
+    // Microsite-Vorschau im rechten Panel
+    try { renderDealPreviewPanel(deal); } catch(e) { console.warn('Preview-Render', e); }
+  }
+
+  // Stub für Preview-Panel (wird in Etappe 2 ausgefüllt)
+  function renderDealPreviewPanel(deal) {
+    var body = document.getElementById('dd-preview-body');
+    if (!body) return;
+    body.innerHTML = '<div style="padding: 40px 24px; text-align: center; color: var(--ink-mute); font-family: var(--display); font-size: 13px;">' +
+      '<div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 8px;">EMPFÄNGERSICHT</div>' +
+      '<div style="font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 6px;">Microsite-Vorschau</div>' +
+      'Hier erscheint die Kundenansicht in Etappe 2.</div>';
+  }
+
+  // Hilfs-Stubs: rufen die Modal-Render-Logik separat auf (Etappe 1 nutzt den existierenden Code)
+  function _renderDealDetailBody(deal) {
+    // Wird in Etappe 2 ersetzt — bis dahin: nutze openDealDetail-Logik aber ohne das Modal zu öffnen
+    if (typeof _internalRenderModalBody === 'function') {
+      _internalRenderModalBody(deal);
+    }
+  }
+  function _bindDealDetailEvents(container, deal) {
+    // Etappe 2: Hier kommen alle Event-Bindings für Buttons in der Page rein
+  }
+
+  // ============ HASH-ROUTING ============
+  function applyHashRoute() {
+    var hash = location.hash.replace(/^#/, '');
+    if (!hash) {
+      navigate('dashboard', { _fromHash: true });
+      return;
+    }
+    if (hash.indexOf('deal/') === 0) {
+      var dealId = decodeURIComponent(hash.slice(5));
+      navigate('deal-detail', { dealId: dealId, _fromHash: true });
+      return;
+    }
+    // Andere Pages: dashboard/deals/customers/etc.
+    if (document.querySelector('.db-page[data-page="' + hash + '"]')) {
+      navigate(hash, { _fromHash: true });
+    }
   }
 
   // ============ DOCS OVERVIEW ============
@@ -8891,6 +9067,40 @@
     resumeScheduledActivities();
     renderDashboard();
     updateNotificationBadge();
+
+    // Hash-Routing (Browser-Back, deep-links)
+    window.addEventListener('popstate', function() { applyHashRoute(); });
+    window.addEventListener('hashchange', function() { applyHashRoute(); });
+    // Initial: Hash auswerten (z.B. wenn URL bereits #deal/X enthält)
+    if (location.hash) {
+      setTimeout(applyHashRoute, 50); // nach dem ersten Render
+    }
+
+    // Back-Button auf Deal-Detail-Page
+    var ddBack = document.getElementById('dd-back-btn');
+    if (ddBack) {
+      ddBack.addEventListener('click', function() {
+        if (history.length > 1) history.back();
+        else navigate('deals');
+      });
+    }
+    // Preview-Toggle (Empfängersicht ein/ausblenden)
+    var ddToggle = document.getElementById('dd-preview-toggle');
+    if (ddToggle) {
+      ddToggle.addEventListener('click', function() {
+        var split = document.querySelector('.dd-split');
+        if (!split) return;
+        // Auf Desktop: closed/offen toggeln
+        if (window.matchMedia('(min-width: 1025px)').matches) {
+          split.classList.toggle('preview-closed');
+          ddToggle.classList.toggle('active', !split.classList.contains('preview-closed'));
+        } else {
+          // Auf kleineren Screens: preview-open zeigt Preview an
+          split.classList.toggle('preview-open');
+          ddToggle.classList.toggle('active', split.classList.contains('preview-open'));
+        }
+      });
+    }
 
     // Notification-Button: öffnet Panel
     var notifBtn = document.querySelector('.db-icon-btn');
