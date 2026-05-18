@@ -869,38 +869,6 @@
   .dd-preview-url { flex: 1; margin-left: 10px; padding: 5px 12px; background: white; border: 1px solid var(--line-soft); border-radius: 100px; font-family: var(--mono); font-size: 11px; color: var(--ink-mute); text-align: center; }
   .dd-preview-body { padding: 0; min-height: 400px; }
 
-  /* Inhalt der Microsite-Vorschau */
-  .ddp-header { padding: 24px 22px 18px; background: var(--black); color: white; }
-  .ddp-anbieter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .ddp-anbieter { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); flex: 1; }
-  .ddp-version-badge { font-family: var(--mono); font-size: 9px; padding: 3px 8px; border-radius: 100px; background: rgba(255,255,255,0.12); color: white; letter-spacing: 0.06em; }
-  .ddp-title { font-family: var(--display); font-size: 20px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 6px; color: white; }
-  .ddp-recipient { font-family: var(--display); font-size: 12px; color: rgba(255,255,255,0.75); }
-  
-  .ddp-sections { padding: 18px 22px 8px; }
-  .ddp-section { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
-  .ddp-section:last-child { border-bottom: none; }
-  .ddp-section-num { width: 22px; height: 22px; border-radius: 50%; background: var(--paper-cool); color: var(--ink-mute); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .ddp-section-content { flex: 1; min-width: 0; }
-  .ddp-section-title { font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.35; }
-  .ddp-section-snippet { font-family: var(--display); font-size: 12px; color: var(--ink-mute); line-height: 1.5; margin-top: 3px; }
-
-  .ddp-empty { padding: 36px 22px; text-align: center; color: var(--ink-mute); font-family: var(--display); font-size: 12px; line-height: 1.5; }
-
-  .ddp-pricing { padding: 16px 22px; margin: 4px 14px; background: var(--paper-cool); border-radius: 10px; display: flex; align-items: baseline; justify-content: space-between; }
-  .ddp-pricing-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); }
-  .ddp-pricing-value { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
-
-  .ddp-docs { padding: 14px 22px 4px; }
-  .ddp-docs-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; }
-  .ddp-docs-list { display: flex; flex-direction: column; gap: 4px; }
-  .ddp-doc { font-family: var(--display); font-size: 12px; color: var(--ink-strong); padding: 6px 10px; background: var(--paper-cool); border-radius: 6px; }
-  .ddp-doc-more { color: var(--ink-mute); font-style: italic; }
-
-  .ddp-cta-zone { padding: 20px 22px 24px; text-align: center; border-top: 1px solid var(--line-soft); margin-top: 12px; }
-  .ddp-cta { background: var(--gold); color: white; border: none; padding: 12px 28px; border-radius: 100px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: not-allowed; opacity: 0.85; }
-  .ddp-cta-hint { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--ink-faint); text-transform: uppercase; margin-top: 8px; }
-
   /* Responsive: Tablet → kleineres Preview-Panel */
   @media (max-width: 1280px) {
     .dd-split { grid-template-columns: minmax(0, 1fr) 440px; }
@@ -6658,9 +6626,7 @@
     html += '</div>';
 
     document.getElementById('detail-body').innerHTML = html;
-
-    // ► NEU: Statt Modal öffnen → Full-Page navigieren und Inhalt spiegeln
-    _showDealDetailPage(dealId);
+    document.getElementById('deal-detail-modal').classList.add('open');
 
     // Notizen rendern
     renderDealNotes(dealId);
@@ -8040,19 +8006,9 @@
       navigate('deals');
       return;
     }
-    // Trigger das komplette Render via bestehendem openDealDetail-Code.
-    // Der ruft am Ende _showDealDetailPage() auf, das alles in die Page spiegelt.
-    openDealDetail(dealId);
-  }
-
-  // Wird am Ende von openDealDetail aufgerufen — spiegelt Inhalt in die Page und rendert Preview
-  function _showDealDetailPage(dealId) {
-    var deals = loadDeals();
-    var deal = deals.find(function(d) { return d.id === dealId; });
-    if (!deal) return;
     _currentDetailDealId = dealId;
 
-    // Header-Felder
+    // Header befüllen
     document.getElementById('dd-eyebrow').textContent = deal.dealNumber + ' · ' + (deal.customerCompany || '');
     document.getElementById('dd-title').textContent = deal.title || 'Vorgang';
     var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
@@ -8060,167 +8016,42 @@
     var urlEl = document.getElementById('dd-preview-url');
     if (urlEl) urlEl.textContent = 'dealfalcon.io/a/' + (deal.dealNumber || '…');
 
-    // Inhalt aus dem (jetzt unsichtbaren) detail-body in dd-main spiegeln
+    // Inhalt: bestehende openDealDetail-Render-Logik wiederverwenden, indem wir den Modal-Body-Inhalt in dd-main spiegeln
+    // (Übergang Etappe 1 → Etappe 2 wird das durch echtes Rendering ersetzt)
     var ddMain = document.getElementById('dd-main');
     var detailBody = document.getElementById('detail-body');
     if (ddMain && detailBody) {
+      // Lasse den existierenden Render-Code laufen, der detail-body befüllt
+      try { _renderDealDetailBody(deal); } catch(e) { console.warn('Detail-Body-Render-Fallback', e); }
+      // Inhalt in dd-main übernehmen
       ddMain.innerHTML = detailBody.innerHTML;
-      // Empfänger-Sektion nach oben verschieben
-      _reorderDealDetailSections(ddMain);
-      // Event-Bindings im neuen Container neu setzen
-      _bindDealDetailPageEvents(ddMain, dealId);
+      // Eventuell vorhandene Event-Handler re-binden
+      try { _bindDealDetailEvents(ddMain, deal); } catch(e) {}
     }
 
     // Microsite-Vorschau im rechten Panel
     try { renderDealPreviewPanel(deal); } catch(e) { console.warn('Preview-Render', e); }
-
-    // Zur Page navigieren (nur wenn nicht schon dort, sonst kein Stack-Eintrag doppelt)
-    if (!document.querySelector('.db-page[data-page="deal-detail"]').classList.contains('active')) {
-      navigate('deal-detail', { dealId: dealId });
-    } else {
-      // Schon auf der Page → URL aktualisieren ohne pushState-Duplikat
-      var hash = '#deal/' + encodeURIComponent(dealId);
-      if (location.hash !== hash) history.replaceState({ page: 'deal-detail', dealId: dealId }, '', hash);
-    }
   }
 
-  // Empfänger-Sektion an den Anfang sortieren
-  function _reorderDealDetailSections(container) {
-    // Suche die Sektion, die Empfänger enthält. Erkennungsmerkmal: Header oder bestimmte Klasse.
-    var sections = Array.from(container.querySelectorAll(':scope > .detail-section, :scope > .detail-grid, :scope > .closed-banner, :scope > .detail-rec-card'));
-    var recipSection = null;
-    for (var i = 0; i < sections.length; i++) {
-      var s = sections[i];
-      // Heuristik: Sektion enthält ".recipient-row" oder eine Heading "Empfänger" oder eine ".btn-add-recipient"
-      if (s.querySelector('.recipient-row, .btn-add-recipient, [data-action="invite-collab-detail"]')) {
-        recipSection = s;
-        break;
-      }
-    }
-    if (recipSection && container.firstChild !== recipSection) {
-      container.insertBefore(recipSection, container.firstChild);
-    }
-  }
-
-  // Event-Bindings re-binden (weil HTML neu eingefügt wurde)
-  function _bindDealDetailPageEvents(container, dealId) {
-    // Re-Bind aller Buttons / Inputs aus dem alten Detail-Body, jetzt im neuen Container.
-    // Wir rufen die zentralen Renderer auf, die Bindings setzen.
-    try { renderDealNotes(dealId); } catch(e) {}
-    if (window.dfPlan && window.dfPlan.hasTeamFeatures()) {
-      try { renderTeamMessages(dealId); } catch(e) {}
-    }
-
-    var btnAddNote = container.querySelector('#btn-add-note');
-    if (btnAddNote) btnAddNote.addEventListener('click', function() {
-      var input = container.querySelector('#deal-note-input');
-      if (!input) return;
-      addDealNote(dealId, input.value);
-      input.value = '';
-    });
-    container.querySelectorAll('.note-quick-chip').forEach(function(chip) {
-      chip.addEventListener('click', function() {
-        var text = chip.dataset.quickNote;
-        if (text) addDealNote(dealId, text);
-      });
-    });
-    var btnAddInfo = container.querySelector('#btn-add-tm-info');
-    var btnAddReact = container.querySelector('#btn-add-tm-reaction');
-    var tmInput = container.querySelector('#team-message-input');
-    if (btnAddInfo && tmInput) btnAddInfo.addEventListener('click', function() {
-      if (typeof addTeamMessage === 'function') { addTeamMessage(dealId, tmInput.value, 'info'); tmInput.value = ''; }
-    });
-    if (btnAddReact && tmInput) btnAddReact.addEventListener('click', function() {
-      if (typeof addTeamMessage === 'function') { addTeamMessage(dealId, tmInput.value, 'reaction'); tmInput.value = ''; }
-    });
-  }
-
-  // Microsite-Vorschau: rendert die Kunden-Sicht kompakt im rechten Panel
+  // Stub für Preview-Panel (wird in Etappe 2 ausgefüllt)
   function renderDealPreviewPanel(deal) {
     var body = document.getElementById('dd-preview-body');
     if (!body) return;
-
-    var brand = (typeof loadBranding === 'function') ? loadBranding() : {};
-    var brandColor = (brand && brand.accentColor) || 'var(--gold)';
-    var company = brand && brand.companyName ? brand.companyName : (deal.workspaceName || 'Ihr Anbieter');
-    var primary = deal.recipients ? deal.recipients.find(function(r) { return r.role === 'primary'; }) : null;
-    var recipientName = primary ? primary.name : (deal.customer || 'Kunde');
-
-    // Sektionen aus Deal-Daten — falls Editor-Inhalte existieren, nutzen; sonst Defaults
-    var sections = (deal.microsite && deal.microsite.sections) || deal.sections || [];
-    var versions = deal.versions || (deal.sentAt ? [{ id: 'v1', sentAt: deal.sentAt, label: 'Erste Version' }] : []);
-
-    var html = '';
-    // Anbieter-Header
-    html += '<div class="ddp-header">' +
-      '<div class="ddp-anbieter-row">' +
-        '<div class="ddp-anbieter">' + escapeHtml(company) + '</div>' +
-        (versions.length > 1 ? '<span class="ddp-version-badge">v' + versions.length + ' · aktuell</span>' : (versions.length === 1 ? '<span class="ddp-version-badge">v1</span>' : '')) +
-      '</div>' +
-      '<h2 class="ddp-title">' + escapeHtml(deal.title || 'Ihr Angebot') + '</h2>' +
-      '<div class="ddp-recipient">Für ' + escapeHtml(recipientName) + (primary && primary.company ? ' · ' + escapeHtml(primary.company) : '') + '</div>' +
-    '</div>';
-
-    // Sektionen
-    if (sections.length > 0) {
-      html += '<div class="ddp-sections">';
-      sections.slice(0, 6).forEach(function(s, idx) {
-        var title = s.title || s.heading || 'Abschnitt ' + (idx + 1);
-        var bodyText = s.body || s.content || s.text || '';
-        var snippet = bodyText.length > 140 ? bodyText.slice(0, 140) + '…' : bodyText;
-        html += '<div class="ddp-section">' +
-          '<div class="ddp-section-num">' + (idx + 1) + '</div>' +
-          '<div class="ddp-section-content">' +
-            '<div class="ddp-section-title">' + escapeHtml(title) + '</div>' +
-            (snippet ? '<div class="ddp-section-snippet">' + escapeHtml(snippet) + '</div>' : '') +
-          '</div>' +
-        '</div>';
-      });
-      html += '</div>';
-    } else {
-      html += '<div class="ddp-empty">Noch keine Inhalte. Öffnen Sie den Editor, um die Microsite zu gestalten.</div>';
-    }
-
-    // Pricing/Wert
-    if (deal.value || deal.totalValue) {
-      var val = deal.value || deal.totalValue;
-      html += '<div class="ddp-pricing">' +
-        '<div class="ddp-pricing-label">Investition</div>' +
-        '<div class="ddp-pricing-value">' + formatCurrency(val) + '</div>' +
-      '</div>';
-    }
-
-    // Dokumente
-    if (deal.documents && deal.documents.length) {
-      html += '<div class="ddp-docs">' +
-        '<div class="ddp-docs-label">Dokumente (' + deal.documents.length + ')</div>' +
-        '<div class="ddp-docs-list">';
-      deal.documents.slice(0, 4).forEach(function(doc) {
-        html += '<div class="ddp-doc">📄 ' + escapeHtml(doc.name || 'Datei') + '</div>';
-      });
-      if (deal.documents.length > 4) {
-        html += '<div class="ddp-doc ddp-doc-more">+ ' + (deal.documents.length - 4) + ' weitere</div>';
-      }
-      html += '</div></div>';
-    }
-
-    // CTA
-    html += '<div class="ddp-cta-zone">' +
-      '<button type="button" class="ddp-cta" disabled>Angebot annehmen</button>' +
-      '<div class="ddp-cta-hint">Preview · Klicks sind in der Empfängersicht aktiv</div>' +
-    '</div>';
-
-    body.innerHTML = html;
+    body.innerHTML = '<div style="padding: 40px 24px; text-align: center; color: var(--ink-mute); font-family: var(--display); font-size: 13px;">' +
+      '<div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 8px;">EMPFÄNGERSICHT</div>' +
+      '<div style="font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 6px;">Microsite-Vorschau</div>' +
+      'Hier erscheint die Kundenansicht in Etappe 2.</div>';
   }
 
-  // Hilfs-Formatierung Währung — fallback wenn formatCurrency nicht existiert
-  if (typeof formatCurrency !== 'function') {
-    window.formatCurrency = function(v) {
-      if (typeof v !== 'number') v = parseFloat(v) || 0;
-      try {
-        return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
-      } catch(e) { return v + ' €'; }
-    };
+  // Hilfs-Stubs: rufen die Modal-Render-Logik separat auf (Etappe 1 nutzt den existierenden Code)
+  function _renderDealDetailBody(deal) {
+    // Wird in Etappe 2 ersetzt — bis dahin: nutze openDealDetail-Logik aber ohne das Modal zu öffnen
+    if (typeof _internalRenderModalBody === 'function') {
+      _internalRenderModalBody(deal);
+    }
+  }
+  function _bindDealDetailEvents(container, deal) {
+    // Etappe 2: Hier kommen alle Event-Bindings für Buttons in der Page rein
   }
 
   // ============ HASH-ROUTING ============
