@@ -144,12 +144,34 @@
   .ms-fact-value { font-family: var(--display); font-size: 18px; color: var(--ink); font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; }
   .ms-fact.amount .ms-fact-value { color: var(--gold-deep); font-size: 24px; }
 
-  .ms-pdf-placeholder { padding: 64px 32px; text-align: center; background: var(--paper-cool); }
+  .ms-pdf-placeholder { padding: 64px 32px; text-align: center; background: var(--paper-cool); position: relative; }
+  .ms-pdf-current-badge { display: inline-block; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: white; background: var(--gold); padding: 4px 12px; border-radius: 100px; box-shadow: 0 4px 12px rgba(241, 26, 34, 0.3); }
   .ms-pdf-placeholder-icon { display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px; border-radius: 50%; background: white; border: 1px solid var(--line); margin-bottom: 18px; color: var(--ink-mute); }
   .ms-pdf-placeholder strong { display: block; font-family: var(--display); font-size: 17px; color: var(--ink); margin-bottom: 8px; font-weight: 600; letter-spacing: -0.01em; }
   .ms-pdf-placeholder small { font-family: var(--mono); font-size: 11px; color: var(--ink-mute); display: block; margin-bottom: 22px; letter-spacing: 0.04em; }
   .ms-pdf-action { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--ink); border: 1px solid var(--line); padding: 12px 18px; border-radius: 10px; font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; letter-spacing: -0.005em; }
   .ms-pdf-action:hover { background: var(--ink); color: white; border-color: var(--ink); }
+
+  /* Frühere Versionen — aufklappbar unter der aktuellen PDF */
+  .ms-pdf-older { border-top: 1px solid var(--line-soft); background: white; }
+  .ms-pdf-older-summary { display: flex; align-items: center; gap: 10px; padding: 14px 24px; cursor: pointer; font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink-mid); list-style: none; user-select: none; transition: background 0.15s; }
+  .ms-pdf-older-summary::-webkit-details-marker { display: none; }
+  .ms-pdf-older-summary:hover { background: var(--paper-cool); color: var(--ink); }
+  .ms-pdf-older-summary span:first-of-type { flex: 1; }
+  .ms-pdf-older-chevron { transition: transform 0.2s; flex-shrink: 0; color: var(--ink-mute); }
+  details[open] .ms-pdf-older-chevron { transform: rotate(180deg); }
+  .ms-pdf-older-count { background: var(--paper-cool); color: var(--ink-mute); font-family: var(--mono); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; min-width: 22px; text-align: center; }
+  details[open] .ms-pdf-older-summary { border-bottom: 1px solid var(--line-soft); background: var(--paper-cool); }
+  .ms-pdf-older-list { display: flex; flex-direction: column; }
+  .ms-pdf-older-item { display: flex; align-items: center; gap: 14px; padding: 14px 24px; border-bottom: 1px solid var(--line-soft); transition: background 0.15s; }
+  .ms-pdf-older-item:last-child { border-bottom: none; }
+  .ms-pdf-older-item:hover { background: var(--paper-cool); }
+  .ms-pdf-older-icon { width: 36px; height: 36px; border-radius: 8px; background: white; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: var(--ink-mute); flex-shrink: 0; }
+  .ms-pdf-older-info { flex: 1; min-width: 0; }
+  .ms-pdf-older-version { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-deep); font-weight: 700; margin-bottom: 3px; }
+  .ms-pdf-older-name { font-family: var(--display); font-size: 13px; color: var(--ink); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ms-pdf-older-download { width: 36px; height: 36px; border-radius: 8px; background: white; border: 1px solid var(--line); color: var(--ink-mid); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+  .ms-pdf-older-download:hover { background: var(--ink); color: white; border-color: var(--ink); }
 
   .ms-material-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
   .ms-material { display: flex; gap: 14px; padding: 18px; background: var(--paper-warm); border: 1px solid var(--line-soft); border-radius: 12px; cursor: pointer; transition: all 0.15s; align-items: center; }
@@ -1055,9 +1077,15 @@
 
     // PDF
     if (deal.pdfFile) {
+      var oldPdfVersions = (deal.pdfVersions || []).slice();
+      // Neueste alte Version zuerst (höchste version-Nummer zuerst)
+      oldPdfVersions.sort(function(a, b) { return (b.version || 0) - (a.version || 0); });
+      var currentVersionNumber = oldPdfVersions.length + 1;
+
       html += '<div class="ms-card" data-section-key="pdf">' +
         '<div class="ms-card-header"><h3>Vollständiges Angebot (PDF)</h3><small>' + escapeHtml(deal.pdfFile.name) + '</small></div>' +
         '<div class="ms-pdf-placeholder">' +
+          '<div class="ms-pdf-current-badge">Aktuelle Version · v' + currentVersionNumber + '</div>' +
           '<div class="ms-pdf-placeholder-icon">' +
             '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>' +
           '</div>' +
@@ -1067,8 +1095,40 @@
             '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
             'PDF herunterladen' +
           '</button>' +
-        '</div>' +
-      '</div>';
+        '</div>';
+
+      // Aufklappbare frühere Versionen
+      if (oldPdfVersions.length > 0) {
+        html += '<details class="ms-pdf-older">' +
+          '<summary class="ms-pdf-older-summary">' +
+            '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ms-pdf-older-chevron"><polyline points="6 9 12 15 18 9"/></svg>' +
+            '<span>Frühere Versionen anzeigen</span>' +
+            '<span class="ms-pdf-older-count">' + oldPdfVersions.length + '</span>' +
+          '</summary>' +
+          '<div class="ms-pdf-older-list">';
+        oldPdfVersions.forEach(function(pv) {
+          var dateStr = '';
+          if (pv.replacedAt) {
+            var d = new Date(pv.replacedAt);
+            if (!isNaN(d.getTime())) dateStr = d.toLocaleDateString('de-DE');
+          }
+          html += '<div class="ms-pdf-older-item">' +
+            '<div class="ms-pdf-older-icon">' +
+              '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>' +
+            '</div>' +
+            '<div class="ms-pdf-older-info">' +
+              '<div class="ms-pdf-older-version">v' + (pv.version || '?') + (dateStr ? ' · ' + dateStr : '') + '</div>' +
+              '<div class="ms-pdf-older-name">' + escapeHtml(pv.name || 'PDF') + (pv.size ? ' · ' + escapeHtml(pv.size) : '') + '</div>' +
+            '</div>' +
+            '<button type="button" class="ms-pdf-older-download" onclick="trackPdfDownload(\'v' + (pv.version || '') + '\')" title="Diese Version herunterladen">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+            '</button>' +
+          '</div>';
+        });
+        html += '</div></details>';
+      }
+
+      html += '</div>';
     }
 
     // Video/Audio
@@ -1117,42 +1177,7 @@
       '</div>';
     });
 
-    // Versionen
-    if (versionsCount > 0) {
-      var allVersions = [];
-      allVersions.push({
-        v: currentVersion,
-        date: 'Aktuell',
-        changeNote: deal.title || 'Aktuelle Version',
-        filename: deal.pdfFile ? deal.pdfFile.name : '',
-        amount: deal.value ? formatCurrency(deal.value) + ' €' : '—',
-        current: true
-      });
-      (deal.pdfVersions || []).forEach(function(pv) {
-        allVersions.push({
-          v: pv.version,
-          date: new Date(pv.replacedAt).toLocaleDateString('de-DE'),
-          changeNote: 'Frühere Version',
-          filename: pv.name,
-          amount: '—',
-          current: false
-        });
-      });
-      html += '<div class="ms-card" data-section-key="versionen">' +
-        '<div class="ms-card-header"><h3>Versionen</h3><small>' + allVersions.length + ' Stand' + (allVersions.length === 1 ? '' : 'e') + '</small></div>' +
-        '<div class="ms-card-body">' +
-          '<div class="ms-versions-list">' +
-            allVersions.map(function(v) {
-              return '<div class="ms-version-row' + (v.current ? ' current' : '') + '">' +
-                '<div class="ms-version-pill-mini">v' + v.v + '</div>' +
-                '<div class="ms-version-info"><strong>' + escapeHtml(v.changeNote) + '</strong><small>' + escapeHtml(v.date) + (v.filename ? ' · ' + escapeHtml(v.filename) : '') + '</small></div>' +
-                '<div style="font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--ink);">' + escapeHtml(v.amount) + '</div>' +
-              '</div>';
-            }).join('') +
-          '</div>' +
-        '</div>' +
-      '</div>';
-    }
+    // (Frühere "Versionen"-Sektion entfernt — jetzt direkt in der PDF-Karte als aufklappbare "Frühere Versionen")
 
     // CTA / Closed-Banner
     var alreadyClosed = (deal.status === 'won' || deal.status === 'lost');
@@ -1231,8 +1256,12 @@
 
   // Quick Frage direkt im Hauptbereich (Bindings über data-quick-q-idx in render)
 
-  window.trackPdfDownload = function() {
-    trackActivity('file.downloaded', 'PDF heruntergeladen', 'Angebots-PDF wurde heruntergeladen', { file: deal.pdfFile ? deal.pdfFile.name : '' });
+  window.trackPdfDownload = function(versionLabel) {
+    var detail = versionLabel
+      ? 'Frühere Version ' + versionLabel + ' wurde heruntergeladen'
+      : 'Angebots-PDF wurde heruntergeladen';
+    var label = versionLabel ? 'PDF heruntergeladen (' + versionLabel + ')' : 'PDF heruntergeladen';
+    trackActivity('file.downloaded', label, detail, { file: deal.pdfFile ? deal.pdfFile.name : '', version: versionLabel || 'current' });
     showToast('PDF wird heruntergeladen … (Demo)', 'success');
   };
 
