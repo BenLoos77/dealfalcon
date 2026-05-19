@@ -641,6 +641,10 @@
 
   /* Top-Zeile: Summe + Konditionen */
   .da-top-row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .da-actions { margin-left: auto; flex-shrink: 0; }
+  .da-edit-btn { background: white; border: 1.5px solid var(--black); color: var(--black); padding: 9px 18px; border-radius: 100px; font-family: var(--display); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; letter-spacing: -0.005em; }
+  .da-edit-btn:hover { background: var(--black); color: white; transform: translateY(-1px); }
+  .da-edit-btn svg { flex-shrink: 0; }
   .da-value-block { flex-shrink: 0; }
   .da-value { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; line-height: 1; }
   .da-conditions { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 14px 24px; align-items: start; }
@@ -717,6 +721,16 @@
   /* ============ EDITOR PAGE ============ */
   .editor-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 28px; padding-bottom: 22px; border-bottom: 1px solid var(--line-soft); }
   .editor-back-btn { background: transparent; border: 1px solid var(--line); color: var(--ink-mid); padding: 8px 14px; border-radius: 8px; font-family: var(--mono); font-size: 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.04em; margin-bottom: 12px; transition: all 0.15s; }
+
+  /* Versions-Banner im Editor (wenn versendeter Deal bearbeitet wird) */
+  .editor-version-banner { display: flex; gap: 14px; padding: 16px 20px; background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; border-radius: 12px; margin-bottom: 20px; align-items: flex-start; position: relative; overflow: hidden; }
+  .editor-version-banner::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(241,26,34,0.18), transparent 60%); pointer-events: none; }
+  .editor-version-banner[hidden] { display: none; }
+  .evb-icon { color: var(--gold); flex-shrink: 0; position: relative; z-index: 1; }
+  .evb-body { flex: 1; position: relative; z-index: 1; }
+  .evb-title { font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+  .evb-title strong { color: var(--gold-light); font-weight: 700; }
+  .evb-text { font-family: var(--display); font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.8); }
   .editor-back-btn:hover { background: var(--paper-cool); color: var(--ink); }
   .editor-title-block { flex: 1; min-width: 0; }
   .editor-title { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 8px; }
@@ -1056,6 +1070,17 @@
 
   /* Versand-Bestätigungs-Modal */
   .send-confirm-modal-body { padding: 0 28px 20px; }
+  
+  /* Update-Sektion (nur bei versendeten Deals sichtbar) */
+  .send-confirm-update { padding: 16px 18px; background: linear-gradient(135deg, var(--black), var(--black-soft)); border-radius: 10px; margin-bottom: 18px; color: white; }
+  .send-confirm-update[hidden] { display: none; }
+  .send-confirm-update > div:first-child { color: rgba(255,255,255,0.7); }
+  .send-confirm-changes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+  .send-confirm-changes-list li { font-family: var(--display); font-size: 13px; color: white; padding: 6px 12px; background: rgba(255,255,255,0.08); border-radius: 6px; display: flex; align-items: center; gap: 8px; }
+  .send-confirm-changes-list li::before { content: "→"; color: var(--gold-light); font-weight: 700; }
+  .send-confirm-note-input { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 12px; font-family: var(--display); font-size: 13px; color: white; resize: vertical; min-height: 60px; line-height: 1.5; }
+  .send-confirm-note-input::placeholder { color: rgba(255,255,255,0.45); }
+  .send-confirm-note-input:focus { outline: none; border-color: var(--gold); }
   .send-confirm-summary { background: var(--paper-warm); border-radius: 10px; padding: 18px 20px; margin-bottom: 18px; }
   .send-confirm-summary-row { display: flex; gap: 12px; padding: 6px 0; align-items: baseline; font-family: var(--display); font-size: 13px; color: var(--ink-strong); }
   .send-confirm-summary-row strong { color: var(--ink); font-weight: 600; min-width: 90px; flex-shrink: 0; font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-mute); }
@@ -1888,6 +1913,16 @@
         Zurück
       </button>
 
+      <div class="editor-version-banner" id="editor-version-banner" hidden>
+        <div class="evb-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="evb-body">
+          <div class="evb-title">Dieser Vorgang wurde bereits versendet — Sie bearbeiten <strong id="evb-version-label">Version 2</strong></div>
+          <div class="evb-text">Beim Speichern wird die Microsite des Empfängers aktualisiert und der Kunde erhält eine Benachrichtigung. Eine Chronologie der Änderungen erscheint oben in seiner Empfängersicht.</div>
+        </div>
+      </div>
+
       <div class="editor-header">
         <div class="editor-title-block">
           <h1 class="editor-title" id="editor-title">Neuer Vorgang</h1>
@@ -2359,14 +2394,23 @@
 <div class="modal-backdrop" id="send-confirm-modal">
   <div class="modal-card" style="max-width: 580px;">
     <div class="modal-header">
-      <h3>Jetzt versenden?</h3>
-      <p>Prüfen Sie die Empfänger-Liste — danach geht die Microsite raus und das Tracking startet.</p>
+      <h3 id="send-confirm-title">Jetzt versenden?</h3>
+      <p id="send-confirm-lead">Prüfen Sie die Empfänger-Liste — danach geht die Microsite raus und das Tracking startet.</p>
     </div>
     <div class="send-confirm-modal-body">
       <div class="send-confirm-summary" id="send-confirm-summary"><!-- via JS --></div>
+
+      <!-- Update-Spezifischer Block: Diff-Zusammenfassung + optionale Notiz -->
+      <div class="send-confirm-update" id="send-confirm-update" hidden>
+        <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">Erkannte Änderungen</div>
+        <ul class="send-confirm-changes-list" id="send-confirm-changes-list"><!-- via JS --></ul>
+        <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin: 18px 0 8px;">Optionale Notiz für den Kunden</div>
+        <textarea id="send-confirm-changelog-note" class="send-confirm-note-input" rows="2" placeholder="z.B. 'Auf Ihren Wunsch hin Preis angepasst und Lieferzeit verkürzt' — der Kunde sieht das in seiner Empfängersicht."></textarea>
+      </div>
+
       <div style="font-family: var(--mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">Empfänger</div>
       <div class="send-confirm-recipients" id="send-confirm-recipients"><!-- via JS --></div>
-      <div class="send-confirm-warning">
+      <div class="send-confirm-warning" id="send-confirm-warning">
         <strong>Hinweis:</strong> Sobald versendet, kann die Microsite zwar bearbeitet werden (Versionierung), aber die ursprüngliche Versendung lässt sich nicht zurücknehmen.
       </div>
     </div>
@@ -2374,7 +2418,7 @@
       <button type="button" class="btn-secondary" id="btn-send-cancel">Abbrechen</button>
       <button type="button" class="btn-primary" id="btn-send-confirm">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9 22,2"/></svg>
-        Jetzt versenden
+        <span id="btn-send-confirm-label">Jetzt versenden</span>
       </button>
     </div>
   </div>
@@ -2430,6 +2474,10 @@
         <p class="deal-detail-subtitle" id="detail-deal-customer">…</p>
       </div>
       <div style="display: flex; gap: 8px; align-items: flex-start; flex-shrink: 0;">
+        <button type="button" class="btn-primary" id="btn-detail-edit-deal" title="Vorgang bearbeiten / neue Version">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <span id="btn-detail-edit-label">Bearbeiten</span>
+        </button>
         <button type="button" class="btn-secondary" id="btn-detail-open-customer-view" title="So sieht der Kunde die Microsite" onclick="window.dfOpenRecipientView && window.dfOpenRecipientView();">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Empfängersicht
@@ -4092,6 +4140,8 @@
 
   // Aktueller Editor-Zustand (im Memory + localStorage als Backup)
   var editorState = null;
+  // Snapshot des Editor-States beim Öffnen — für Diff-Berechnung bei versendeten Deals
+  var _editorOriginalSnapshot = null;
 
   function getEmptyEditorState() {
     var meId = getCurrentUser().id;
@@ -4152,10 +4202,18 @@
       var deal = deals.find(function(d) { return d.id === dealId; });
       if (deal) {
         editorState = dealToEditorState(deal);
+        // Snapshot für Diff-Berechnung speichern, wenn Deal bereits versendet
+        if (deal.status === 'sent' || deal.status === 'opened') {
+          _editorOriginalSnapshot = JSON.parse(JSON.stringify(editorState));
+        } else {
+          _editorOriginalSnapshot = null;
+        }
       } else {
         editorState = getEmptyEditorState();
+        _editorOriginalSnapshot = null;
       }
     } else {
+      _editorOriginalSnapshot = null;
       // Neuer / aus Draft
       var draft = loadEditorDraft();
       editorState = draft || getEmptyEditorState();
@@ -4836,6 +4894,27 @@
 
   function renderEditor() {
     if (!editorState) editorState = getEmptyEditorState();
+
+    // Versions-Banner einblenden, wenn versendeter Deal bearbeitet wird
+    var versionBanner = document.getElementById('editor-version-banner');
+    if (versionBanner) {
+      var showBanner = false;
+      var versionLabel = '';
+      if (editorState.id) {
+        var dealsForBanner = loadDeals();
+        var dealForBanner = dealsForBanner.find(function(d) { return d.id === editorState.id; });
+        if (dealForBanner && (dealForBanner.status === 'sent' || dealForBanner.status === 'opened')) {
+          showBanner = true;
+          var currentVersion = (dealForBanner.pdfVersions || []).length + 1;
+          versionLabel = 'Version ' + (currentVersion + 1);
+        }
+      }
+      versionBanner.hidden = !showBanner;
+      if (showBanner) {
+        var vLabel = document.getElementById('evb-version-label');
+        if (vLabel) vLabel.textContent = versionLabel;
+      }
+    }
 
     // Title + Status
     document.getElementById('editor-title').textContent = editorState.title || (editorState.id ? 'Vorgang bearbeiten' : 'Neuer Vorgang');
@@ -5915,6 +5994,34 @@
       '</div>';
     }).join('');
 
+    // Update-Modus: wenn Snapshot vorhanden → Diff anzeigen, Titel anpassen
+    var updateBlock = document.getElementById('send-confirm-update');
+    var titleEl = document.getElementById('send-confirm-title');
+    var leadEl = document.getElementById('send-confirm-lead');
+    var btnLabel = document.getElementById('btn-send-confirm-label');
+    var warningEl = document.getElementById('send-confirm-warning');
+    var noteInput = document.getElementById('send-confirm-changelog-note');
+
+    var isUpdate = !!_editorOriginalSnapshot;
+    var changes = isUpdate ? _computeEditorDiff(_editorOriginalSnapshot, editorState) : [];
+
+    if (isUpdate && changes.length > 0) {
+      updateBlock.hidden = false;
+      var changesList = document.getElementById('send-confirm-changes-list');
+      changesList.innerHTML = changes.map(function(c) { return '<li>' + escapeHtml(c) + '</li>'; }).join('');
+      if (titleEl) titleEl.textContent = 'Neue Version versenden?';
+      if (leadEl) leadEl.textContent = 'Der Kunde erhält die aktualisierte Microsite und sieht die Änderungen in der Chronologie.';
+      if (btnLabel) btnLabel.textContent = 'Aktualisieren & senden';
+      if (warningEl) warningEl.innerHTML = '<strong>Hinweis:</strong> Der Kunde wird per E-Mail benachrichtigt und sieht oben in seiner Empfängersicht die Chronologie der Änderungen.';
+      if (noteInput) noteInput.value = '';
+    } else {
+      updateBlock.hidden = true;
+      if (titleEl) titleEl.textContent = 'Jetzt versenden?';
+      if (leadEl) leadEl.textContent = 'Prüfen Sie die Empfänger-Liste — danach geht die Microsite raus und das Tracking startet.';
+      if (btnLabel) btnLabel.textContent = 'Jetzt versenden';
+      if (warningEl) warningEl.innerHTML = '<strong>Hinweis:</strong> Sobald versendet, kann die Microsite zwar bearbeitet werden (Versionierung), aber die ursprüngliche Versendung lässt sich nicht zurücknehmen.';
+    }
+
     modal.classList.add('open');
   }
 
@@ -6102,6 +6209,13 @@
   }
 
   function confirmSendDeal() {
+    // Optionale Changelog-Notiz vom Vertriebler übernehmen, bevor versendet wird
+    var noteInput = document.getElementById('send-confirm-changelog-note');
+    if (noteInput && _editorOriginalSnapshot) {
+      _pendingChangelogNote = noteInput.value.trim();
+    } else {
+      _pendingChangelogNote = '';
+    }
     closeSendConfirm();
     var dealId = sendEditorDeal();
     if (dealId) {
@@ -6146,6 +6260,69 @@
     if (overlay) overlay.classList.remove('open');
   }
 
+  // Notiz vom Vertriebler für den nächsten Changelog-Eintrag (optional, Freitext)
+  var _pendingChangelogNote = '';
+
+  // Vergleicht den Snapshot beim Editor-Öffnen mit dem aktuellen Editor-State.
+  // Gibt eine Liste menschenlesbarer Änderungen zurück.
+  function _computeEditorDiff(before, after) {
+    var changes = [];
+    if (!before || !after) return changes;
+
+    // Felder mit konkreten Bezeichnungen
+    var fieldLabels = {
+      title: 'Titel',
+      description: 'Anschreiben',
+      value: 'Angebotssumme',
+      delivery: 'Lieferzeit',
+      payment: 'Zahlungskonditionen',
+      validUntil: 'Gültigkeitsdauer'
+    };
+
+    Object.keys(fieldLabels).forEach(function(key) {
+      var b = before[key];
+      var a = after[key];
+      if (b !== a && !(b == null && a === '') && !(b === '' && a == null)) {
+        changes.push(fieldLabels[key] + ' geändert');
+      }
+    });
+
+    // PDF-Wechsel: neue Version
+    var beforePdfName = before.pdfFile ? before.pdfFile.name : null;
+    var afterPdfName = after.pdfFile ? after.pdfFile.name : null;
+    if (beforePdfName !== afterPdfName) {
+      changes.push('Neue PDF-Version hochgeladen');
+    }
+
+    // Folders: neue Dateien?
+    var beforeFiles = 0, afterFiles = 0;
+    (before.folders || []).forEach(function(f) { beforeFiles += (f.files || []).length; });
+    (after.folders || []).forEach(function(f) { afterFiles += (f.files || []).length; });
+    if (afterFiles > beforeFiles) {
+      changes.push((afterFiles - beforeFiles) + ' neue Dokument' + (afterFiles - beforeFiles === 1 ? '' : 'e') + ' hinzugefügt');
+    } else if (afterFiles < beforeFiles) {
+      changes.push((beforeFiles - afterFiles) + ' Dokument' + (beforeFiles - afterFiles === 1 ? '' : 'e') + ' entfernt');
+    }
+
+    // Video/Audio: neue Botschaft?
+    var beforeMedia = (before.videoFiles || []).length;
+    var afterMedia = (after.videoFiles || []).length;
+    if (afterMedia > beforeMedia) {
+      changes.push('Neue Botschaft hinzugefügt');
+    } else if (afterMedia < beforeMedia) {
+      changes.push('Botschaft entfernt');
+    }
+
+    // Empfänger
+    var beforeRecCount = (before.recipients || []).filter(function(r) { return r.name && r.email; }).length;
+    var afterRecCount = (after.recipients || []).filter(function(r) { return r.name && r.email; }).length;
+    if (afterRecCount > beforeRecCount) {
+      changes.push('Empfänger erweitert');
+    }
+
+    return changes;
+  }
+
   function sendEditorDeal() {
     if (!isReadyToSend()) {
       showToast('Bitte vervollständigen Sie: Empfänger, Titel, Wert und PDF.', 'error');
@@ -6160,14 +6337,35 @@
     var deal;
     var wasAlreadySent = false;
     var hadOldVersion = false;
+    var versionChanges = null; // Diff-Ergebnis für Changelog
     if (editorState.id) {
       deal = deals.find(function(d) { return d.id === editorState.id; });
       if (!deal) return;
       wasAlreadySent = deal.status === 'sent' || deal.status === 'won' || deal.status === 'lost';
       hadOldVersion = (deal.pdfVersions || []).length < (editorState.pdfVersions || []).length;
+
+      // Diff berechnen wenn wir einen Snapshot haben (versendeter Deal wurde editiert)
+      if (wasAlreadySent && _editorOriginalSnapshot) {
+        versionChanges = _computeEditorDiff(_editorOriginalSnapshot, editorState);
+      }
+
       applyEditorStateToDeal(deal);
       deal.status = 'sent';
       deal.sentAt = now;
+
+      // Changelog-Eintrag für neue Version
+      if (versionChanges && versionChanges.length > 0) {
+        if (!deal.changelog) deal.changelog = [];
+        var newVersion = (deal.pdfVersions || []).length + 1;
+        deal.changelog.unshift({
+          version: newVersion,
+          timestamp: now,
+          changes: versionChanges,
+          note: _pendingChangelogNote || '',
+          author: getCurrentUser().name || 'Vertrieb'
+        });
+        _pendingChangelogNote = '';
+      }
     } else {
       var dealNumber = '2026-' + String(deals.length + 1).padStart(4, '0');
       deal = {
@@ -6289,7 +6487,7 @@
 
     var html = '<section class="da-overview">';
 
-    // === Top-Zeile: Summe + Konditionen ===
+    // === Top-Zeile: Summe + Konditionen + Bearbeiten ===
     html += '<div class="da-top-row">';
     if (valueStr) {
       html += '<div class="da-value-block">' +
@@ -6310,7 +6508,17 @@
     if (versionLabel) {
       html += '<div class="da-cond"><span class="da-cond-label">Version</span><span class="da-cond-value">' + escapeHtml(versionLabel) + '</span></div>';
     }
-    html += '</div></div>';
+    html += '</div>'; // /da-conditions
+    // Bearbeiten-Action (nur wenn nicht verloren)
+    if (deal.status !== 'lost') {
+      html += '<div class="da-actions">' +
+        '<button type="button" class="da-edit-btn" data-da-action="edit-deal">' +
+          '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+          '<span>' + (deal.status === 'sent' || deal.status === 'opened' ? 'Aktualisieren' : 'Bearbeiten') + '</span>' +
+        '</button>' +
+      '</div>';
+    }
+    html += '</div>'; // /da-top-row
 
     // === Anschreiben-Snippet (klappbar) ===
     if (descSnippet) {
@@ -6804,6 +7012,29 @@
         btn.textContent = expanded ? 'Mehr anzeigen' : 'Weniger anzeigen';
       });
     });
+    // Bearbeiten-Action (Button in Angebots-Übersicht)
+    detailBody.querySelectorAll('[data-da-action="edit-deal"]').forEach(function(btn) {
+      btn.addEventListener('click', function() { _editDealFromDetail(deal.id); });
+    });
+
+    // Header-Bearbeiten-Button anpassen je nach Deal-Status
+    var btnHeaderEdit = document.getElementById('btn-detail-edit-deal');
+    var lblHeaderEdit = document.getElementById('btn-detail-edit-label');
+    if (btnHeaderEdit) {
+      btnHeaderEdit.style.display = (deal.status === 'lost') ? 'none' : '';
+      if (lblHeaderEdit) {
+        lblHeaderEdit.textContent = (deal.status === 'sent' || deal.status === 'opened') ? 'Aktualisieren' : 'Bearbeiten';
+      }
+    }
+  }
+
+  // Vorgang öffnen → Detail-Modal schließen → Editor öffnen
+  function _editDealFromDetail(dealId) {
+    closeDealDetail();
+    setTimeout(function() {
+      openEditor(dealId);
+      navigate('editor');
+    }, 100);
   }
 
   function closeDealDetail() {
@@ -9149,6 +9380,11 @@
     // Detail-Modal
     var btnDetailClose = document.getElementById('btn-detail-close');
     if (btnDetailClose) btnDetailClose.addEventListener('click', closeDealDetail);
+    var btnDetailEdit = document.getElementById('btn-detail-edit-deal');
+    if (btnDetailEdit) btnDetailEdit.addEventListener('click', function() {
+      if (!_currentDetailDealId) return;
+      _editDealFromDetail(_currentDetailDealId);
+    });
     var btnDetailOpenLive = document.getElementById('btn-detail-open-customer-view');
     if (btnDetailOpenLive) btnDetailOpenLive.addEventListener('click', function() {
       if (!_currentDetailDealId) return;

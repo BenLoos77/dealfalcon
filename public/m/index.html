@@ -82,6 +82,31 @@
 
   /* Anschreiben-Card (eigenständig nach dem Cover) */
   .ms-letter-card { background: white; border-radius: 14px; padding: 48px 52px 40px; border: 1px solid var(--line-soft); margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+
+  /* === Versions-Chronologie (oben in der Microsite, vor dem Anschreiben) === */
+  .ms-changelog { background: linear-gradient(135deg, var(--black), var(--black-soft)); color: white; border-radius: 14px; padding: 28px 32px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .ms-changelog::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(241,26,34,0.16), transparent 60%); pointer-events: none; }
+  @media (max-width: 720px) { .ms-changelog { padding: 22px 22px; } }
+  .ms-changelog-header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .ms-changelog-badge { background: var(--gold); color: white; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; box-shadow: 0 4px 12px rgba(241, 26, 34, 0.35); }
+  .ms-changelog-title { font-family: var(--display); font-size: 16px; font-weight: 600; color: white; line-height: 1.4; }
+  .ms-changelog-list { list-style: none; padding: 0; margin: 0; position: relative; z-index: 1; }
+  .ms-changelog-list::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: rgba(255,255,255,0.15); }
+  .ms-changelog-entry { position: relative; padding-left: 28px; padding-bottom: 18px; }
+  .ms-changelog-entry:last-child { padding-bottom: 0; }
+  .ms-changelog-marker { position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid var(--black-soft); }
+  .ms-changelog-entry.is-latest .ms-changelog-marker { background: var(--gold); border-color: var(--gold-deep); box-shadow: 0 0 0 4px rgba(241, 26, 34, 0.2); }
+  .ms-changelog-entry.ms-changelog-origin .ms-changelog-marker { background: rgba(255,255,255,0.35); }
+  .ms-changelog-meta { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.7); margin-bottom: 8px; flex-wrap: wrap; }
+  .ms-changelog-version { color: white; font-weight: 700; }
+  .ms-changelog-date::before { content: "·"; margin-right: 12px; opacity: 0.5; }
+  .ms-changelog-author::before { content: "·"; margin-right: 12px; opacity: 0.5; }
+  .ms-changelog-changes { list-style: none; padding: 0; margin: 0 0 6px; display: flex; flex-direction: column; gap: 4px; }
+  .ms-changelog-changes li { font-family: var(--display); font-size: 14px; line-height: 1.5; color: white; padding-left: 16px; position: relative; }
+  .ms-changelog-changes li::before { content: "→"; position: absolute; left: 0; color: var(--gold-light); font-weight: 700; }
+  .ms-changelog-changes-flat { font-family: var(--display); font-size: 14px; color: rgba(255,255,255,0.85); }
+  .ms-changelog-note { margin-top: 10px; padding: 12px 14px; background: rgba(255,255,255,0.08); border-left: 3px solid var(--gold); border-radius: 6px; font-family: var(--display); font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.92); }
+  .ms-changelog-note-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); font-weight: 600; margin-right: 6px; }
   @media (max-width: 720px) { .ms-letter-card { padding: 32px 24px 28px; } }
   .ms-letter-greeting { font-family: var(--mono); font-size: 11px; color: var(--gold-deep); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 16px; }
   .ms-letter-headline { font-family: var(--display); font-size: 28px; line-height: 1.25; letter-spacing: -0.018em; color: var(--ink); font-weight: 600; margin: 0 0 22px; }
@@ -826,6 +851,83 @@
 
   // ============ RENDER ============
 
+  // Versions-Chronologie für den Empfänger: zeigt was sich seit Erstversion geändert hat
+  function renderChangelogBlock(deal) {
+    var changelog = (deal.changelog || []).slice(); // copy
+    if (changelog.length === 0) return '';
+
+    // Sortieren absteigend nach Version (neueste zuerst)
+    changelog.sort(function(a, b) { return (b.version || 0) - (a.version || 0); });
+
+    var newestVersion = changelog[0].version;
+    var html = '<div class="ms-changelog">' +
+      '<div class="ms-changelog-header">' +
+        '<div class="ms-changelog-badge">Aktualisiert · v' + newestVersion + '</div>' +
+        '<div class="ms-changelog-title">Was sich seit der ersten Version geändert hat</div>' +
+      '</div>' +
+      '<ol class="ms-changelog-list">';
+
+    changelog.forEach(function(entry, idx) {
+      var dateStr = '';
+      if (entry.timestamp) {
+        var d = new Date(entry.timestamp);
+        if (!isNaN(d.getTime())) {
+          dateStr = d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+      }
+      var isLatest = (idx === 0);
+      html += '<li class="ms-changelog-entry' + (isLatest ? ' is-latest' : '') + '">' +
+        '<div class="ms-changelog-marker"></div>' +
+        '<div class="ms-changelog-content">' +
+          '<div class="ms-changelog-meta">' +
+            '<span class="ms-changelog-version">v' + entry.version + '</span>' +
+            (dateStr ? '<span class="ms-changelog-date">' + dateStr + '</span>' : '') +
+            (entry.author ? '<span class="ms-changelog-author">von ' + escapeHtml(entry.author) + '</span>' : '') +
+          '</div>';
+
+      // Auto-Diff Liste
+      if (entry.changes && entry.changes.length > 0) {
+        html += '<ul class="ms-changelog-changes">';
+        entry.changes.forEach(function(c) {
+          html += '<li>' + escapeHtml(c) + '</li>';
+        });
+        html += '</ul>';
+      }
+
+      // Optionale Notiz
+      if (entry.note) {
+        html += '<div class="ms-changelog-note">' +
+          '<span class="ms-changelog-note-label">Anmerkung:</span> ' +
+          escapeHtml(entry.note) +
+        '</div>';
+      }
+
+      html += '</div></li>';
+    });
+
+    // Erst-Versendung als statischer Anfang der Timeline
+    var firstDateStr = '';
+    if (deal.createdAt || deal.sentAt) {
+      var fd = new Date(deal.createdAt || deal.sentAt);
+      if (!isNaN(fd.getTime())) {
+        firstDateStr = fd.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      }
+    }
+    html += '<li class="ms-changelog-entry ms-changelog-origin">' +
+      '<div class="ms-changelog-marker"></div>' +
+      '<div class="ms-changelog-content">' +
+        '<div class="ms-changelog-meta">' +
+          '<span class="ms-changelog-version">v1</span>' +
+          (firstDateStr ? '<span class="ms-changelog-date">' + firstDateStr + '</span>' : '') +
+        '</div>' +
+        '<div class="ms-changelog-changes-flat">Erste Version des Angebots</div>' +
+      '</div>' +
+    '</li>';
+
+    html += '</ol></div>';
+    return html;
+  }
+
   function render() {
     var company = loadJSON('df_company', {});
     var brand = loadJSON('df_brand', {});
@@ -930,6 +1032,11 @@
 
     // Anschreiben-Card (eigenständig nach dem Cover)
     html += '<div class="ms-container">';
+
+    // Versions-Chronologie: bei mehreren Versionen oben sichtbar einblenden
+    if (deal.changelog && deal.changelog.length > 0) {
+      html += renderChangelogBlock(deal);
+    }
 
     if (deal.description) {
       html += '<div class="ms-letter-card" data-section-key="anschreiben">' +
