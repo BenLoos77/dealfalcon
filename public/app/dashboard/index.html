@@ -363,7 +363,7 @@
   .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
   .modal-backdrop.open { display: flex; animation: backdropIn 0.2s ease-out; }
   /* Modale, die ÜBER dem Detail-Modal (z-index 350) liegen müssen */
-  #handoff-modal, #close-deal-modal, #email-mock-modal, #invite-collab-modal, #letter-templates-modal, #customer-picker-modal, #customer-form-modal, #cust-detail-modal, #question-modal, #forward-modal, #decline-modal { z-index: 400; }
+  #handoff-modal, #close-deal-modal, #email-mock-modal, #invite-collab-modal, #letter-templates-modal, #customer-picker-modal, #customer-form-modal, #cust-detail-modal, #question-modal, #forward-modal, #decline-modal, #pricing-check-modal { z-index: 400; }
   @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
   .modal-card { background: white; border-radius: 16px; max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: cardIn 0.25s ease-out; }
   @keyframes cardIn { from { opacity: 0; transform: scale(0.95) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
@@ -1070,6 +1070,23 @@
 
   /* Versand-Bestätigungs-Modal */
   .send-confirm-modal-body { padding: 0 28px 20px; }
+
+  /* === Pricing-Check-Modal (nach PDF-Tausch) === */
+  .pricing-check-modal-body { padding: 4px 28px 20px; }
+  .pricing-check-fields { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+  .pc-field { display: flex; flex-direction: column; gap: 6px; }
+  .pc-field-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); font-weight: 600; }
+  .pc-field-input-wrap { position: relative; }
+  .pc-field-input-wrap input { padding-right: 36px; }
+  .pc-field-suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-size: 14px; color: var(--ink-mute); pointer-events: none; }
+  .pc-field input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 8px; font-family: var(--display); font-size: 14px; color: var(--ink); background: white; transition: border-color 0.15s; }
+  .pc-field input:focus { outline: none; border-color: var(--black); }
+  .pc-confirm-row { display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px; background: linear-gradient(135deg, var(--black), var(--black-soft)); border-radius: 10px; cursor: pointer; color: white; font-family: var(--display); font-size: 13px; line-height: 1.5; }
+  .pc-confirm-row input[type="checkbox"] { flex-shrink: 0; margin-top: 2px; width: 16px; height: 16px; cursor: pointer; accent-color: var(--gold); }
+  .pc-confirm-row span { flex: 1; }
+  .pc-confirm-row:hover { background: linear-gradient(135deg, var(--black), var(--black)); }
+  #btn-pricing-check-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  #btn-pricing-check-confirm:disabled:hover { background: var(--gold); transform: none; box-shadow: none; }
   
   /* Update-Sektion (nur bei versendeten Deals sichtbar) */
   .send-confirm-update { padding: 16px 18px; background: linear-gradient(135deg, var(--black), var(--black-soft)); border-radius: 10px; margin-bottom: 18px; color: white; }
@@ -2440,6 +2457,47 @@
         <button type="button" class="btn-secondary" id="btn-success-stay">Im Vorgang bleiben</button>
         <button type="button" class="btn-primary" id="btn-success-dashboard">Zum Dashboard</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRICING-CHECK-MODAL (nach PDF-Tausch) ============ -->
+<div class="modal-backdrop" id="pricing-check-modal">
+  <div class="modal-card" style="max-width: 580px;">
+    <div class="modal-header">
+      <h3>Sind die Eckdaten noch aktuell?</h3>
+      <p>Sie haben gerade ein neues PDF hochgeladen. Bitte prüfen Sie, ob Preis und Konditionen noch zur neuen Version passen — die Pipeline arbeitet mit diesen Werten.</p>
+    </div>
+    <div class="pricing-check-modal-body">
+      <div class="pricing-check-fields">
+        <div class="pc-field">
+          <label class="pc-field-label" for="pc-value">Angebotssumme (netto)</label>
+          <div class="pc-field-input-wrap">
+            <input type="text" id="pc-value" inputmode="decimal" placeholder="0,00">
+            <span class="pc-field-suffix">€</span>
+          </div>
+        </div>
+        <div class="pc-field">
+          <label class="pc-field-label" for="pc-delivery">Lieferzeit</label>
+          <input type="text" id="pc-delivery" placeholder="z.B. 14 Wochen, Lieferung CIP Werk">
+        </div>
+        <div class="pc-field">
+          <label class="pc-field-label" for="pc-payment">Zahlungskonditionen</label>
+          <input type="text" id="pc-payment" placeholder="z.B. 40% Anzahlung, 60% bei Auslieferung">
+        </div>
+        <div class="pc-field">
+          <label class="pc-field-label" for="pc-validuntil">Gültig bis</label>
+          <input type="date" id="pc-validuntil">
+        </div>
+      </div>
+      <label class="pc-confirm-row">
+        <input type="checkbox" id="pc-confirm-checkbox">
+        <span>Ich bestätige, dass die oben angezeigten Werte zur neuen PDF-Version passen.</span>
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" id="btn-pricing-check-cancel">Zurück zum Editor</button>
+      <button type="button" class="btn-primary" id="btn-pricing-check-confirm" disabled>Bestätigen & übernehmen</button>
     </div>
   </div>
 </div>
@@ -5246,9 +5304,11 @@
     var FAKE_AUDIOS = ['Audio_Botschaft.m4a', 'Sprachnotiz_Update.mp3'];
 
     var file;
+    var wasReplace = false;
     if (target === 'pdf') {
       // Wenn schon eine aktuelle Version da ist → in Versionen verschieben
       if (editorState.pdfFile) {
+        wasReplace = true;
         if (!editorState.pdfVersions) editorState.pdfVersions = [];
         var nextVersion = editorState.pdfVersions.length + 1;
         editorState.pdfVersions.unshift(Object.assign({}, editorState.pdfFile, {
@@ -5282,6 +5342,83 @@
     renderVideoArea();
     renderMicrositePreview();
     updateSectionStatus();
+
+    // Bei PDF-Replace: Pricing-Check-Modal öffnen, damit der User Preis/Konditionen aktiv bestätigt
+    if (target === 'pdf' && wasReplace) {
+      setTimeout(function() { openPricingCheckModal(); }, 200);
+    }
+  }
+
+  // ============ PRICING-CHECK-MODAL (nach PDF-Replace) ============
+  function openPricingCheckModal() {
+    var modal = document.getElementById('pricing-check-modal');
+    if (!modal) return;
+    // Felder mit aktuellem Editor-State vorbefüllen
+    var inputVal = document.getElementById('pc-value');
+    var inputDel = document.getElementById('pc-delivery');
+    var inputPay = document.getElementById('pc-payment');
+    var inputValid = document.getElementById('pc-validuntil');
+    var checkbox = document.getElementById('pc-confirm-checkbox');
+    var btnConfirm = document.getElementById('btn-pricing-check-confirm');
+
+    if (inputVal) inputVal.value = editorState.value ? (typeof formatCurrency === 'function' ? formatCurrency(editorState.value) : String(editorState.value)) : '';
+    if (inputDel) inputDel.value = editorState.delivery || '';
+    if (inputPay) inputPay.value = editorState.payment || '';
+    if (inputValid) inputValid.value = editorState.validUntil || '';
+    if (checkbox) checkbox.checked = false;
+    if (btnConfirm) btnConfirm.disabled = true;
+
+    modal.classList.add('open');
+    // Fokus aufs erste Feld
+    setTimeout(function() { if (inputVal) inputVal.focus(); }, 100);
+  }
+
+  function closePricingCheckModal() {
+    var modal = document.getElementById('pricing-check-modal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  function confirmPricingCheck() {
+    var inputVal = document.getElementById('pc-value');
+    var inputDel = document.getElementById('pc-delivery');
+    var inputPay = document.getElementById('pc-payment');
+    var inputValid = document.getElementById('pc-validuntil');
+
+    // Wert parsen — akzeptiert deutsches Format (1.234,56) und englisches
+    if (inputVal) {
+      var raw = (inputVal.value || '').trim().replace(/[€\s]/g, '');
+      // Deutsches Format: Punkt = Tausender, Komma = Dezimal
+      if (raw.indexOf(',') > -1) {
+        raw = raw.replace(/\./g, '').replace(',', '.');
+      }
+      var parsed = parseFloat(raw);
+      if (!isNaN(parsed)) editorState.value = parsed;
+    }
+    if (inputDel) editorState.delivery = inputDel.value.trim();
+    if (inputPay) editorState.payment = inputPay.value.trim();
+    if (inputValid) editorState.validUntil = inputValid.value;
+
+    saveEditorDraft(editorState);
+
+    // Editor-Felder neu rendern, damit die Änderungen sichtbar sind
+    try {
+      var edValue = document.getElementById('ed-value');
+      if (edValue && typeof formatCurrency === 'function') {
+        edValue.value = editorState.value ? formatCurrency(editorState.value) : '';
+      }
+      var edDelivery = document.getElementById('ed-delivery');
+      if (edDelivery) edDelivery.value = editorState.delivery || '';
+      var edPayment = document.getElementById('ed-payment');
+      if (edPayment) edPayment.value = editorState.payment || '';
+      var edValid = document.getElementById('ed-validuntil');
+      if (edValid) edValid.value = editorState.validUntil || '';
+    } catch(e) {}
+
+    if (typeof renderMicrositePreview === 'function') renderMicrositePreview();
+    if (typeof updateSectionStatus === 'function') updateSectionStatus();
+
+    closePricingCheckModal();
+    showToast('Eckdaten aktualisiert.', 'success');
   }
 
   function simulateUploadToFolder(folderIdx) {
@@ -9504,6 +9641,21 @@
         if (e.target === sendBackdrop) closeSendConfirm();
       });
     }
+
+    // Pricing-Check-Modal (nach PDF-Replace)
+    var btnPcCancel = document.getElementById('btn-pricing-check-cancel');
+    if (btnPcCancel) btnPcCancel.addEventListener('click', closePricingCheckModal);
+    var btnPcConfirm = document.getElementById('btn-pricing-check-confirm');
+    if (btnPcConfirm) btnPcConfirm.addEventListener('click', confirmPricingCheck);
+    var pcCheckbox = document.getElementById('pc-confirm-checkbox');
+    if (pcCheckbox) pcCheckbox.addEventListener('change', function() {
+      var btn = document.getElementById('btn-pricing-check-confirm');
+      if (btn) btn.disabled = !pcCheckbox.checked;
+    });
+    var pcBackdrop = document.getElementById('pricing-check-modal');
+    if (pcBackdrop) pcBackdrop.addEventListener('click', function(e) {
+      // Bewusst nicht durch Klick außerhalb schließen — Modal ist required
+    });
 
     // KI-Anschreiben
     var btnAiLetter = document.getElementById('btn-ai-letter');
